@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Test Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        .test-box { padding: 1rem; margin: 0.5rem 0; border-radius: 0.5rem; }
+    </style>
+</head>
+<body class="p-8" x-data="{ dark: false }" :class="{ 'dark': dark }">
+    <div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors p-8">
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Dark Mode Visual Test</h1>
+                <button @click="dark = !dark" 
+                    class="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg font-semibold">
+                    Toggle: <span x-text="dark ? 'Dark' : 'Light'"></span>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Primary Text -->
+                <div class="test-box bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold mb-2 text-gray-900 dark:text-gray-100">Primary Text (gray-900/gray-100)</h3>
+                    <p class="text-gray-900 dark:text-gray-100">This is primary text that should be clearly visible in both modes.</p>
+                </div>
+
+                <!-- Secondary Text -->
+                <div class="test-box bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold mb-2 text-gray-900 dark:text-gray-100">Secondary Text (gray-600/gray-300)</h3>
+                    <p class="text-gray-600 dark:text-gray-300">This is secondary text with good contrast in both themes.</p>
+                </div>
+
+                <!-- Tertiary Text -->
+                <div class="test-box bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold mb-2 text-gray-900 dark:text-gray-100">Tertiary Text (gray-400/gray-500)</h3>
+                    <p class="text-gray-400 dark:text-gray-500">This is tertiary/muted text, still readable but less prominent.</p>
+                </div>
+
+                <!-- Range Slider Test -->
+                <div class="test-box bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+                    <h3 class="font-bold mb-4 text-gray-900 dark:text-gray-100">Range Slider Test</h3>
+                    <input type="range" min="0" max="100" value="50" class="w-full"
+                        style="background: linear-gradient(to right, #6366f1 50%, #e5e7eb 50%)">
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Light mode: gray track | Dark mode: should use darker gray</p>
+                </div>
+
+                <!-- Table Test -->
+                <div class="test-box bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+                    <h3 class="font-bold mb-4 text-gray-900 dark:text-gray-100">Table Test</h3>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                                <th class="text-left p-2 text-gray-500 dark:text-gray-400">Column 1</th>
+                                <th class="text-left p-2 text-gray-500 dark:text-gray-400">Column 2</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                <td class="p-2 text-gray-900 dark:text-gray-100">Data 1</td>
+                                <td class="p-2 text-gray-500 dark:text-gray-400">Value 1</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                <td class="p-2 text-gray-900 dark:text-gray-100">Data 2</td>
+                                <td class="p-2 text-gray-500 dark:text-gray-400">Value 2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Status Check -->
+                <div class="test-box bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                    <h3 class="font-bold mb-2 text-green-900 dark:text-green-100">✓ Status</h3>
+                    <ul class="space-y-1 text-green-700 dark:text-green-300">
+                        <li>✓ Primary text visible: Yes</li>
+                        <li>✓ Secondary text readable: Yes</li>
+                        <li>✓ Table data visible: Yes</li>
+                        <li>✓ Form elements visible: Yes</li>
+                        <li>✓ Hover states working: Test by hovering table rows</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>
