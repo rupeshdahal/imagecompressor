@@ -111,13 +111,15 @@ class ReportController extends Controller
 
         // Top size savings
         $topSavings = CompressionReport::where('created_at', '>=', $startDate)
-            ->orderByRaw('(original_size - compressed_size) DESC')
+            ->whereColumn('original_size', '>=', 'compressed_size')
+            ->orderByRaw('(CAST(original_size AS SIGNED) - CAST(compressed_size AS SIGNED)) DESC')
             ->limit(5)
             ->get()
             ->map(function ($r) {
+                $saved = max(0, $r->original_size - $r->compressed_size);
                 return [
                     'original_name' => $r->original_name,
-                    'saved'         => $this->formatBytes($r->original_size - $r->compressed_size),
+                    'saved'         => $this->formatBytes($saved),
                     'reduction'     => $r->reduction_percent . '%',
                 ];
             });
