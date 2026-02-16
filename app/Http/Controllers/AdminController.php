@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    // Default admin credentials (in production, use database)
-    private const ADMIN_USERNAME = 'admin';
-    private const ADMIN_PASSWORD = 'admin123'; // Change this in production!
-
     /**
-     * Show login form
+     * Show login form.
      */
     public function showLogin()
     {
-        // Redirect if already authenticated
-        if (session()->has('admin_authenticated')) {
+        if (Auth::check() && Auth::user()->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -25,37 +22,42 @@ class AdminController extends Controller
     }
 
     /**
-     * Handle login
+     * Handle login.
      */
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string',
+            'email'    => 'required|email',
             'password' => 'required|string',
         ]);
 
-        if ($request->username === self::ADMIN_USERNAME && 
-            $request->password === self::ADMIN_PASSWORD) {
-            
-            session(['admin_authenticated' => true, 'admin_username' => self::ADMIN_USERNAME]);
-            
-            return redirect()->route('admin.dashboard')->with('success', 'Welcome back, Admin!');
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && Hash::check($request->password, $user->password) && $user->isAdmin()) {
+            Auth::login($user);
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard');
         }
 
-        return back()->withErrors(['credentials' => 'Invalid username or password.'])->withInput();
+        return back()->withErrors([
+            'credentials' => 'Invalid email or password.',
+        ])->withInput(['email' => $request->email]);
     }
 
     /**
-     * Handle logout
+     * Handle logout.
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget(['admin_authenticated', 'admin_username']);
-        return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 
     /**
-     * Show admin dashboard
+     * Show admin dashboard.
      */
     public function dashboard()
     {
