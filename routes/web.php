@@ -14,8 +14,16 @@ use App\Http\Controllers\AdminController;
 // Public routes
 Route::get('/', [ImageController::class, 'index'])->name('home');
 
+// Compressor tool
+Route::get('/compressor', [ImageController::class, 'compressor'])->name('compressor');
 Route::post('/compress', [ImageController::class, 'compress'])
     ->name('image.compress')
+    ->middleware('throttle:30,1');
+
+// Watermark tool
+Route::get('/watermark', [ImageController::class, 'watermarkPage'])->name('watermark');
+Route::post('/watermark/apply', [ImageController::class, 'applyWatermarkAction'])
+    ->name('image.watermark')
     ->middleware('throttle:30,1');
 
 Route::get('/download/{filename}', [ImageController::class, 'download'])
