@@ -339,6 +339,9 @@
     </script>
     @endif
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697940390340424"
+     crossorigin="anonymous"></script>
+
     {{-- Preconnect for performance --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
