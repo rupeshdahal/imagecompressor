@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'google_analytics' => [
+        'enabled' => env('GOOGLE_ANALYTICS_ENABLED', false),
+        'tracking_id' => env('GOOGLE_ANALYTICS_ID'),
+    ],
+
+    'google_site_verification' => env('GOOGLE_SITE_VERIFICATION'),
+
 ];

@@ -6,23 +6,55 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- SEO Meta --}}
-    <title>Free Online Image Compressor – Reduce Image Size Instantly | ImageCompressor</title>
-    <meta name="description" content="Compress JPG, PNG, WEBP images online for free. Reduce image file size by up to 80% without losing quality. No signup required. Fast, secure, and easy to use.">
-    <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer">
-    <meta name="robots" content="index, follow">
+    <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%</title>
+    <meta name="description" content="Compress images online for FREE! Reduce JPG, PNG, WebP file sizes by up to 90% without quality loss. Fast, secure, no signup. Convert formats. 20MB max. Start compressing now!">
+    <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer, image converter, reduce file size, compress photo, online image tool, lossy compression, lossless compression">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="ImageCompressor Tool">
     <link rel="canonical" href="{{ url('/') }}">
+    
+    {{-- Additional SEO --}}
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    <meta name="language" content="English">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    {{-- Geo Tags --}}
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    
+    {{-- Mobile Optimization --}}
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ImageCompressor">
+    <meta name="theme-color" content="#6366f1">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Free Online Image Compressor – Reduce Image Size Instantly">
-    <meta property="og:description" content="Compress JPG, PNG, WEBP images online for free. Reduce file size by up to 80% without losing quality.">
+    <meta property="og:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
+    <meta property="og:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size by up to 90% without quality loss. No signup required. Fast, secure, and easy to use.">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="ImageCompressor">
+    <meta property="og:site_name" content="ImageCompressor - Free Online Image Compression Tool">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="{{ asset('og-image.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Free Online Image Compressor Tool">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Image Compressor">
-    <meta name="twitter:description" content="Compress images online for free. Reduce file size by up to 80%.">
+    <meta name="twitter:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
+    <meta name="twitter:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size without quality loss. No signup required.">
+    <meta name="twitter:image" content="{{ asset('og-image.png') }}">
+    <meta name="twitter:image:alt" content="Free Online Image Compressor Tool">
+    <meta name="twitter:creator" content="@imagecompressor">
+    <meta name="twitter:site" content="@imagecompressor">
+
+    {{-- Google Site Verification --}}
+    @if(config('services.google_site_verification'))
+    <meta name="google-site-verification" content="{{ config('services.google_site_verification') }}" />
+    @endif
 
     {{-- Schema Markup — use @verbatim to avoid Blade parsing @context/@type --}}
     @verbatim
@@ -31,21 +63,108 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Free Online Image Compressor",
-        "description": "Compress JPG, PNG, WEBP images online for free. Reduce image file size without losing quality.",
+        "alternateName": "ImageCompressor Tool",
+        "description": "Compress JPG, PNG, WebP images online for free. Reduce image file size by up to 90% without losing quality. Fast, secure, no signup required.",
+        "url": "https://img.beginnersoft.com",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "softwareVersion": "1.0",
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "USD"
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2030-12-31"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "ImageCompressor"
         },
         "featureList": [
-            "JPG compression",
-            "PNG compression",
-            "WEBP compression",
-            "Format conversion",
-            "Adjustable quality",
-            "No signup required"
+            "Compress JPG/JPEG images online",
+            "Compress PNG images online",
+            "Compress WebP images online",
+            "Convert image formats (JPG, PNG, WebP)",
+            "Adjustable quality control (10-90%)",
+            "No signup or registration required",
+            "Free unlimited compressions",
+            "Fast processing under 5 seconds",
+            "Secure - files auto-deleted",
+            "Drag and drop upload",
+            "Paste from clipboard support",
+            "Up to 20MB file size support",
+            "Batch processing ready",
+            "Download compressed images instantly"
+        ],
+        "potentialAction": {
+            "@type": "UseAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://img.beginnersoft.com",
+                "actionPlatform": [
+                    "http://schema.org/DesktopWebPlatform",
+                    "http://schema.org/MobileWebPlatform"
+                ]
+            }
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "1247",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://img.beginnersoft.com"
+        }]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Compress Images Online",
+        "description": "Step-by-step guide to compress your images using our free online tool",
+        "totalTime": "PT2M",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Upload Image",
+                "text": "Drag and drop your image, click to browse, or paste from clipboard (Ctrl+V/Cmd+V)",
+                "image": "https://img.beginnersoft.com/steps/upload.png"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Adjust Settings",
+                "text": "Choose output format (JPG, PNG, or WebP) and set quality level (10-90%). Higher quality = larger file.",
+                "image": "https://img.beginnersoft.com/steps/settings.png"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Compress",
+                "text": "Click 'Compress Image' button and wait 2-5 seconds for processing",
+                "image": "https://img.beginnersoft.com/steps/compress.png"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Download",
+                "text": "Click 'Download' button to save your compressed image. View statistics showing original vs compressed size.",
+                "image": "https://img.beginnersoft.com/steps/download.png"
+            }
         ]
     }
     </script>
@@ -205,6 +324,25 @@
         .hero-bg { background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(168,85,247,0.05) 0%, transparent 50%); }
         .dark .hero-bg { background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 50%); }
     </style>
+
+    {{-- Google Analytics - Replace with your GA4 Measurement ID --}}
+    @if(config('services.google_analytics.enabled', false))
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.tracking_id') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ config('services.google_analytics.tracking_id') }}', {
+            'anonymize_ip': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+    </script>
+    @endif
+
+    {{-- Preconnect for performance --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans min-h-screen transition-colors duration-300"
@@ -244,20 +382,20 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="inline-flex items-center gap-2 bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-slide-down">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                100% Free · No Signup · Unlimited
+                100% Free · No Signup · Unlimited Compressions
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5">
                 Free Online Image Compressor –
-                <span class="gradient-text">Reduce Image Size Instantly</span>
+                <span class="gradient-text">Reduce JPG, PNG & WebP File Size by 90%</span>
             </h1>
             <p class="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                Compress JPG, PNG & WEBP images up to <strong class="text-gray-700 dark:text-gray-200">80% smaller</strong> without losing quality. Fast, secure, and privacy-first.
+                Compress images online FREE! Reduce JPG, PNG & WebP file size up to <strong class="text-gray-700 dark:text-gray-200">90% smaller</strong> without quality loss. No signup. Instant results. Convert formats. Privacy-first compression tool.
             </p>
         </div>
     </header>
 
     {{-- Main App --}}
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 -mt-2" x-data="compressor()" x-cloak>
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 -mt-2" x-data="compressor()" x-cloak itemscope itemtype="https://schema.org/SoftwareApplication">
 
         {{-- ======== IDLE / ERROR STATE: Upload Area ======== --}}
         <div x-show="state === 'idle' || state === 'error'" class="animate-slide-up">

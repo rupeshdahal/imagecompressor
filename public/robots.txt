@@ -1,2 +1,23 @@
+# Robots.txt for Image Compressor Tool
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /authorize
+Disallow: /download/
+Disallow: /storage/
+
+# Sitemap
+Sitemap: https://img.beginnersoft.com/sitemap.xml
+
+# Crawl delay (optional, prevents overloading)
+Crawl-delay: 1
+
+# Popular search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
