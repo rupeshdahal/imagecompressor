@@ -124,18 +124,7 @@ class ImageController extends Controller
             // Write to file
             file_put_contents($outputPath, (string) $encoded);
             
-            // Additional PNG optimization
-            if (strtolower($outputExt) === 'png') {
-                $this->optimizePng($outputPath, $quality);
-            }
-            
             $compressedSize = filesize($outputPath);
-
-            // If compressed file is larger than original, use original instead
-            if ($compressedSize > $originalSize) {
-                copy($file->getRealPath(), $outputPath);
-                $compressedSize = $originalSize;
-            }
 
             $reduction = $originalSize > 0
                 ? round((1 - $compressedSize / $originalSize) * 100, 1)
@@ -219,27 +208,6 @@ class ImageController extends Controller
             'gif'         => new GifEncoder(),
             default       => new JpegEncoder(quality: $quality),
         };
-    }
-
-    /**
-     * Optimize PNG file size using PHP's native compression
-     */
-    private function optimizePng(string $path, int $quality): void
-    {
-        // Load the PNG
-        $image = imagecreatefrompng($path);
-        if (!$image) {
-            return;
-        }
-
-        // Calculate compression level from quality (0-9, where 9 is maximum compression)
-        // Quality 90 = compression 1, Quality 10 = compression 9
-        $compressionLevel = (int)((100 - $quality) / 10);
-        $compressionLevel = max(0, min(9, $compressionLevel));
-
-        // Re-save with high compression
-        imagepng($image, $path, $compressionLevel);
-        imagedestroy($image);
     }
 
     /**
