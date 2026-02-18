@@ -131,6 +131,12 @@ class ImageController extends Controller
             
             $compressedSize = filesize($outputPath);
 
+            // If compressed file is larger than original, use original instead
+            if ($compressedSize > $originalSize) {
+                copy($file->getRealPath(), $outputPath);
+                $compressedSize = $originalSize;
+            }
+
             $reduction = $originalSize > 0
                 ? round((1 - $compressedSize / $originalSize) * 100, 1)
                 : 0;
