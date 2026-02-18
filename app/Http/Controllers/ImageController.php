@@ -123,24 +123,13 @@ class ImageController extends Controller
 
             // Write to file
             file_put_contents($outputPath, (string) $encoded);
+            
+            // Additional PNG optimization
+            if (strtolower($outputExt) === 'png') {
+                $this->optimizePng($outputPath, $quality);
+            }
+            
             $compressedSize = filesize($outputPath);
-
-            // PNG guarantee: if compressed file is larger or equal, use optimization strategies
-            if ($compressedSize >= $originalSize && strtolower($outputExt) === 'png') {
-                $compressedSize = $this->optimizePngForSmallerSize(
-                    $image, 
-                    $outputPath, 
-                    $quality, 
-                    $originalSize, 
-                    $file->getRealPath()
-                );
-            }
-
-            // Final guarantee: if still larger, copy original
-            if ($compressedSize > $originalSize) {
-                copy($file->getRealPath(), $outputPath);
-                $compressedSize = $originalSize;
-            }
 
             $reduction = $originalSize > 0
                 ? round((1 - $compressedSize / $originalSize) * 100, 1)
@@ -219,7 +208,7 @@ class ImageController extends Controller
     {
         return match (strtolower($format)) {
             'jpg', 'jpeg' => new JpegEncoder(quality: $quality),
-            'png'         => new PngEncoder(indexed: true), // Use indexed colors for size reduction
+            'png'         => new PngEncoder(), // PNG is lossless, no quality parameter
             'webp'        => new WebpEncoder(quality: $quality),
             'gif'         => new GifEncoder(),
             default       => new JpegEncoder(quality: $quality),
@@ -227,38 +216,24 @@ class ImageController extends Controller
     }
 
     /**
-     * Optimize PNG to ensure smaller file size
+     * Optimize PNG file size using PHP's native compression
      */
-    private function optimizePngForSmallerSize(
-        $image, 
-        string $outputPath, 
-        int $quality, 
-        int $originalSize, 
-        string $originalPath
-    ): int {
-        // Try indexed color mode (already applied in getEncoder)
-        // If still too large, scale down dimensions progressively
-        $currentSize = filesize($outputPath);
-        
-        if ($currentSize >= $originalSize) {
-            // Try reducing dimensions by 10% if image is large
-            $width = $image->width();
-            $height = $image->height();
-            
-            if ($width > 1000 || $height > 1000) {
-                $newWidth = (int)($width * 0.9);
-                $newHeight = (int)($height * 0.9);
-                
-                $resized = $image->scale($newWidth, $newHeight);
-                $encoder = new PngEncoder(indexed: true);
-                $encoded = $resized->encode($encoder);
-                file_put_contents($outputPath, (string) $encoded);
-                
-                $currentSize = filesize($outputPath);
-            }
+    private function optimizePng(string $path, int $quality): void
+    {
+        // Load the PNG
+        $image = imagecreatefrompng($path);
+        if (!$image) {
+            return;
         }
-        
-        return $currentSize;
+
+        // Calculate compression level from quality (0-9, where 9 is maximum compression)
+        // Quality 90 = compression 1, Quality 10 = compression 9
+        $compressionLevel = (int)((100 - $quality) / 10);
+        $compressionLevel = max(0, min(9, $compressionLevel));
+
+        // Re-save with high compression
+        imagepng($image, $path, $compressionLevel);
+        imagedestroy($image);
     }
 
     /**
