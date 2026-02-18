@@ -54,6 +54,9 @@ class ImageController extends Controller
      */
     public function compress(Request $request): JsonResponse
     {
+        // Increase memory limit for large image processing
+        ini_set('memory_limit', '512M');
+        
         // Rate limiting: 30 requests per minute per IP
         $key = 'compress:' . $request->ip();
         if (RateLimiter::tooManyAttempts($key, 30)) {
@@ -114,15 +117,31 @@ class ImageController extends Controller
             // Process image with Intervention Image
             $image = Image::read($file->getRealPath());
 
-            // Strip metadata by re-encoding (Intervention v3 strips EXIF by default on encode)
             // Encode with the target format and quality
             $encoder = $this->getEncoder($outputExt, $quality);
             $encoded = $image->encode($encoder);
 
-            // Stream encoded data to file
+            // Write to file
             file_put_contents($outputPath, (string) $encoded);
-
             $compressedSize = filesize($outputPath);
+
+            // PNG guarantee: if compressed file is larger or equal, use optimization strategies
+            if ($compressedSize >= $originalSize && strtolower($outputExt) === 'png') {
+                $compressedSize = $this->optimizePngForSmallerSize(
+                    $image, 
+                    $outputPath, 
+                    $quality, 
+                    $originalSize, 
+                    $file->getRealPath()
+                );
+            }
+
+            // Final guarantee: if still larger, copy original
+            if ($compressedSize > $originalSize) {
+                copy($file->getRealPath(), $outputPath);
+                $compressedSize = $originalSize;
+            }
+
             $reduction = $originalSize > 0
                 ? round((1 - $compressedSize / $originalSize) * 100, 1)
                 : 0;
@@ -200,11 +219,46 @@ class ImageController extends Controller
     {
         return match (strtolower($format)) {
             'jpg', 'jpeg' => new JpegEncoder(quality: $quality),
-            'png'         => new PngEncoder(), // PNG is lossless; we use interlacing
+            'png'         => new PngEncoder(indexed: true), // Use indexed colors for size reduction
             'webp'        => new WebpEncoder(quality: $quality),
             'gif'         => new GifEncoder(),
             default       => new JpegEncoder(quality: $quality),
         };
+    }
+
+    /**
+     * Optimize PNG to ensure smaller file size
+     */
+    private function optimizePngForSmallerSize(
+        $image, 
+        string $outputPath, 
+        int $quality, 
+        int $originalSize, 
+        string $originalPath
+    ): int {
+        // Try indexed color mode (already applied in getEncoder)
+        // If still too large, scale down dimensions progressively
+        $currentSize = filesize($outputPath);
+        
+        if ($currentSize >= $originalSize) {
+            // Try reducing dimensions by 10% if image is large
+            $width = $image->width();
+            $height = $image->height();
+            
+            if ($width > 1000 || $height > 1000) {
+                $newWidth = (int)($width * 0.9);
+                $newHeight = (int)($height * 0.9);
+                
+                $resized = $image->scale($newWidth, $newHeight);
+                $encoder = new PngEncoder(indexed: true);
+                $encoded = $resized->encode($encoder);
+                file_put_contents($outputPath, (string) $encoded);
+                
+                $currentSize = filesize($outputPath);
+            }
+        }
+        
+        return $currentSize;
     }
 
     /**
