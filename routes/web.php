@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
 
@@ -11,7 +12,7 @@ use App\Http\Controllers\AdminController;
 |--------------------------------------------------------------------------
 */
 
-// Public routes
+// Image Compressor (Home)
 Route::get('/', [ImageController::class, 'index'])->name('home');
 
 Route::post('/compress', [ImageController::class, 'compress'])
@@ -20,6 +21,21 @@ Route::post('/compress', [ImageController::class, 'compress'])
 
 Route::get('/download/{filename}', [ImageController::class, 'download'])
     ->name('image.download');
+
+// Image Converter
+Route::get('/image-converter', [PdfController::class, 'imageConverter'])->name('image.converter');
+
+// Image to PDF
+Route::get('/image-to-pdf', [PdfController::class, 'imageToPdf'])->name('image.to.pdf');
+Route::post('/image-to-pdf/convert', [PdfController::class, 'convertImagesToPdf'])
+    ->name('image.to.pdf.convert')
+    ->middleware('throttle:20,1');
+
+// PDF Compressor
+Route::get('/pdf-compressor', [PdfController::class, 'pdfCompressor'])->name('pdf.compressor');
+Route::post('/pdf-compressor/compress', [PdfController::class, 'compressPdf'])
+    ->name('pdf.compress')
+    ->middleware('throttle:20,1');
 
 // Admin authentication routes (using /authorize instead of /login)
 Route::get('/authorize', [AdminController::class, 'showLogin'])->name('admin.login');

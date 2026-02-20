@@ -155,10 +155,13 @@ class ImageController extends Controller
 
             return response()->json([
                 'success'         => true,
-                'original_size'   => $originalSize,
-                'compressed_size' => $compressedSize,
+                'original_size'   => $this->formatBytes($originalSize),
+                'compressed_size' => $this->formatBytes($compressedSize),
+                'original_size_bytes'   => $originalSize,
+                'compressed_size_bytes' => $compressedSize,
                 'reduction'       => $reduction,
                 'download_url'    => route('image.download', ['filename' => $outputFilename]),
+                'preview_url'     => asset('storage/uploads/' . $outputFilename),
                 'filename'        => $outputFilename,
                 'original_name'   => $file->getClientOriginalName(),
                 'format'          => strtoupper($outputExt),
@@ -183,7 +186,7 @@ class ImageController extends Controller
     public function download(string $filename)
     {
         // Sanitize: only allow expected filename pattern
-        if (!preg_match('/^[a-z0-9\-]+\.(jpg|jpeg|png|webp|gif)$/i', $filename)) {
+        if (!preg_match('/^[a-z0-9\-]+\.(jpg|jpeg|png|webp|gif|pdf)$/i', $filename)) {
             abort(404);
         }
 
