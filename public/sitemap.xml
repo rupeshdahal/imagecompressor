@@ -3,9 +3,9 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     
-    <!-- Homepage - Image Compressor Tool -->
+    <!-- Homepage - CompresslyPro -->
     <url>
-        <loc>https://img.beginnersoft.com/</loc>
+        <loc>https://compresslypro.com/</loc>
         <lastmod>2026-02-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>

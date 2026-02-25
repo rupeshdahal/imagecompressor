@@ -1,4 +1,4 @@
-# 🖼️ Free Online Image Compressor
+# 🖼️ CompresslyPro - Free Online Image Compressor
 
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?logo=php)](https://php.net)
@@ -34,8 +34,8 @@ A powerful, privacy-first image compression tool built with Laravel 11. Reduce J
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/image-compressor.git
-cd image-compressor
+git clone https://github.com/yourusername/compresslypro.git
+cd compresslypro
 
 # Install dependencies
 composer install
@@ -102,7 +102,7 @@ This project is **fully optimized for search engines**. Complete documentation:
 ## 🏗️ Project Structure
 
 ```
-image-compressor/
+compresslypro/
 ├── app/Http/Controllers/ImageController.php  # Main compression logic
 ├── resources/views/home.blade.php           # UI with SEO markup
 ├── public/
@@ -124,7 +124,7 @@ php artisan serve
 
 # Or with Laravel Herd
 herd link
-# Access at: http://image-compressor.test
+# Access at: http://compresslypro.test
 
 # Run tests (if configured)
 php artisan test

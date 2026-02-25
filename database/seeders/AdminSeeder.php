@@ -14,15 +14,15 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@imagecompressor.com'],
+            ['email' => 'admin@compresslypro.com'],
             [
                 'name'     => 'Admin',
-                'email'    => 'admin@imagecompressor.com',
+                'email'    => 'admin@compresslypro.com',
                 'password' => Hash::make('admin123'),
                 'is_admin' => true,
             ]
         );
 
-        $this->command->info('Default admin user created: admin@imagecompressor.com / admin123');
+        $this->command->info('Default admin user created: admin@compresslypro.com / admin123');
     }
 }

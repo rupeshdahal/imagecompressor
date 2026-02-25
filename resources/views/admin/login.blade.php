@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin Login – ImageCompressor</title>
+    <title>Admin Login – CompresslyPro</title>
     <meta name="robots" content="noindex, nofollow">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -52,7 +52,7 @@
                     <div class="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-700 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/25">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </div>
-                    <span class="text-2xl font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">ImageCompressor</span>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">CompresslyPro</span>
                 </a>
                 <h1 class="text-2xl font-extrabold mt-6 mb-1 text-gray-900 dark:text-gray-100">Admin Login</h1>
                 <p class="text-gray-500 dark:text-gray-400 text-sm">Sign in to access the admin panel</p>

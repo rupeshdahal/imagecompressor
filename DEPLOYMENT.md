@@ -1,4 +1,4 @@
-# Image Compressor - Production Deployment Guide
+# CompresslyPro - Production Deployment Guide
 
 ## 🚀 Quick Start (Local Development)
 
@@ -59,8 +59,8 @@ sudo apt install php8.2-gd php8.2-exif
 
 ```bash
 # Clone repository
-git clone <your-repo-url> /var/www/image-compressor
-cd /var/www/image-compressor
+git clone <your-repo-url> /var/www/compresslypro
+cd /var/www/compresslypro
 
 # Install production dependencies
 composer install --no-dev --optimize-autoloader
@@ -73,11 +73,11 @@ php artisan key:generate
 ### 2. Configure `.env`
 
 ```env
-APP_NAME="Image Compressor"
+APP_NAME="CompresslyPro"
 APP_ENV=production
 APP_KEY=<generated-key>
 APP_DEBUG=false
-APP_URL=https://yourdomain.com
+APP_URL=https://compresslypro.com
 
 LOG_CHANNEL=stack
 LOG_LEVEL=warning
@@ -97,8 +97,8 @@ QUEUE_CONNECTION=sync
 
 ```bash
 # Set proper ownership
-sudo chown -R www-data:www-data /var/www/image-compressor
-sudo chmod -R 755 /var/www/image-compressor
+sudo chown -R www-data:www-data /var/www/compresslypro
+sudo chmod -R 755 /var/www/compresslypro
 
 # Writable directories
 sudo chmod -R 775 storage bootstrap/cache
@@ -133,8 +133,8 @@ composer dump-autoload --optimize
 server {
     listen 80;
     listen [::]:80;
-    server_name yourdomain.com www.yourdomain.com;
-    root /var/www/image-compressor/public;
+    server_name compresslypro.com www.compresslypro.com;
+    root /var/www/compresslypro/public;
     index index.php;
 
     # Security headers
@@ -189,7 +189,7 @@ server {
 
 ```bash
 sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+sudo certbot --nginx -d compresslypro.com -d www.compresslypro.com
 ```
 
 ### 8. PHP-FPM Configuration
@@ -211,7 +211,7 @@ The app auto-deletes uploaded files after 30 minutes. Set up the Laravel schedul
 
 ```bash
 # Add to crontab (crontab -e)
-* * * * * cd /var/www/image-compressor && php artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /var/www/compresslypro && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 ### Manual Cleanup

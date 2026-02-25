@@ -1,4 +1,4 @@
-# SEO Optimization Guide - Image Compressor Tool
+# SEO Optimization Guide - CompresslyPro Tool
 
 ## 🎯 SEO Implementation Summary
 
@@ -22,7 +22,7 @@ This document outlines all SEO optimizations implemented to help your image comp
 
 #### Title Tag (60 chars optimal):
 ```
-Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%
+Free Online CompresslyPro - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%
 ```
 
 #### Meta Description (155-160 chars):
@@ -54,7 +54,7 @@ Social media sharing optimization:
 ```json
 {
   "@type": "WebApplication",
-  "name": "Free Online Image Compressor",
+  "name": "Free Online CompresslyPro",
   "applicationCategory": "MultimediaApplication",
   "offers": { "price": "0" },
   "aggregateRating": { "ratingValue": "4.8" }
@@ -83,7 +83,7 @@ Allow: /
 Disallow: /admin
 Disallow: /authorize
 Disallow: /storage/
-Sitemap: https://img.beginnersoft.com/sitemap.xml
+Sitemap: https://compresslypro.com/sitemap.xml
 ```
 
 #### sitemap.xml
@@ -98,7 +98,7 @@ XML sitemap for search engines
 
 #### H1 Tag (Primary Heading):
 ```
-Free Online Image Compressor – Reduce JPG, PNG & WebP File Size by 90%
+Free Online CompresslyPro – Reduce JPG, PNG & WebP File Size by 90%
 ```
 
 #### Content Sections:
@@ -140,9 +140,9 @@ Features:
 1. **Set Up Google Search Console**
    ```
    1. Go to https://search.google.com/search-console
-   2. Add property: https://img.beginnersoft.com
+   2. Add property: https://compresslypro.com
    3. Verify ownership (HTML file or DNS)
-   4. Submit sitemap: https://img.beginnersoft.com/sitemap.xml
+   4. Submit sitemap: https://compresslypro.com/sitemap.xml
    ```
 
 2. **Set Up Google Analytics 4**
@@ -160,7 +160,7 @@ Features:
    - Include logo and tagline
 
 4. **Update Production URL**
-   Replace `https://img.beginnersoft.com` with your actual domain in:
+   Replace `https://compresslypro.com` with your actual domain in:
    - `public/robots.txt` (line 9)
    - `public/sitemap.xml` (line 8)
    - Schema markup (home.blade.php)
@@ -456,7 +456,7 @@ Add contact options:
 
 ## 🚨 Important Notes
 
-1. **Replace Placeholder URLs**: Change `https://img.beginnersoft.com` to your actual production domain
+1. **Replace Placeholder URLs**: Change `https://compresslypro.com` to your actual production domain
 2. **Add GA4**: Get your Google Analytics Measurement ID
 3. **Create OG Image**: Don't forget the social sharing image
 4. **Privacy Policy**: Required if collecting any data

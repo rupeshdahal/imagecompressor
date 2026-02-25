@@ -28,7 +28,7 @@ Successfully implemented a secure admin panel with session-based authentication 
 ### 2. Routing Structure (`routes/web.php`)
 
 #### Public Routes
-- `GET /` - Home page (image compressor)
+- `GET /` - Home page (CompresslyPro)
 - `POST /compress` - Compress images (rate limited: 30/min)
 - `GET /download/{filename}` - Download compressed images
 
@@ -137,11 +137,11 @@ bootstrap/
 ### For Users
 
 1. **Access Public Site:**
-   - Visit `http://your-domain.com/`
+   - Visit `http://compresslypro.com/`
    - Compress images without any login
 
 2. **Admin Access:**
-   - Visit `http://your-domain.com/authorize`
+   - Visit `http://compresslypro.com/authorize`
    - Login with credentials:
      - Username: `admin`
      - Password: `admin123`

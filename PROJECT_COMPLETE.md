@@ -1,4 +1,4 @@
-# 🎉 PROJECT COMPLETE - Image Compressor with Admin Panel
+# 🎉 PROJECT COMPLETE - CompresslyPro with Admin Panel
 
 ## ✅ All Requirements Implemented
 
@@ -36,7 +36,7 @@
 ## Project Structure
 
 ```
-image-convertor/
+compresslypro/
 ├── app/
 │   ├── Console/Commands/
 │   │   └── CleanupUploads.php           - Auto-delete old files
@@ -77,7 +77,7 @@ image-convertor/
 ### Public Access
 | URL | Description | Auth Required |
 |-----|-------------|---------------|
-| `/` | Image compressor | No |
+| `/` | CompresslyPro | No |
 | `/compress` | Compress endpoint | No |
 | `/download/{file}` | Download compressed | No |
 
@@ -192,7 +192,7 @@ Password: admin123
 
 ### 1. Start the Server
 ```bash
-cd /Users/rupesh/Projects/vibecode/image-convertor
+cd /Users/rupesh/Projects/vibecode/compresslypro
 php artisan serve --port=8080
 ```
 

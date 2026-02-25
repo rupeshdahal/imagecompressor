@@ -6,11 +6,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- SEO Meta --}}
-    <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%</title>
+    <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | CompresslyPro</title>
     <meta name="description" content="Compress images online for FREE! Reduce JPG, PNG, WebP file sizes by up to 90% without quality loss. Fast, secure, no signup. Convert formats. 20MB max. Start compressing now!">
     <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer, image converter, reduce file size, compress photo, online image tool, lossy compression, lossless compression">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="author" content="ImageCompressor Tool">
+    <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ url('/') }}">
     
     {{-- Additional SEO --}}
@@ -27,15 +27,15 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ImageCompressor">
+    <meta name="apple-mobile-web-app-title" content="CompresslyPro">
     <meta name="theme-color" content="#6366f1">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
+    <meta property="og:title" content="Free Online Image Compressor - CompresslyPro | Reduce File Size up to 90%">
     <meta property="og:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size by up to 90% without quality loss. No signup required. Fast, secure, and easy to use.">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="ImageCompressor - Free Online Image Compression Tool">
+    <meta property="og:site_name" content="CompresslyPro - Free Online Image Compression Tool">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="{{ asset('og-image.png') }}">
     <meta property="og:image:width" content="1200">
@@ -44,12 +44,12 @@
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
+    <meta name="twitter:title" content="Free Online Image Compressor - CompresslyPro | Reduce File Size up to 90%">
     <meta name="twitter:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size without quality loss. No signup required.">
     <meta name="twitter:image" content="{{ asset('og-image.png') }}">
     <meta name="twitter:image:alt" content="Free Online Image Compressor Tool">
-    <meta name="twitter:creator" content="@imagecompressor">
-    <meta name="twitter:site" content="@imagecompressor">
+    <meta name="twitter:creator" content="@compresslypro">
+    <meta name="twitter:site" content="@compresslypro">
 
     {{-- Google Site Verification --}}
     @if(config('services.google_site_verification'))
@@ -63,9 +63,9 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Free Online Image Compressor",
-        "alternateName": "ImageCompressor Tool",
+        "alternateName": "CompresslyPro",
         "description": "Compress JPG, PNG, WebP images online for free. Reduce image file size by up to 90% without losing quality. Fast, secure, no signup required.",
-        "url": "https://img.beginnersoft.com",
+        "url": "https://compresslypro.com",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -79,7 +79,7 @@
         },
         "creator": {
             "@type": "Organization",
-            "name": "ImageCompressor"
+            "name": "CompresslyPro"
         },
         "featureList": [
             "Compress JPG/JPEG images online",
@@ -101,7 +101,7 @@
             "@type": "UseAction",
             "target": {
                 "@type": "EntryPoint",
-                "urlTemplate": "https://img.beginnersoft.com",
+                "urlTemplate": "https://compresslypro.com",
                 "actionPlatform": [
                     "http://schema.org/DesktopWebPlatform",
                     "http://schema.org/MobileWebPlatform"
@@ -125,7 +125,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://img.beginnersoft.com"
+            "item": "https://compresslypro.com"
         }]
     }
     </script>
@@ -142,28 +142,28 @@
                 "position": 1,
                 "name": "Upload Image",
                 "text": "Drag and drop your image, click to browse, or paste from clipboard (Ctrl+V/Cmd+V)",
-                "image": "https://img.beginnersoft.com/steps/upload.png"
+                "image": "https://compresslypro.com/steps/upload.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 2,
                 "name": "Adjust Settings",
                 "text": "Choose output format (JPG, PNG, or WebP) and set quality level (10-90%). Higher quality = larger file.",
-                "image": "https://img.beginnersoft.com/steps/settings.png"
+                "image": "https://compresslypro.com/steps/settings.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 3,
                 "name": "Compress",
                 "text": "Click 'Compress Image' button and wait 2-5 seconds for processing",
-                "image": "https://img.beginnersoft.com/steps/compress.png"
+                "image": "https://compresslypro.com/steps/compress.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 4,
                 "name": "Download",
                 "text": "Click 'Download' button to save your compressed image. View statistics showing original vs compressed size.",
-                "image": "https://img.beginnersoft.com/steps/download.png"
+                "image": "https://compresslypro.com/steps/download.png"
             }
         ]
     }
@@ -359,7 +359,7 @@
                     <div class="w-9 h-9 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </div>
-                    <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">ImageCompressor</span>
+                    <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">CompresslyPro</span>
                 </a>
                 <div class="flex items-center gap-3">
                     <button x-on:click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
@@ -791,7 +791,7 @@
                     <div class="w-7 h-7 bg-gradient-to-br from-brand-500 to-brand-700 rounded-lg flex items-center justify-center">
                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </div>
-                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">&copy; {{ date('Y') }} ImageCompressor</span>
+                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">&copy; {{ date('Y') }} CompresslyPro</span>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-gray-400 dark:text-gray-500">
                     <span>Files auto-delete in 30 minutes</span>

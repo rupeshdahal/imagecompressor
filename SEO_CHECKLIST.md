@@ -1,4 +1,4 @@
-# SEO Setup Checklist for Image Compressor
+# SEO Setup Checklist for CompresslyPro
 
 Follow this checklist step-by-step to maximize your Google rankings.
 
@@ -21,7 +21,7 @@ Follow this checklist step-by-step to maximize your Google rankings.
   - Tool: https://realfavicongenerator.net/
 
 ### 2. Update Production URLs
-Replace `https://img.beginnersoft.com` with your actual domain in:
+Replace `https://compresslypro.com` with your actual domain in:
 - [ ] `public/robots.txt` (line 9 - Sitemap URL)
 - [ ] `public/sitemap.xml` (line 8 - Homepage URL)
 - [ ] `resources/views/home.blade.php` (Schema.org URLs)
@@ -55,7 +55,7 @@ Replace `https://img.beginnersoft.com` with your actual domain in:
 - [ ] Go to https://search.google.com/search-console
 - [ ] Click "Add Property"
 - [ ] Choose "URL prefix" method
-- [ ] Enter your full domain (https://your-domain.com)
+- [ ] Enter your full domain (https://compresslypro.com)
 - [ ] Verification options:
   
   **Option A: HTML File Upload**
@@ -74,7 +74,7 @@ Replace `https://img.beginnersoft.com` with your actual domain in:
     ```
   - [ ] Click "Verify"
 
-- [ ] Submit sitemap: https://your-domain.com/sitemap.xml
+- [ ] Submit sitemap: https://compresslypro.com/sitemap.xml
 - [ ] Request indexing for homepage
 
 ### 6. Bing Webmaster Tools

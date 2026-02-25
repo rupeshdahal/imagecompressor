@@ -24,7 +24,7 @@ Password: admin123
 ## Start the Application
 
 ```bash
-cd /Users/rupesh/Projects/vibecode/image-convertor
+cd /Users/rupesh/Projects/vibecode/compresslypro
 php artisan serve --port=8080
 ```
 
@@ -208,7 +208,7 @@ Edit `.env`:
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://your-domain.com
+APP_URL=https://compresslypro.com
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1

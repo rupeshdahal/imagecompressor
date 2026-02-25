@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compression Reports – ImageCompressor</title>
+    <title>Compression Reports – CompresslyPro</title>
     <meta name="robots" content="noindex, nofollow">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -312,7 +312,7 @@
     {{-- Footer --}}
     <footer class="bg-white dark:bg-gray-900 border-t border-gray-200/60 dark:border-gray-800/60 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400 dark:text-gray-500">
-            <p>&copy; {{ date('Y') }} ImageCompressor Admin Panel · <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Back to Dashboard</a></p>
+            <p>&copy; {{ date('Y') }} CompresslyPro Admin Panel · <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Back to Dashboard</a></p>
         </div>
     </footer>
 
