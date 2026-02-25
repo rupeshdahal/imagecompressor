@@ -11,6 +11,8 @@ use App\Models\CompressionReport;
 
 class PdfController extends Controller
 {
+    private const TEMP_DIR = 'app/temp-uploads';
+
     /**
      * Show Image to PDF page.
      */
@@ -36,14 +38,76 @@ class PdfController extends Controller
     }
 
     /**
-     * Convert images to PDF.
+     * Upload a single file to temp storage.
+     * Returns a token (filename) used later for merge/compress.
+     */
+    public function uploadTemp(Request $request): JsonResponse
+    {
+        $key = 'upload:' . $request->ip();
+        if (RateLimiter::tooManyAttempts($key, 60)) {
+            $seconds = RateLimiter::availableIn($key);
+            return response()->json([
+                'success' => false,
+                'message' => "Too many uploads. Try again in {$seconds} seconds.",
+            ], 429);
+        }
+        RateLimiter::hit($key, 60);
+
+        $request->validate([
+            'file' => 'required|file|max:20480', // 20MB per file
+        ]);
+
+        try {
+            $file = $request->file('file');
+            $mime = $file->getMimeType();
+
+            // Allow images and PDFs
+            $allowedMimes = [
+                'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+                'application/pdf',
+            ];
+            if (!in_array($mime, $allowedMimes, true)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unsupported file type.',
+                ], 422);
+            }
+
+            $tempDir = storage_path(self::TEMP_DIR);
+            if (!is_dir($tempDir)) {
+                mkdir($tempDir, 0755, true);
+            }
+
+            // Clean old temp files (>1 hour)
+            $this->cleanTempFiles($tempDir, 3600);
+
+            $ext = $file->getClientOriginalExtension() ?: 'bin';
+            $token = Str::random(24) . '.' . strtolower($ext);
+            $file->move($tempDir, $token);
+
+            return response()->json([
+                'success'  => true,
+                'token'    => $token,
+                'name'     => $file->getClientOriginalName(),
+                'size'     => filesize($tempDir . '/' . $token),
+            ]);
+        } catch (\Throwable $e) {
+            report($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'Upload failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Convert previously uploaded images (by token) to PDF.
      */
     public function convertImagesToPdf(Request $request): JsonResponse
     {
         ini_set('memory_limit', '512M');
         set_time_limit(120);
 
-        // Rate limiting
         $key = 'img2pdf:' . $request->ip();
         if (RateLimiter::tooManyAttempts($key, 20)) {
             $seconds = RateLimiter::availableIn($key);
@@ -55,8 +119,8 @@ class PdfController extends Controller
         RateLimiter::hit($key, 60);
 
         $request->validate([
-            'images'      => 'required|array|min:1|max:20',
-            'images.*'    => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
+            'tokens'      => 'required|array|min:1|max:20',
+            'tokens.*'    => 'required|string|max:100',
             'orientation' => 'nullable|string|in:portrait,landscape',
             'page_size'   => 'nullable|string|in:a4,letter,a3,a5',
             'margin'      => 'nullable|integer|min:0|max:50',
@@ -64,57 +128,83 @@ class PdfController extends Controller
         ]);
 
         try {
-            $files = $request->file('images');
+            $tokens = $request->input('tokens');
             $orientation = $request->input('orientation', 'portrait');
             $pageSize = $request->input('page_size', 'a4');
             $margin = (int) $request->input('margin', 10);
             $fitMode = $request->input('fit_mode', 'fit');
 
-            // Build image data array
+            $tempDir = storage_path(self::TEMP_DIR);
+
+            // Build image data array from tokens
             $imageData = [];
             $totalOriginalSize = 0;
+            $processedFiles = []; // Track temp files we create for cleanup
 
-            foreach ($files as $file) {
-                $mime = $file->getMimeType();
+            foreach ($tokens as $token) {
+                // Sanitize token - only allow alphanumeric, dot
+                if (!preg_match('/^[a-zA-Z0-9]+\.(jpg|jpeg|png|webp|gif)$/i', $token)) {
+                    continue;
+                }
+
+                $filePath = $tempDir . '/' . $token;
+                if (!file_exists($filePath)) {
+                    continue;
+                }
+
+                $mime = mime_content_type($filePath);
+
                 if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp', 'image/gif'])) {
                     continue;
                 }
 
-                $totalOriginalSize += $file->getSize();
-                $content = file_get_contents($file->getRealPath());
+                $totalOriginalSize += filesize($filePath);
 
-                // Convert webp/gif to png for PDF compatibility
+                // DomPDF supports JPEG and PNG natively.
+                // WebP/GIF must be converted to PNG first.
                 if (in_array($mime, ['image/webp', 'image/gif'])) {
-                    $img = imagecreatefromstring($content);
-                    if ($img) {
-                        ob_start();
-                        imagepng($img, null, 6);
-                        $content = ob_get_clean();
-                        imagedestroy($img);
-                        $mime = 'image/png';
+                    $gdImage = @imagecreatefromstring(file_get_contents($filePath));
+                    if (!$gdImage) {
+                        continue;
                     }
+                    imagesavealpha($gdImage, true);
+
+                    $width = imagesx($gdImage);
+                    $height = imagesy($gdImage);
+
+                    $pngPath = $tempDir . '/' . Str::random(24) . '_proc.png';
+                    imagepng($gdImage, $pngPath, 6);
+                    imagedestroy($gdImage);
+                    $processedFiles[] = $pngPath;
+
+                    $imageData[] = [
+                        'path'   => $pngPath,
+                        'mime'   => 'image/png',
+                        'width'  => $width,
+                        'height' => $height,
+                    ];
+                } else {
+                    // JPEG or PNG — use original file directly
+                    $info = @getimagesize($filePath);
+                    if (!$info) {
+                        continue;
+                    }
+
+                    $imageData[] = [
+                        'path'   => $filePath,
+                        'mime'   => $mime,
+                        'width'  => $info[0],
+                        'height' => $info[1],
+                    ];
                 }
-
-                $base64 = base64_encode($content);
-                $src = "data:{$mime};base64,{$base64}";
-
-                // Get dimensions
-                $info = getimagesizefromstring($content);
-                $width = $info ? $info[0] : 800;
-                $height = $info ? $info[1] : 600;
-
-                $imageData[] = [
-                    'src'    => $src,
-                    'width'  => $width,
-                    'height' => $height,
-                    'name'   => $file->getClientOriginalName(),
-                ];
             }
 
             if (empty($imageData)) {
+                // Clean up any processed files
+                foreach ($processedFiles as $f) { @unlink($f); }
                 return response()->json([
                     'success' => false,
-                    'message' => 'No valid images found.',
+                    'message' => 'No valid images found. Files may have expired.',
                 ], 422);
             }
 
@@ -131,12 +221,15 @@ class PdfController extends Controller
                 [$pageDim['w'], $pageDim['h']] = [$pageDim['h'], $pageDim['w']];
             }
 
-            // Convert mm to approx px for CSS (96 DPI)
-            $pageWidthPx  = round(($pageDim['w'] - 2 * $margin) * 3.7795);
-            $pageHeightPx = round(($pageDim['h'] - 2 * $margin) * 3.7795);
+            // DomPDF renders at configurable DPI (default 96). Convert mm → px at 96 DPI.
+            $dpi = 96;
+            $mmToPx = $dpi / 25.4;
+            $contentWidthPx  = round(($pageDim['w'] - 2 * $margin) * $mmToPx);
+            $contentHeightPx = round(($pageDim['h'] - 2 * $margin) * $mmToPx);
 
-            // Generate HTML for PDF
+            // Generate HTML for PDF — use @page CSS for margins (in mm for simplicity)
             $html = '<html><head><style>';
+            $html .= '@page { margin: ' . $margin . 'mm; }';
             $html .= 'body { margin: 0; padding: 0; }';
             $html .= '.page { width: 100%; text-align: center; page-break-after: always; }';
             $html .= '.page:last-child { page-break-after: auto; }';
@@ -147,46 +240,45 @@ class PdfController extends Controller
                 $imgW = $img['width'];
                 $imgH = $img['height'];
 
-                // Calculate size based on fit mode
+                // Build base64 data URI from processed PNG file
+                $pngContent = file_get_contents($img['path']);
+                $base64 = base64_encode($pngContent);
+                $src = "data:{$img['mime']};base64,{$base64}";
+
                 if ($fitMode === 'stretch') {
-                    $cssW = $pageWidthPx;
-                    $cssH = $pageHeightPx;
+                    $cssW = $contentWidthPx;
+                    $cssH = $contentHeightPx;
                 } elseif ($fitMode === 'fill') {
-                    $ratioW = $pageWidthPx / $imgW;
-                    $ratioH = $pageHeightPx / $imgH;
+                    $ratioW = $contentWidthPx / $imgW;
+                    $ratioH = $contentHeightPx / $imgH;
                     $ratio = max($ratioW, $ratioH);
-                    $cssW = min(round($imgW * $ratio), $pageWidthPx);
-                    $cssH = min(round($imgH * $ratio), $pageHeightPx);
+                    $cssW = min(round($imgW * $ratio), $contentWidthPx);
+                    $cssH = min(round($imgH * $ratio), $contentHeightPx);
                 } else {
-                    // fit (contain)
-                    $ratioW = $pageWidthPx / $imgW;
-                    $ratioH = $pageHeightPx / $imgH;
-                    $ratio = min($ratioW, $ratioH, 1); // Don't upscale
+                    // "fit" mode — scale down to fit, never scale up
+                    $ratioW = $contentWidthPx / $imgW;
+                    $ratioH = $contentHeightPx / $imgH;
+                    $ratio = min($ratioW, $ratioH, 1);
                     $cssW = round($imgW * $ratio);
                     $cssH = round($imgH * $ratio);
                 }
 
                 $html .= '<div class="page">';
-                $html .= '<img src="' . $img['src'] . '" width="' . $cssW . '" height="' . $cssH . '">';
+                $html .= '<img src="' . $src . '" width="' . $cssW . '" height="' . $cssH . '">';
                 $html .= '</div>';
             }
 
             $html .= '</body></html>';
 
-            // Generate PDF
             $pdf = Pdf::loadHTML($html)
                 ->setPaper($pageSize, $orientation)
-                ->setOption('margin-top', $margin)
-                ->setOption('margin-bottom', $margin)
-                ->setOption('margin-left', $margin)
-                ->setOption('margin-right', $margin)
-                ->setOption('isRemoteEnabled', true);
+                ->setOption('isRemoteEnabled', true)
+                ->setOption('isHtml5ParserEnabled', true);
 
             $uniqueId = Str::random(12);
             $outputFilename = "images-to-pdf-{$uniqueId}.pdf";
             $outputPath = storage_path("app/public/uploads/{$outputFilename}");
 
-            // Ensure directory exists
             if (!is_dir(dirname($outputPath))) {
                 mkdir(dirname($outputPath), 0755, true);
             }
@@ -194,10 +286,24 @@ class PdfController extends Controller
             file_put_contents($outputPath, $pdf->output());
             $pdfSize = filesize($outputPath);
 
+            // Clean up temp files (original uploads)
+            foreach ($tokens as $token) {
+                $f = $tempDir . '/' . basename($token);
+                if (file_exists($f)) {
+                    @unlink($f);
+                }
+            }
+            // Clean up processed PNG files
+            foreach ($processedFiles as $f) {
+                if (file_exists($f)) {
+                    @unlink($f);
+                }
+            }
+
             // Save report
             try {
                 CompressionReport::create([
-                    'original_name'     => count($files) . ' images → PDF',
+                    'original_name'     => count($imageData) . ' images → PDF',
                     'original_format'   => 'images',
                     'output_format'     => 'pdf',
                     'original_size'     => $totalOriginalSize,
@@ -234,7 +340,7 @@ class PdfController extends Controller
     }
 
     /**
-     * Compress a PDF file by re-rendering it.
+     * Compress a PDF file from temp upload token.
      */
     public function compressPdf(Request $request): JsonResponse
     {
@@ -252,35 +358,52 @@ class PdfController extends Controller
         RateLimiter::hit($key, 60);
 
         $request->validate([
-            'pdf'     => 'required|file|mimes:pdf|max:51200', // 50MB
+            'token'   => 'required|string|max:100',
+            'name'    => 'nullable|string|max:255',
             'quality' => 'nullable|string|in:low,medium,high',
         ]);
 
         try {
-            $file = $request->file('pdf');
-            $originalSize = $file->getSize();
+            $token = $request->input('token');
             $quality = $request->input('quality', 'medium');
+            $originalName = $request->input('name', 'document.pdf');
+
+            // Sanitize token
+            if (!preg_match('/^[a-zA-Z0-9]+\.pdf$/i', $token)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid file token.',
+                ], 422);
+            }
+
+            $tempDir = storage_path(self::TEMP_DIR);
+            $inputPath = $tempDir . '/' . $token;
+
+            if (!file_exists($inputPath)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File not found or expired. Please re-upload.',
+                ], 422);
+            }
+
+            $originalSize = filesize($inputPath);
 
             $uniqueId = Str::random(12);
-            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeName = Str::slug(Str::limit($originalName, 50, '')) ?: 'document';
+            $safeName = Str::slug(Str::limit(pathinfo($originalName, PATHINFO_FILENAME), 50, '')) ?: 'document';
 
-            // Use Ghostscript if available for real compression
             $gsPath = $this->findGhostscript();
             $outputFilename = "{$safeName}-compressed-{$uniqueId}.pdf";
             $outputPath = storage_path("app/public/uploads/{$outputFilename}");
-            $inputPath = $file->getRealPath();
 
             if (!is_dir(dirname($outputPath))) {
                 mkdir(dirname($outputPath), 0755, true);
             }
 
             if ($gsPath) {
-                // Ghostscript compression levels
                 $gsQuality = match ($quality) {
-                    'low'    => '/screen',    // 72 DPI - maximum compression
-                    'medium' => '/ebook',     // 150 DPI - balanced
-                    'high'   => '/printer',   // 300 DPI - high quality
+                    'low'    => '/screen',
+                    'medium' => '/ebook',
+                    'high'   => '/printer',
                     default  => '/ebook',
                 };
 
@@ -295,17 +418,14 @@ class PdfController extends Controller
                 exec($cmd . ' 2>&1', $output, $exitCode);
 
                 if ($exitCode !== 0 || !file_exists($outputPath) || filesize($outputPath) === 0) {
-                    // Ghostscript failed, copy original
                     copy($inputPath, $outputPath);
                 }
             } else {
-                // No Ghostscript - just copy the file (inform user)
                 copy($inputPath, $outputPath);
             }
 
             $compressedSize = filesize($outputPath);
 
-            // If compressed is larger, use original
             if ($compressedSize >= $originalSize) {
                 copy($inputPath, $outputPath);
                 $compressedSize = $originalSize;
@@ -315,10 +435,13 @@ class PdfController extends Controller
                 ? round((1 - $compressedSize / $originalSize) * 100, 1)
                 : 0;
 
+            // Clean up temp file
+            @unlink($inputPath);
+
             // Save report
             try {
                 CompressionReport::create([
-                    'original_name'     => $file->getClientOriginalName(),
+                    'original_name'     => $originalName,
                     'original_format'   => 'pdf',
                     'output_format'     => 'pdf',
                     'original_size'     => $originalSize,
@@ -341,7 +464,7 @@ class PdfController extends Controller
                 'reduction'            => $reduction,
                 'download_url'         => route('image.download', ['filename' => $outputFilename]),
                 'filename'             => $outputFilename,
-                'original_name'        => $file->getClientOriginalName(),
+                'original_name'        => $originalName,
                 'formatted_original'   => $this->formatBytes($originalSize),
                 'formatted_compressed' => $this->formatBytes($compressedSize),
                 'has_ghostscript'      => $gsPath !== null,
@@ -387,5 +510,20 @@ class PdfController extends Controller
             $index++;
         }
         return round($size, $precision) . ' ' . $units[$index];
+    }
+
+    /**
+     * Clean temp files older than $maxAge seconds.
+     */
+    private function cleanTempFiles(string $dir, int $maxAge = 3600): void
+    {
+        if (!is_dir($dir)) return;
+
+        $now = time();
+        foreach (glob($dir . '/*') as $file) {
+            if (is_file($file) && ($now - filemtime($file)) > $maxAge) {
+                @unlink($file);
+            }
+        }
     }
 }
