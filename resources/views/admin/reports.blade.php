@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Compression Reports – Admin Panel</title>
+    <title>Compression Reports – CompresslyPro Admin</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -50,14 +52,9 @@
                class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-200 lg:translate-x-0 lg:static lg:inset-auto flex flex-col">
 
             <div class="p-6 border-b border-gray-200 dark:border-gray-800">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
-                    <div>
-                        <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">ImageCompressor</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Admin Panel</p>
-                    </div>
+                <a href="{{ route('admin.dashboard') }}" class="block">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-7 w-auto dark:brightness-0 dark:invert transition-all">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Admin Panel</p>
                 </a>
             </div>
 
@@ -239,7 +236,7 @@
     <script>
         function reportsPage() {
             return {
-                darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                darkMode: localStorage.getItem('darkMode') === 'true',
                 period: 'all',
                 periodOptions: [
                     { value: '24h', label: '24 Hours' },

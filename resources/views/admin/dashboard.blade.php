@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard – ImageCompressor</title>
+    <title>Admin Dashboard – CompresslyPro</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -33,8 +35,8 @@
 </head>
 
 <body class="min-h-screen font-sans transition-colors duration-300"
-      x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
-      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+      x-init="if (localStorage.getItem('darkMode') === null) { localStorage.setItem('darkMode', 'false'); }; $watch('darkMode', val => localStorage.setItem('darkMode', val))"
       :class="darkMode ? 'dark bg-gray-950 text-gray-100' : 'bg-gray-50 text-gray-900'">
 
     {{-- Sidebar + Main Layout --}}
@@ -50,14 +52,9 @@
 
             {{-- Logo --}}
             <div class="p-6 border-b border-gray-200 dark:border-gray-800">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
-                    <div>
-                        <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">ImageCompressor</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Admin Panel</p>
-                    </div>
+                <a href="{{ route('admin.dashboard') }}" class="block">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-7 w-auto dark:brightness-0 dark:invert transition-all">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Admin Panel</p>
                 </a>
             </div>
 

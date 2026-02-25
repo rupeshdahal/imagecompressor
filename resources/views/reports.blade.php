@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compression Reports – ImageCompressor</title>
+    <title>Compression Reports – CompresslyPro</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -45,10 +47,8 @@
     <nav class="bg-white/80 dark:bg-gray-900/80 glass border-b border-gray-200/60 dark:border-gray-800/60 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 group">
-                    <div class="w-9 h-9 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-8 w-auto dark:brightness-0 dark:invert transition-all">
                     <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">Admin Reports</span>
                 </a>
                 <div class="flex items-center gap-3">
@@ -312,7 +312,7 @@
     {{-- Footer --}}
     <footer class="bg-white dark:bg-gray-900 border-t border-gray-200/60 dark:border-gray-800/60 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400 dark:text-gray-500">
-            <p>&copy; {{ date('Y') }} ImageCompressor Admin Panel · <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Back to Dashboard</a></p>
+            <p>&copy; {{ date('Y') }} CompresslyPro Admin Panel · <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Back to Dashboard</a></p>
         </div>
     </footer>
 
@@ -335,8 +335,8 @@
 
                 init() {
                     if (localStorage.getItem('darkMode') === null) {
-                        this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                        localStorage.setItem('darkMode', this.darkMode);
+                        this.darkMode = false;
+                        localStorage.setItem('darkMode', 'false');
                     }
                     this.fetchData();
                 },

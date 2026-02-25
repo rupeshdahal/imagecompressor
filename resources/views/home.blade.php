@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     {{-- SEO Meta --}}
     <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%</title>
     <meta name="description" content="Compress images online for FREE! Reduce JPG, PNG, WebP file sizes by up to 90% without quality loss. Fast, secure, no signup. Convert formats. 20MB max. Start compressing now!">
     <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer, image converter, reduce file size, compress photo, online image tool, lossy compression, lossless compression">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="author" content="ImageCompressor Tool">
+    <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ url('/') }}">
     
     {{-- Additional SEO --}}
@@ -27,7 +31,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ImageCompressor">
+    <meta name="apple-mobile-web-app-title" content="CompresslyPro">
     <meta name="theme-color" content="#6366f1">
 
     {{-- Open Graph --}}
@@ -35,7 +39,7 @@
     <meta property="og:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
     <meta property="og:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size by up to 90% without quality loss. No signup required. Fast, secure, and easy to use.">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="ImageCompressor - Free Online Image Compression Tool">
+    <meta property="og:site_name" content="CompresslyPro - Free Online Image Compression Tool">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="{{ asset('og-image.png') }}">
     <meta property="og:image:width" content="1200">
@@ -48,8 +52,8 @@
     <meta name="twitter:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size without quality loss. No signup required.">
     <meta name="twitter:image" content="{{ asset('og-image.png') }}">
     <meta name="twitter:image:alt" content="Free Online Image Compressor Tool">
-    <meta name="twitter:creator" content="@imagecompressor">
-    <meta name="twitter:site" content="@imagecompressor">
+    <meta name="twitter:creator" content="@compresslypro">
+    <meta name="twitter:site" content="@compresslypro">
 
     {{-- Google Site Verification --}}
     @if(config('services.google_site_verification'))
@@ -63,7 +67,7 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Free Online Image Compressor",
-        "alternateName": "ImageCompressor Tool",
+        "alternateName": "CompresslyPro",
         "description": "Compress JPG, PNG, WebP images online for free. Reduce image file size by up to 90% without losing quality. Fast, secure, no signup required.",
         "url": "https://img.beginnersoft.com",
         "applicationCategory": "MultimediaApplication",
@@ -79,7 +83,7 @@
         },
         "creator": {
             "@type": "Organization",
-            "name": "ImageCompressor"
+            "name": "CompresslyPro"
         },
         "featureList": [
             "Compress JPG/JPEG images online",
@@ -355,11 +359,8 @@
     <nav class="bg-white/80 dark:bg-gray-900/80 glass border-b border-gray-200/60 dark:border-gray-800/60 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="/" class="flex items-center gap-2.5 group">
-                    <div class="w-9 h-9 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
-                    <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">ImageCompressor</span>
+                <a href="/" class="flex items-center group">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-8 sm:h-9 w-auto dark:brightness-0 dark:invert transition-all" style="height: 20rem;">
                 </a>
                 <div class="flex items-center gap-3">
                     <button x-on:click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
@@ -787,11 +788,9 @@
     <footer class="bg-white dark:bg-gray-900 border-t border-gray-200/60 dark:border-gray-800/60 py-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 bg-gradient-to-br from-brand-500 to-brand-700 rounded-lg flex items-center justify-center">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
-                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">&copy; {{ date('Y') }} ImageCompressor</span>
+                <div class="flex items-center gap-3">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-5 w-auto dark:brightness-0 dark:invert">
+                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">&copy; {{ date('Y') }} CompresslyPro</span>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-gray-400 dark:text-gray-500">
                     <span>Files auto-delete in 30 minutes</span>
@@ -811,9 +810,10 @@
             return {
                 darkMode: localStorage.getItem('darkMode') === 'true',
                 init() {
-                    // Watch system preference if no saved preference
+                    // Default to light mode if no saved preference
                     if (localStorage.getItem('darkMode') === null) {
-                        this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        this.darkMode = false;
+                        localStorage.setItem('darkMode', 'false');
                     }
                 }
             };
