@@ -137,11 +137,12 @@
                         </svg>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold mb-2">Compressing PDF...</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6" x-text="'Processing ' + file?.name"></p>
-                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
-                    <div class="bg-gradient-to-r from-orange-500 to-red-500 h-1.5 rounded-full w-1/3 shimmer"></div>
+                <h3 class="text-2xl font-bold mb-2" x-text="progressLabel"></h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-4" x-text="progressDetail"></p>
+                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-300" :style="'width:' + progressPercent + '%'"></div>
                 </div>
+                <p class="text-xs text-gray-400 mt-2" x-text="progressPercent + '%'"></p>
             </div>
         </div>
 
@@ -241,6 +242,9 @@
             file: null,
             quality: 'medium',
             result: {},
+            progressLabel: '',
+            progressDetail: '',
+            progressPercent: 0,
 
             handleDrop(event) {
                 this.isDragging = false;
@@ -272,24 +276,54 @@
             async compress() {
                 this.state = 'processing';
                 this.errorMessage = '';
+                this.progressLabel = 'Uploading PDF...';
+                this.progressDetail = this.file.name;
+                this.progressPercent = 10;
 
-                const formData = new FormData();
-                formData.append('pdf', this.file);
-                formData.append('quality', this.quality);
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
                 try {
+                    // Step 1: Upload PDF to temp storage
+                    const uploadForm = new FormData();
+                    uploadForm.append('file', this.file);
+
+                    const uploadResp = await fetch('{{ route("upload.temp") }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: uploadForm,
+                    });
+                    const uploadData = await uploadResp.json();
+                    if (!uploadResp.ok || !uploadData.success) {
+                        throw new Error(uploadData.message || 'Upload failed.');
+                    }
+
+                    this.progressLabel = 'Compressing PDF...';
+                    this.progressDetail = 'Applying ' + this.quality + ' quality compression';
+                    this.progressPercent = 50;
+
+                    // Step 2: Compress using the token
                     const response = await fetch('{{ route("pdf.compress") }}', {
                         method: 'POST',
                         headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'X-CSRF-TOKEN': csrfToken,
                             'Accept': 'application/json',
+                            'Content-Type': 'application/json',
                         },
-                        body: formData,
+                        body: JSON.stringify({
+                            token: uploadData.token,
+                            name: this.file.name,
+                            quality: this.quality,
+                        }),
                     });
                     const data = await response.json();
                     if (!response.ok || !data.success) {
                         throw new Error(data.message || 'Compression failed.');
                     }
+
+                    this.progressPercent = 100;
                     this.result = data;
                     this.state = 'result';
                 } catch (error) {
@@ -303,6 +337,7 @@
                 this.state = 'idle';
                 this.errorMessage = '';
                 this.result = {};
+                this.progressPercent = 0;
             },
 
             formatBytes(bytes) {

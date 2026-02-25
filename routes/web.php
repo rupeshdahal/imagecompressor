@@ -25,6 +25,9 @@ Route::get('/download/{filename}', [ImageController::class, 'download'])
 // Image Converter
 Route::get('/image-converter', [PdfController::class, 'imageConverter'])->name('image.converter');
 
+// Shared: single-file temp upload (used by Image-to-PDF and PDF Compressor)
+Route::post('/upload-temp', [PdfController::class, 'uploadTemp'])->name('upload.temp');
+
 // Image to PDF
 Route::get('/image-to-pdf', [PdfController::class, 'imageToPdf'])->name('image.to.pdf');
 Route::post('/image-to-pdf/convert', [PdfController::class, 'convertImagesToPdf'])

@@ -187,11 +187,12 @@
                         </svg>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold mb-2">Creating your PDF...</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6" x-text="'Converting ' + images.length + ' image' + (images.length > 1 ? 's' : '') + ' to PDF'"></p>
-                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
-                    <div class="bg-gradient-to-r from-red-500 to-red-600 h-1.5 rounded-full w-1/3 shimmer"></div>
+                <h3 class="text-2xl font-bold mb-2" x-text="progressLabel"></h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-4" x-text="progressDetail"></p>
+                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+                    <div class="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-300" :style="'width:' + progressPercent + '%'"></div>
                 </div>
+                <p class="text-xs text-gray-400 mt-2" x-text="progressPercent + '%'"></p>
             </div>
         </div>
 
@@ -304,6 +305,9 @@
             fitMode: 'fit',
             result: {},
             idCounter: 0,
+            progressLabel: '',
+            progressDetail: '',
+            progressPercent: 0,
 
             handleDrop(event) {
                 this.isDragging = false;
@@ -343,6 +347,7 @@
                         name: file.name,
                         size: file.size,
                         preview: URL.createObjectURL(file),
+                        token: null,
                     });
                 }
 
@@ -372,32 +377,73 @@
                 if (this.images.length === 0) this.state = 'idle';
             },
 
+            async uploadSingleFile(file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('{{ route("upload.temp") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Upload failed for ' + file.name);
+                }
+                return data.token;
+            },
+
             async convert() {
                 this.state = 'processing';
                 this.errorMessage = '';
+                this.progressLabel = 'Uploading images...';
+                this.progressPercent = 0;
 
-                const formData = new FormData();
-                this.images.forEach((img, i) => {
-                    formData.append('images[]', img.file);
-                });
-                formData.append('orientation', this.orientation);
-                formData.append('page_size', this.pageSize);
-                formData.append('margin', this.margin);
-                formData.append('fit_mode', this.fitMode);
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const tokens = [];
 
                 try {
+                    // Step 1: Upload each image one-by-one
+                    for (let i = 0; i < this.images.length; i++) {
+                        const img = this.images[i];
+                        this.progressDetail = `Uploading ${img.name} (${i + 1}/${this.images.length})`;
+                        this.progressPercent = Math.round(((i) / this.images.length) * 80);
+
+                        const token = await this.uploadSingleFile(img.file);
+                        tokens.push(token);
+                        img.token = token;
+                    }
+
+                    // Step 2: Send tokens to merge into PDF
+                    this.progressLabel = 'Creating PDF...';
+                    this.progressDetail = 'Merging ' + tokens.length + ' images into PDF';
+                    this.progressPercent = 85;
+
                     const response = await fetch('{{ route("image.to.pdf.convert") }}', {
                         method: 'POST',
                         headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'X-CSRF-TOKEN': csrfToken,
                             'Accept': 'application/json',
+                            'Content-Type': 'application/json',
                         },
-                        body: formData,
+                        body: JSON.stringify({
+                            tokens: tokens,
+                            orientation: this.orientation,
+                            page_size: this.pageSize,
+                            margin: parseInt(this.margin),
+                            fit_mode: this.fitMode,
+                        }),
                     });
+
                     const data = await response.json();
                     if (!response.ok || !data.success) {
-                        throw new Error(data.message || 'Conversion failed.');
+                        throw new Error(data.message || 'PDF creation failed.');
                     }
+
+                    this.progressPercent = 100;
                     this.result = data;
                     this.state = 'result';
                 } catch (error) {
@@ -412,6 +458,7 @@
                 this.state = 'idle';
                 this.errorMessage = '';
                 this.result = {};
+                this.progressPercent = 0;
             },
 
             formatBytes(bytes) {
