@@ -236,7 +236,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -298,13 +297,7 @@
             background: linear-gradient(135deg, #6366f1, #4f46e5); cursor: pointer; border: 3px solid white;
             box-shadow: 0 2px 8px rgba(99,102,241,0.4);
         }
-        /* Dark mode range slider thumb */
-        .dark input[type="range"]::-webkit-slider-thumb {
-            border-color: #1f2937;
-        }
-        .dark input[type="range"]::-moz-range-thumb {
-            border-color: #1f2937;
-        }
+        /* Dark mode range slider thumb - removed */
 
         /* Progress animation */
         @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
@@ -320,15 +313,12 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 3px; }
-        .dark ::-webkit-scrollbar-thumb { background: #4338ca; }
 
         /* Drop zone pulse */
         .drop-active { border-color: #6366f1 !important; background: rgba(99,102,241,0.04) !important; }
-        .dark .drop-active { background: rgba(99,102,241,0.12) !important; }
 
         /* Animated background */
         .hero-bg { background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(168,85,247,0.05) 0%, transparent 50%); }
-        .dark .hero-bg { background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 50%); }
     </style>
 
     {{-- Google Analytics - Replace with your GA4 Measurement ID --}}
@@ -354,24 +344,15 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans min-h-screen transition-colors duration-300"
-      x-data="app()" x-init="init()" :class="{ 'dark': darkMode }">
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen">
 
     {{-- Navigation --}}
-    <nav class="bg-white/80 dark:bg-gray-900/80 glass border-b border-gray-200/60 dark:border-gray-800/60 sticky top-0 z-50">
+    <nav class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-b border-indigo-800/40 sticky top-0 z-50 shadow-lg">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <a href="/" class="flex items-center group">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-14 sm:h-16 w-auto dark:brightness-0 dark:invert transition-all">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-14 sm:h-16 w-auto transition-all">
                 </a>
-                <div class="flex items-center gap-3">
-                    <button x-on:click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
-                        class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
-                        aria-label="Toggle dark mode">
-                        <svg x-show="!darkMode" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                        <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    </button>
-                </div>
             </div>
         </div>
     </nav>
@@ -497,9 +478,7 @@
                             <span class="text-sm font-bold bg-brand-100 text-brand-700 px-3 py-1 rounded-full" x-text="quality + '%'"></span>
                         </div>
                         <input type="range" min="10" max="90" step="1" x-model.number="quality"
-                               class="w-full" :style="darkMode 
-                                   ? 'background: linear-gradient(to right, #6366f1 ' + ((quality - 10) / 80 * 100) + '%, #374151 ' + ((quality - 10) / 80 * 100) + '%)'
-                                   : 'background: linear-gradient(to right, #6366f1 ' + ((quality - 10) / 80 * 100) + '%, #e5e7eb ' + ((quality - 10) / 80 * 100) + '%)'">
+                               class="w-full" :style="'background: linear-gradient(to right, #6366f1 ' + ((quality - 10) / 80 * 100) + '%, #e5e7eb ' + ((quality - 10) / 80 * 100) + '%)'">
                         <div class="flex justify-between mt-2 text-xs text-gray-400 font-medium">
                             <span>🗜️ Smaller file</span>
                             <span>🖼️ Higher quality</span>
@@ -787,16 +766,16 @@
     </section>
 
     {{-- Footer --}}
-    <footer class="bg-white dark:bg-gray-900 border-t border-gray-200/60 dark:border-gray-800/60 py-10">
+    <footer class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-t border-indigo-800/40 py-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-12 w-auto dark:brightness-0 dark:invert">
-                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">&copy; {{ date('Y') }} CompresslyPro</span>
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-12 w-auto">
+                    <span class="text-sm font-semibold text-indigo-200">&copy; {{ date('Y') }} CompresslyPro</span>
                 </div>
-                <div class="flex items-center gap-4 text-sm text-gray-400 dark:text-gray-500">
+                <div class="flex items-center gap-4 text-sm text-indigo-300/70">
                     <span>Files auto-delete in 30 minutes</span>
-                    <span class="w-1 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></span>
+                    <span class="w-1 h-1 bg-indigo-500 rounded-full"></span>
                     <span>&copy; {{ date('Y') }} All rights reserved</span>
                 </div>
             </div>
@@ -808,19 +787,6 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script>
-        function app() {
-            return {
-                darkMode: localStorage.getItem('darkMode') === 'true',
-                init() {
-                    // Default to light mode if no saved preference
-                    if (localStorage.getItem('darkMode') === null) {
-                        this.darkMode = false;
-                        localStorage.setItem('darkMode', 'false');
-                    }
-                }
-            };
-        }
-
         function compressor() {
             return {
                 state: 'idle',
