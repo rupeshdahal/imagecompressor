@@ -365,16 +365,16 @@
     @if(app()->isProduction())
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697940390340424"
      crossorigin="anonymous"></script>
-    @endif
 
     {{-- Force all sub-resources to HTTPS (prevents mixed-content Lighthouse warnings) --}}
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-    {{-- Preconnect for performance --}}
+    {{-- Preconnect / dns-prefetch hints (production only) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    @endif
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans min-h-screen">
