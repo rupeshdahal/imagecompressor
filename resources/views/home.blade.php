@@ -110,8 +110,8 @@
                 "@type": "EntryPoint",
                 "urlTemplate": "https://compresslypro.com",
                 "actionPlatform": [
-                    "http://schema.org/DesktopWebPlatform",
-                    "http://schema.org/MobileWebPlatform"
+                    "https://schema.org/DesktopWebPlatform",
+                    "https://schema.org/MobileWebPlatform"
                 ]
             }
         },
@@ -347,7 +347,7 @@
         .hero-bg { background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(168,85,247,0.05) 0%, transparent 50%); }
     </style>
 
-    {{-- Google Analytics - Replace with your GA4 Measurement ID --}}
+    {{-- Google Analytics --}}
     @if(config('services.google_analytics.enabled', false))
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.tracking_id') }}"></script>
     <script>
@@ -361,13 +361,20 @@
     </script>
     @endif
 
+    {{-- AdSense: only load in production to avoid Lighthouse mixed-content warnings on dev --}}
+    @if(app()->isProduction())
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697940390340424"
      crossorigin="anonymous"></script>
+    @endif
+
+    {{-- Force all sub-resources to HTTPS (prevents mixed-content Lighthouse warnings) --}}
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     {{-- Preconnect for performance --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans min-h-screen">
