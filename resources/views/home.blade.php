@@ -503,19 +503,6 @@
                                 <button x-on:click="quality = 80" :class="quality >= 66 && quality <= 90 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'" class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">High Quality</button>
                             </div>
                         </div>
-                        {{-- Output Format --}}
-                        <div>
-                            <label class="text-sm font-semibold text-gray-700 mb-3 block">Output Format</label>
-                            <div class="grid grid-cols-4 gap-2">
-                                <template x-for="fmt in ['original', 'jpg', 'png', 'webp']" :key="fmt">
-                                    <button x-on:click="outputFormat = fmt"
-                                        :class="outputFormat === fmt ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-500/25' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'"
-                                        class="px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all text-center"
-                                        x-text="fmt === 'original' ? 'Original' : fmt.toUpperCase()">
-                                    </button>
-                                </template>
-                            </div>
-                        </div>
                         <div class="flex items-center gap-2 text-sm text-gray-400 bg-gray-50 rounded-xl px-4 py-3">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Estimated time: <strong class="text-gray-600" x-text="estimatedTime()"></strong></span>
@@ -542,9 +529,11 @@
                         </div>
                     </div>
                     <h3 class="text-2xl font-bold mb-2">Compressing your image...</h3>
-                    <p class="text-gray-500 mb-6">This usually takes just a few seconds</p>
-                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
-                        <div class="bg-gradient-to-r from-brand-500 to-brand-600 h-1.5 rounded-full w-1/3 shimmer"></div>
+                    <p class="text-gray-500 mb-4" x-text="uploadProgress > 0 && uploadProgress < 100 ? 'Uploading... ' + uploadProgress + '%' : 'Processing…'"></p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+                        <div class="bg-gradient-to-r from-brand-500 to-brand-600 h-2 rounded-full transition-all duration-300"
+                             :class="uploadProgress === 0 || uploadProgress === 100 ? 'shimmer' : ''"
+                             :style="'width:' + (uploadProgress > 0 ? uploadProgress : 33) + '%'"></div>
                     </div>
                 </div>
             </div>
@@ -742,9 +731,11 @@
                         </div>
                     </div>
                     <h3 class="text-2xl font-bold mb-2">Converting your image...</h3>
-                    <p class="text-gray-500 mb-6">This usually takes just a few seconds</p>
-                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
-                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full w-1/3 shimmer"></div>
+                    <p class="text-gray-500 mb-4" x-text="cuploadProgress > 0 && cuploadProgress < 100 ? 'Uploading... ' + cuploadProgress + '%' : 'Processing…'"></p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                             :class="cuploadProgress === 0 || cuploadProgress === 100 ? 'shimmer' : ''"
+                             :style="'width:' + (cuploadProgress > 0 ? cuploadProgress : 33) + '%'"></div>
                     </div>
                 </div>
             </div>
@@ -964,6 +955,40 @@
             return { activeTab: 'compress' };
         }
 
+        /* ─── Shared chunked uploader ────────────────────────────────── */
+        const CHUNK_SIZE = 1 * 1024 * 1024; // 1 MB per chunk
+
+        async function uploadInChunks(file, onProgress) {
+            const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+            const uploadId    = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+            const csrf        = document.querySelector('meta[name="csrf-token"]').content;
+
+            for (let i = 0; i < totalChunks; i++) {
+                const start = i * CHUNK_SIZE;
+                const end   = Math.min(start + CHUNK_SIZE, file.size);
+                const chunk = file.slice(start, end);
+
+                const fd = new FormData();
+                fd.append('chunk',        chunk, file.name);
+                fd.append('upload_id',    uploadId);
+                fd.append('chunk_index',  i);
+                fd.append('total_chunks', totalChunks);
+
+                const res = await fetch('{{ route("upload.chunk") }}', {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                    body: fd,
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || `Chunk ${i} upload failed.`);
+                }
+                // Report progress: chunk upload counts for 80%, finalize for remaining 20%
+                onProgress(Math.round(((i + 1) / totalChunks) * 80));
+            }
+            return { uploadId, totalChunks };
+        }
+
         /* ─── COMPRESS component ─────────────────────────────────────── */
         function compressor() {
             return {
@@ -979,10 +1004,10 @@
                 outputFormat: 'original',
                 result: {},
                 previewUrl: null,
+                uploadProgress: 0,
 
                 initComp() {
                     document.addEventListener('paste', (event) => {
-                        // Only handle paste when compress tab is visible and idle/error
                         if (document.querySelector('[x-data="toolTabs()"]')?._x_dataStack?.[0]?.activeTab !== 'compress') return;
                         if (this.state === 'idle' || this.state === 'error') {
                             this.handlePaste(event);
@@ -1040,23 +1065,49 @@
 
                 async compress() {
                     this.state = 'processing';
+                    this.uploadProgress = 0;
                     this.errorMessage = '';
-                    const formData = new FormData();
-                    formData.append('image', this.file);
-                    formData.append('quality', this.quality);
-                    formData.append('format', this.outputFormat);
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
                     try {
-                        const response = await fetch('{{ route("image.compress") }}', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                'Accept': 'application/json',
-                            },
-                            body: formData,
-                        });
-                        const data = await response.json();
-                        if (!response.ok || !data.success) throw new Error(data.message || 'Compression failed. Please try again.');
-                        this.result = data;
+                        // Small files (≤ 2MB): single direct upload
+                        if (this.file.size <= 2 * 1024 * 1024) {
+                            this.uploadProgress = 40;
+                            const formData = new FormData();
+                            formData.append('image',   this.file);
+                            formData.append('quality', this.quality);
+                            formData.append('format',  this.outputFormat);
+                            const response = await fetch('{{ route("image.compress") }}', {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                                body: formData,
+                            });
+                            this.uploadProgress = 90;
+                            const data = await response.json();
+                            if (!response.ok || !data.success) throw new Error(data.message || 'Compression failed. Please try again.');
+                            this.uploadProgress = 100;
+                            this.result = data;
+                        } else {
+                            // Large files: chunked upload then finalize
+                            const { uploadId, totalChunks } = await uploadInChunks(this.file, p => { this.uploadProgress = p; });
+                            this.uploadProgress = 85;
+                            const fd = new FormData();
+                            fd.append('upload_id',     uploadId);
+                            fd.append('total_chunks',  totalChunks);
+                            fd.append('original_name', this.file.name);
+                            fd.append('action',        'compress');
+                            fd.append('quality',       this.quality);
+                            fd.append('format',        this.outputFormat);
+                            const response = await fetch('{{ route("upload.finalize") }}', {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                                body: fd,
+                            });
+                            this.uploadProgress = 100;
+                            const data = await response.json();
+                            if (!response.ok || !data.success) throw new Error(data.message || 'Compression failed. Please try again.');
+                            this.result = data;
+                        }
                         this.state = 'result';
                     } catch (error) {
                         this.errorMessage = error.message || 'An unexpected error occurred.';
@@ -1067,7 +1118,7 @@
                 reset() {
                     this.state = 'idle'; this.file = null; this.fileName = ''; this.fileSize = 0;
                     this.fileType = ''; this.quality = 50; this.outputFormat = 'original';
-                    this.result = {}; this.errorMessage = '';
+                    this.result = {}; this.errorMessage = ''; this.uploadProgress = 0;
                     if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl); this.previewUrl = null; }
                     if (this.$refs.fileInputC) this.$refs.fileInputC.value = '';
                 },
@@ -1102,6 +1153,7 @@
                 ctargetFormat: '',
                 cresult: {},
                 cpreviewUrl: null,
+                cuploadProgress: 0,
 
                 initConv() {
                     document.addEventListener('paste', (event) => {
@@ -1148,7 +1200,6 @@
                     this.cfileSize = file.size;
                     this.cfileType = file.type.split('/')[1];
                     if (this.cfileType === 'jpeg') this.cfileType = 'jpg';
-                    // Auto-suggest a different target format
                     const suggestions = { jpg: 'webp', png: 'webp', webp: 'jpg', gif: 'png' };
                     this.ctargetFormat = suggestions[this.cfileType] || 'jpg';
                     if (this.cpreviewUrl) URL.revokeObjectURL(this.cpreviewUrl);
@@ -1159,22 +1210,47 @@
                 async cconvert() {
                     if (!this.ctargetFormat) return;
                     this.cstate = 'processing';
+                    this.cuploadProgress = 0;
                     this.cerrorMessage = '';
-                    const formData = new FormData();
-                    formData.append('image', this.cfile);
-                    formData.append('format', this.ctargetFormat);
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
                     try {
-                        const response = await fetch('{{ route("image.convert") }}', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                'Accept': 'application/json',
-                            },
-                            body: formData,
-                        });
-                        const data = await response.json();
-                        if (!response.ok || !data.success) throw new Error(data.message || 'Conversion failed. Please try again.');
-                        this.cresult = data;
+                        // Small files (≤ 2MB): single direct upload
+                        if (this.cfile.size <= 2 * 1024 * 1024) {
+                            this.cuploadProgress = 40;
+                            const formData = new FormData();
+                            formData.append('image',  this.cfile);
+                            formData.append('format', this.ctargetFormat);
+                            const response = await fetch('{{ route("image.convert") }}', {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                                body: formData,
+                            });
+                            this.cuploadProgress = 90;
+                            const data = await response.json();
+                            if (!response.ok || !data.success) throw new Error(data.message || 'Conversion failed. Please try again.');
+                            this.cuploadProgress = 100;
+                            this.cresult = data;
+                        } else {
+                            // Large files: chunked upload then finalize
+                            const { uploadId, totalChunks } = await uploadInChunks(this.cfile, p => { this.cuploadProgress = p; });
+                            this.cuploadProgress = 85;
+                            const fd = new FormData();
+                            fd.append('upload_id',     uploadId);
+                            fd.append('total_chunks',  totalChunks);
+                            fd.append('original_name', this.cfile.name);
+                            fd.append('action',        'convert');
+                            fd.append('format',        this.ctargetFormat);
+                            const response = await fetch('{{ route("upload.finalize") }}', {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                                body: fd,
+                            });
+                            this.cuploadProgress = 100;
+                            const data = await response.json();
+                            if (!response.ok || !data.success) throw new Error(data.message || 'Conversion failed. Please try again.');
+                            this.cresult = data;
+                        }
                         this.cstate = 'result';
                     } catch (error) {
                         this.cerrorMessage = error.message || 'An unexpected error occurred.';
@@ -1185,6 +1261,7 @@
                 creset() {
                     this.cstate = 'idle'; this.cfile = null; this.cfileName = ''; this.cfileSize = 0;
                     this.cfileType = ''; this.ctargetFormat = ''; this.cresult = ''; this.cerrorMessage = '';
+                    this.cuploadProgress = 0;
                     if (this.cpreviewUrl) { URL.revokeObjectURL(this.cpreviewUrl); this.cpreviewUrl = null; }
                     if (this.$refs.fileInputV) this.$refs.fileInputV.value = '';
                 },

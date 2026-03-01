@@ -22,6 +22,14 @@ Route::post('/convert', [ImageController::class, 'convert'])
     ->name('image.convert')
     ->middleware('throttle:30,1');
 
+Route::post('/upload/chunk', [ImageController::class, 'uploadChunk'])
+    ->name('upload.chunk')
+    ->middleware('throttle:120,1');
+
+Route::post('/upload/finalize', [ImageController::class, 'finalizeUpload'])
+    ->name('upload.finalize')
+    ->middleware('throttle:30,1');
+
 Route::get('/download/{filename}', [ImageController::class, 'download'])
     ->name('image.download');
 

@@ -17,9 +17,9 @@ use App\Models\CompressionReport;
 class ImageController extends Controller
 {
     /**
-     * Maximum file size in bytes (10MB).
+     * Maximum file size in bytes (20MB).
      */
-    private const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    private const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
     /**
      * Allowed MIME types.
@@ -47,6 +47,226 @@ class ImageController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    /**
+     * Receive a single chunk of an uploading file.
+     * Chunks are stored in a temp directory keyed by upload_id.
+     */
+    public function uploadChunk(Request $request): JsonResponse
+    {
+        $request->validate([
+            'chunk'       => 'required|file',
+            'upload_id'   => 'required|string|max:64',
+            'chunk_index' => 'required|integer|min:0',
+            'total_chunks'=> 'required|integer|min:1|max:200',
+        ]);
+
+        // Sanitize upload_id: only allow alphanumeric + hyphens
+        $uploadId = preg_replace('/[^a-zA-Z0-9\-]/', '', $request->input('upload_id'));
+        if (empty($uploadId)) {
+            return response()->json(['success' => false, 'message' => 'Invalid upload ID.'], 422);
+        }
+
+        $chunkIndex  = (int) $request->input('chunk_index');
+        $totalChunks = (int) $request->input('total_chunks');
+        $chunk       = $request->file('chunk');
+
+        // Store chunk in temp location
+        $chunkDir = storage_path("app/temp-uploads/{$uploadId}");
+        if (!is_dir($chunkDir)) {
+            mkdir($chunkDir, 0755, true);
+        }
+
+        $chunkPath = "{$chunkDir}/chunk_{$chunkIndex}";
+        $chunk->move($chunkDir, "chunk_{$chunkIndex}");
+
+        return response()->json([
+            'success'      => true,
+            'chunk_index'  => $chunkIndex,
+            'total_chunks' => $totalChunks,
+        ]);
+    }
+
+    /**
+     * Assemble all chunks into a single file, then compress or convert it.
+     */
+    public function finalizeUpload(Request $request): JsonResponse
+    {
+        ini_set('memory_limit', '512M');
+
+        $request->validate([
+            'upload_id'    => 'required|string|max:64',
+            'total_chunks' => 'required|integer|min:1|max:200',
+            'original_name'=> 'required|string|max:255',
+            'action'       => 'required|string|in:compress,convert',
+            'quality'      => 'nullable|integer|min:10|max:90',
+            'format'       => 'nullable|string|in:original,jpg,png,webp',
+        ]);
+
+        $uploadId    = preg_replace('/[^a-zA-Z0-9\-]/', '', $request->input('upload_id'));
+        $totalChunks = (int) $request->input('total_chunks');
+        $action      = $request->input('action');
+        $chunkDir    = storage_path("app/temp-uploads/{$uploadId}");
+
+        // Verify all chunks present
+        for ($i = 0; $i < $totalChunks; $i++) {
+            if (!file_exists("{$chunkDir}/chunk_{$i}")) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Upload incomplete. Missing chunk {$i}. Please try again.",
+                ], 422);
+            }
+        }
+
+        // Assemble chunks
+        $originalName = $request->input('original_name');
+        $ext          = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
+        }
+
+        $assembledPath = storage_path("app/temp-uploads/{$uploadId}/assembled.{$ext}");
+        $out = fopen($assembledPath, 'wb');
+        for ($i = 0; $i < $totalChunks; $i++) {
+            $chunkData = file_get_contents("{$chunkDir}/chunk_{$i}");
+            fwrite($out, $chunkData);
+            unlink("{$chunkDir}/chunk_{$i}");
+        }
+        fclose($out);
+
+        // Security: validate MIME of assembled file
+        $mime = mime_content_type($assembledPath);
+        if (!in_array($mime, self::ALLOWED_MIMES, true)) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => 'Invalid file type detected after assembly.'], 422);
+        }
+
+        // Validate total size
+        $originalSize = filesize($assembledPath);
+        if ($originalSize > self::MAX_FILE_SIZE) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => 'File exceeds the 20MB limit.'], 422);
+        }
+
+        $safeName   = Str::slug(Str::limit(pathinfo($originalName, PATHINFO_FILENAME), 50, '')) ?: 'image';
+        $uniqueId   = Str::random(12);
+        $quality    = (int) ($request->input('quality', 50));
+
+        try {
+            if ($action === 'compress') {
+                $outputExt      = self::MIME_TO_EXT[$mime] ?? 'jpg';
+                $outputFilename = "{$safeName}-compressed-{$uniqueId}.{$outputExt}";
+                $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+
+                $image   = Image::read($assembledPath);
+                $encoder = $this->getEncoder($outputExt, $quality);
+                $encoded = $image->encode($encoder);
+                file_put_contents($outputPath, (string) $encoded);
+
+                $compressedSize = filesize($outputPath);
+                $reduction      = $originalSize > 0
+                    ? round((1 - $compressedSize / $originalSize) * 100, 1) : 0;
+                $dimensions     = getimagesize($outputPath);
+
+                try {
+                    CompressionReport::create([
+                        'original_name'     => $originalName,
+                        'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
+                        'output_format'     => $outputExt,
+                        'original_size'     => $originalSize,
+                        'compressed_size'   => $compressedSize,
+                        'reduction_percent' => $reduction,
+                        'quality'           => $quality,
+                        'width'             => $dimensions[0] ?? null,
+                        'height'            => $dimensions[1] ?? null,
+                        'ip_address'        => $request->ip(),
+                        'user_agent'        => Str::limit($request->userAgent(), 250),
+                    ]);
+                } catch (\Throwable $e) { report($e); }
+
+                $this->cleanupChunks($chunkDir);
+
+                return response()->json([
+                    'success'              => true,
+                    'original_size'        => $originalSize,
+                    'compressed_size'      => $compressedSize,
+                    'reduction'            => $reduction,
+                    'download_url'         => route('image.download', ['filename' => $outputFilename]),
+                    'filename'             => $outputFilename,
+                    'original_name'        => $originalName,
+                    'format'               => strtoupper($outputExt),
+                    'width'                => $dimensions[0] ?? null,
+                    'height'               => $dimensions[1] ?? null,
+                    'formatted_original'   => $this->formatBytes($originalSize),
+                    'formatted_compressed' => $this->formatBytes($compressedSize),
+                ]);
+
+            } else { // convert
+                $outputExt      = $request->input('format', 'jpg');
+                if (!in_array($outputExt, ['jpg', 'png', 'webp'])) $outputExt = 'jpg';
+                $outputFilename = "{$safeName}-converted-{$uniqueId}.{$outputExt}";
+                $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+
+                $image   = Image::read($assembledPath);
+                $encoder = $this->getEncoder($outputExt, 90);
+                $encoded = $image->encode($encoder);
+                file_put_contents($outputPath, (string) $encoded);
+
+                $convertedSize = filesize($outputPath);
+                $dimensions    = getimagesize($outputPath);
+
+                try {
+                    CompressionReport::create([
+                        'original_name'     => $originalName,
+                        'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
+                        'output_format'     => $outputExt,
+                        'original_size'     => $originalSize,
+                        'compressed_size'   => $convertedSize,
+                        'reduction_percent' => 0,
+                        'quality'           => 90,
+                        'width'             => $dimensions[0] ?? null,
+                        'height'            => $dimensions[1] ?? null,
+                        'ip_address'        => $request->ip(),
+                        'user_agent'        => Str::limit($request->userAgent(), 250),
+                    ]);
+                } catch (\Throwable $e) { report($e); }
+
+                $this->cleanupChunks($chunkDir);
+
+                return response()->json([
+                    'success'             => true,
+                    'original_size'       => $originalSize,
+                    'converted_size'      => $convertedSize,
+                    'download_url'        => route('image.download', ['filename' => $outputFilename]),
+                    'filename'            => $outputFilename,
+                    'original_name'       => $originalName,
+                    'format'              => strtoupper($outputExt),
+                    'width'               => $dimensions[0] ?? null,
+                    'height'              => $dimensions[1] ?? null,
+                    'formatted_original'  => $this->formatBytes($originalSize),
+                    'formatted_converted' => $this->formatBytes($convertedSize),
+                ]);
+            }
+        } catch (\Throwable $e) {
+            $this->cleanupChunks($chunkDir);
+            report($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while processing the image. Please try again.',
+            ], 500);
+        }
+    }
+
+    /**
+     * Remove the temp chunk directory.
+     */
+    private function cleanupChunks(string $dir): void
+    {
+        if (!is_dir($dir)) return;
+        foreach (glob("{$dir}/*") as $f) { @unlink($f); }
+        @rmdir($dir);
     }
 
     /**
