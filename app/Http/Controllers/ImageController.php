@@ -50,6 +50,93 @@ class ImageController extends Controller
     }
 
     /**
+     * Handle image conversion via AJAX (format change, lossless quality).
+     */
+    public function convert(Request $request): JsonResponse
+    {
+        ini_set('memory_limit', '512M');
+
+        $key = 'convert:' . $request->ip();
+        if (RateLimiter::tooManyAttempts($key, 30)) {
+            $seconds = RateLimiter::availableIn($key);
+            return response()->json([
+                'success' => false,
+                'message' => "Too many requests. Please try again in {$seconds} seconds.",
+            ], 429);
+        }
+        RateLimiter::hit($key, 60);
+
+        $validated = $request->validate([
+            'image'  => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
+            'format' => 'required|string|in:jpg,png,webp',
+        ]);
+
+        try {
+            $file = $request->file('image');
+            $mime = $file->getMimeType();
+
+            if (!in_array($mime, self::ALLOWED_MIMES, true)) {
+                return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
+            }
+
+            $originalSize  = $file->getSize();
+            $outputExt     = $validated['format'];
+            $originalName  = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeName      = Str::slug(Str::limit($originalName, 50, '')) ?: 'image';
+            $uniqueId      = Str::random(12);
+            $outputFilename = "{$safeName}-converted-{$uniqueId}.{$outputExt}";
+            $outputPath    = storage_path("app/public/uploads/{$outputFilename}");
+
+            $image   = Image::read($file->getRealPath());
+            // Use high quality (90) for conversion to avoid degradation
+            $encoder = $this->getEncoder($outputExt, 90);
+            $encoded = $image->encode($encoder);
+            file_put_contents($outputPath, (string) $encoded);
+
+            $convertedSize = filesize($outputPath);
+            $dimensions    = getimagesize($outputPath);
+
+            try {
+                CompressionReport::create([
+                    'original_name'     => $file->getClientOriginalName(),
+                    'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
+                    'output_format'     => $outputExt,
+                    'original_size'     => $originalSize,
+                    'compressed_size'   => $convertedSize,
+                    'reduction_percent' => 0,
+                    'quality'           => 90,
+                    'width'             => $dimensions[0] ?? null,
+                    'height'            => $dimensions[1] ?? null,
+                    'ip_address'        => $request->ip(),
+                    'user_agent'        => Str::limit($request->userAgent(), 250),
+                ]);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
+            return response()->json([
+                'success'            => true,
+                'original_size'      => $originalSize,
+                'converted_size'     => $convertedSize,
+                'download_url'       => route('image.download', ['filename' => $outputFilename]),
+                'filename'           => $outputFilename,
+                'original_name'      => $file->getClientOriginalName(),
+                'format'             => strtoupper($outputExt),
+                'width'              => $dimensions[0] ?? null,
+                'height'             => $dimensions[1] ?? null,
+                'formatted_original' => $this->formatBytes($originalSize),
+                'formatted_converted'=> $this->formatBytes($convertedSize),
+            ]);
+        } catch (\Throwable $e) {
+            report($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while converting the image. Please try again.',
+            ], 500);
+        }
+    }
+
+    /**
      * Handle image compression via AJAX.
      */
     public function compress(Request $request): JsonResponse

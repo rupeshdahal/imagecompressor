@@ -373,266 +373,431 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-slide-down">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                100% Free · No Signup · Unlimited Compressions
+                100% Free · No Signup · Compress & Convert
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5">
-                Free Online Image Compressor –
-                <span class="gradient-text">Reduce JPG, PNG & WebP File Size by 90%</span>
+                Free Online Image
+                <span class="gradient-text">Compressor & Converter</span>
             </h1>
             <p class="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                Compress images online FREE! Reduce JPG, PNG & WebP file size up to <strong class="text-gray-700">90% smaller</strong> without quality loss. No signup. Instant results. Convert formats. Privacy-first compression tool.
+                Compress JPG, PNG & WebP images up to <strong class="text-gray-700">90% smaller</strong> — or convert between formats instantly. No signup. Privacy-first.
             </p>
         </div>
     </header>
 
-    {{-- Main App --}}
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 -mt-2" x-data="compressor()" x-cloak itemscope itemtype="https://schema.org/SoftwareApplication">
+    {{-- ============================================================ --}}
+    {{-- TOOL TABS: Compress / Convert                                --}}
+    {{-- ============================================================ --}}
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-12" x-data="toolTabs()">
 
-        {{-- ======== IDLE / ERROR STATE: Upload Area ======== --}}
-        <div x-show="state === 'idle' || state === 'error'" class="animate-slide-up">
-
-            {{-- Drop Zone --}}
-            <div id="dropZone"
-                 x-on:dragover.prevent="isDragging = true"
-                 x-on:dragleave.prevent="isDragging = false"
-                 x-on:drop.prevent="handleDrop($event)"
-                 x-on:click="$refs.fileInput.click()"
-                 :class="{ 'drop-active ring-2 ring-brand-400': isDragging, 'ring-2 ring-green-400': isPasting }"
-                 class="relative bg-white border-2 border-dashed border-gray-300 rounded-3xl p-10 sm:p-14 text-center cursor-pointer hover:border-brand-400:border-brand-500 transition-all duration-300 group shadow-sm hover:shadow-lg">
-
-                <input type="file" x-ref="fileInput" x-on:change="handleFileSelect($event)" accept=".jpg,.jpeg,.png,.webp,.gif" class="hidden">
-
-                {{-- Floating icon --}}
-                <div class="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-6">
-                    <div class="absolute inset-0 bg-brand-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
-                    <div class="relative bg-gradient-to-br from-brand-500 to-brand-700 rounded-3xl w-full h-full flex items-center justify-center shadow-xl shadow-brand-500/25">
-                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
-                    </div>
-                </div>
-
-                <h2 class="text-xl sm:text-2xl font-bold mb-2">Drop your image here</h2>
-                <p class="text-gray-500 mb-5">or <span class="text-brand-600 font-semibold underline decoration-brand-300 underline-offset-2">browse files</span> from your device</p>
-                
-                {{-- Paste hint --}}
-                <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded">Ctrl+V</kbd> to paste</span>
-                </div>
-
-                {{-- Format badges --}}
-                <div class="flex flex-wrap justify-center gap-2">
-                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">JPG</span>
-                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">PNG</span>
-                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">WEBP</span>
-                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">GIF</span>
-                    <span class="inline-flex items-center gap-1 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                        Max 20MB
-                    </span>
-                </div>
-            </div>
-
-            {{-- Error Alert --}}
-            <div x-show="errorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-scale-in">
-                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div>
-                    <p class="text-red-700 text-sm font-medium" x-text="errorMessage"></p>
-                    <button x-on:click="errorMessage = ''" class="text-red-400 text-xs mt-1 hover:text-red-600 transition-colors">Dismiss</button>
-                </div>
-            </div>
+        {{-- Tab Switcher --}}
+        <div class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 shadow-sm">
+            <button x-on:click="activeTab = 'compress'"
+                :class="activeTab === 'compress'
+                    ? 'bg-white text-brand-700 shadow-sm font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm sm:text-base transition-all duration-200">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                </svg>
+                <span>Compress Image</span>
+            </button>
+            <button x-on:click="activeTab = 'convert'"
+                :class="activeTab === 'convert'
+                    ? 'bg-white text-purple-700 shadow-sm font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm sm:text-base transition-all duration-200">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/>
+                </svg>
+                <span>Convert Format</span>
+            </button>
         </div>
 
-        {{-- ======== SETTINGS STATE ======== --}}
-        <div x-show="state === 'settings'" x-transition class="animate-slide-up">
-            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 overflow-hidden">
+        {{-- ======================== COMPRESS TAB ======================== --}}
+        <div x-show="activeTab === 'compress'" x-transition.opacity.duration.200ms
+             x-data="compressor()" x-init="initComp()" itemscope itemtype="https://schema.org/SoftwareApplication">
 
-                {{-- File Header --}}
-                <div class="px-6 sm:px-8 pt-6 sm:pt-8 pb-5 border-b border-gray-100 flex items-center gap-4">
-                    <div class="w-14 h-14 bg-gradient-to-br from-brand-100 to-brand-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+            {{-- IDLE / ERROR --}}
+            <div x-show="state === 'idle' || state === 'error'" class="animate-slide-up">
+                <div id="dropZone"
+                     x-on:dragover.prevent="isDragging = true"
+                     x-on:dragleave.prevent="isDragging = false"
+                     x-on:drop.prevent="handleDrop($event)"
+                     x-on:click="$refs.fileInputC.click()"
+                     :class="{ 'drop-active ring-2 ring-brand-400': isDragging, 'ring-2 ring-green-400': isPasting }"
+                     class="relative bg-white border-2 border-dashed border-gray-300 rounded-3xl p-10 sm:p-14 text-center cursor-pointer transition-all duration-300 group shadow-sm hover:shadow-lg hover:border-brand-400">
+                    <input type="file" x-ref="fileInputC" x-on:change="handleFileSelect($event)" accept=".jpg,.jpeg,.png,.webp,.gif" class="hidden">
+                    <div class="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-6">
+                        <div class="absolute inset-0 bg-brand-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+                        <div class="relative bg-gradient-to-br from-brand-500 to-brand-700 rounded-3xl w-full h-full flex items-center justify-center shadow-xl shadow-brand-500/25">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                        </div>
                     </div>
-                    <div class="min-w-0 flex-1">
-                        <p class="font-bold text-base truncate" x-text="fileName"></p>
-                        <p class="text-sm text-gray-500 flex items-center gap-2">
-                            <span x-text="formatBytes(fileSize)"></span>
-                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
-                            <span x-text="fileType.toUpperCase()"></span>
-                        </p>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2">Drop your image here</h2>
+                    <p class="text-gray-500 mb-5">or <span class="text-brand-600 font-semibold underline decoration-brand-300 underline-offset-2">browse files</span> from your device</p>
+                    <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded">Ctrl+V</kbd> to paste</span>
                     </div>
-                    <button x-on:click="reset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50:bg-red-900/20 transition-all" title="Remove file">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">JPG</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">PNG</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">WEBP</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">GIF</span>
+                        <span class="inline-flex items-center gap-1 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            Max 20MB
+                        </span>
+                    </div>
                 </div>
-
-                <div class="px-6 sm:px-8 py-6 sm:py-8 space-y-7">
-
-                    {{-- Image Preview --}}
-                    <div x-show="previewUrl" class="rounded-2xl overflow-hidden bg-gray-100 max-h-64 flex items-center justify-center">
-                        <img :src="previewUrl" alt="Preview" class="max-h-64 object-contain w-full" loading="lazy">
+                <div x-show="errorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-
-                    {{-- Quality Slider --}}
                     <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <label class="text-sm font-semibold text-gray-700">Compression Quality</label>
-                            <span class="text-sm font-bold bg-brand-100 text-brand-700 px-3 py-1 rounded-full" x-text="quality + '%'"></span>
-                        </div>
-                        <input type="range" min="10" max="90" step="1" x-model.number="quality"
-                               class="w-full" :style="'background: linear-gradient(to right, #6366f1 ' + ((quality - 10) / 80 * 100) + '%, #e5e7eb ' + ((quality - 10) / 80 * 100) + '%)'">
-                        <div class="flex justify-between mt-2 text-xs text-gray-400 font-medium">
-                            <span>🗜️ Smaller file</span>
-                            <span>🖼️ Higher quality</span>
-                        </div>
+                        <p class="text-red-700 text-sm font-medium" x-text="errorMessage"></p>
+                        <button x-on:click="errorMessage = ''" class="text-red-400 text-xs mt-1 hover:text-red-600 transition-colors">Dismiss</button>
+                    </div>
+                </div>
+            </div>
 
-                        {{-- Quick Presets --}}
-                        <div class="flex gap-2 mt-4">
-                            <button x-on:click="quality = 20"
-                                :class="quality >= 10 && quality <= 30 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'"
-                                class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">
-                                Max Compression
-                            </button>
-                            <button x-on:click="quality = 50"
-                                :class="quality >= 31 && quality <= 65 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'"
-                                class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">
-                                Balanced
-                            </button>
-                            <button x-on:click="quality = 80"
-                                :class="quality >= 66 && quality <= 90 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'"
-                                class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">
-                                High Quality
-                            </button>
+            {{-- SETTINGS --}}
+            <div x-show="state === 'settings'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 overflow-hidden">
+                    <div class="px-6 sm:px-8 pt-6 sm:pt-8 pb-5 border-b border-gray-100 flex items-center gap-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-brand-100 to-brand-50 rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="font-bold text-base truncate" x-text="fileName"></p>
+                            <p class="text-sm text-gray-500 flex items-center gap-2">
+                                <span x-text="formatBytes(fileSize)"></span>
+                                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                <span x-text="fileType.toUpperCase()"></span>
+                            </p>
+                        </div>
+                        <button x-on:click="reset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all" title="Remove file">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <div class="px-6 sm:px-8 py-6 sm:py-8 space-y-7">
+                        <div x-show="previewUrl" class="rounded-2xl overflow-hidden bg-gray-100 max-h-64 flex items-center justify-center">
+                            <img :src="previewUrl" alt="Preview" class="max-h-64 object-contain w-full" loading="lazy">
+                        </div>
+                        {{-- Quality Slider --}}
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <label class="text-sm font-semibold text-gray-700">Compression Quality</label>
+                                <span class="text-sm font-bold bg-brand-100 text-brand-700 px-3 py-1 rounded-full" x-text="quality + '%'"></span>
+                            </div>
+                            <input type="range" min="10" max="90" step="1" x-model.number="quality"
+                                   class="w-full" :style="'background: linear-gradient(to right, #6366f1 ' + ((quality-10)/80*100) + '%, #e5e7eb ' + ((quality-10)/80*100) + '%)'">
+                            <div class="flex justify-between mt-2 text-xs text-gray-400 font-medium">
+                                <span>🗜️ Smaller file</span>
+                                <span>🖼️ Higher quality</span>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button x-on:click="quality = 20" :class="quality >= 10 && quality <= 30 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'" class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">Max Compression</button>
+                                <button x-on:click="quality = 50" :class="quality >= 31 && quality <= 65 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'" class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">Balanced</button>
+                                <button x-on:click="quality = 80" :class="quality >= 66 && quality <= 90 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'" class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">High Quality</button>
+                            </div>
+                        </div>
+                        {{-- Output Format --}}
+                        <div>
+                            <label class="text-sm font-semibold text-gray-700 mb-3 block">Output Format</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <template x-for="fmt in ['original', 'jpg', 'png', 'webp']" :key="fmt">
+                                    <button x-on:click="outputFormat = fmt"
+                                        :class="outputFormat === fmt ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-500/25' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'"
+                                        class="px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all text-center"
+                                        x-text="fmt === 'original' ? 'Original' : fmt.toUpperCase()">
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400 bg-gray-50 rounded-xl px-4 py-3">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Estimated time: <strong class="text-gray-600" x-text="estimatedTime()"></strong></span>
+                        </div>
+                        <button x-on:click="compress()"
+                            class="w-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-brand-500/25 hover:scale-[1.02] active:scale-[0.98]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                            Compress Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PROCESSING --}}
+            <div x-show="state === 'processing'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-10 sm:p-14 text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-6">
+                        <div class="absolute inset-0 rounded-full bg-brand-100 animate-ping opacity-40"></div>
+                        <div class="relative w-full h-full rounded-full bg-brand-50 flex items-center justify-center">
+                            <svg class="animate-spin w-10 h-10 text-brand-600" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+                                <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                            </svg>
                         </div>
                     </div>
+                    <h3 class="text-2xl font-bold mb-2">Compressing your image...</h3>
+                    <p class="text-gray-500 mb-6">This usually takes just a few seconds</p>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
+                        <div class="bg-gradient-to-r from-brand-500 to-brand-600 h-1.5 rounded-full w-1/3 shimmer"></div>
+                    </div>
+                </div>
+            </div>
 
-                    {{-- Output Format --}}
+            {{-- RESULT --}}
+            <div x-show="state === 'result'" x-transition class="animate-slide-up space-y-5">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                        <div class="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                        </div>
+                        <p class="text-xs text-gray-400 font-medium mb-0.5">Original</p>
+                        <p class="text-base sm:text-lg font-bold text-gray-700" x-text="result.formatted_original"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                        <div class="w-9 h-9 bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-4 h-4 text-accent-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <p class="text-xs text-gray-400 font-medium mb-0.5">Compressed</p>
+                        <p class="text-base sm:text-lg font-bold text-accent-600" x-text="result.formatted_compressed"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-2" :class="result.reduction > 0 ? 'bg-green-50' : 'bg-red-50'">
+                            <svg class="w-4 h-4" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        </div>
+                        <p class="text-xs text-gray-400 font-medium mb-0.5">Saved</p>
+                        <p class="text-base sm:text-lg font-bold" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" x-text="result.reduction + '%'"></p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-6 sm:p-8">
+                    <div class="mb-6">
+                        <div class="flex justify-between text-xs font-medium text-gray-400 mb-2">
+                            <span>File size reduction</span>
+                            <span x-text="result.reduction + '% smaller'"></span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                            <div class="h-3 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 transition-all duration-1000 ease-out" :style="'width:' + Math.min(Math.max(result.reduction, 2), 100) + '%'"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                        <a :href="result.download_url" download
+                           class="flex-1 bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-accent-500/25 hover:scale-[1.02] active:scale-[0.98]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Download Compressed
+                        </a>
+                        <button x-on:click="reset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            New Image
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm pt-5 border-t border-gray-100">
+                        <div class="flex justify-between"><span class="text-gray-400">Format</span><strong class="text-gray-900" x-text="result.format"></strong></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Dimensions</span><strong class="text-gray-900" x-text="(result.width || '—') + ' × ' + (result.height || '—')"></strong></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Quality</span><strong class="text-gray-900" x-text="quality + '%'"></strong></div>
+                        <div class="flex justify-between"><span class="text-gray-400">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900" x-text="result.original_name"></strong></div>
+                    </div>
+                </div>
+                <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">Advertisement</div>
+            </div>
+        </div>{{-- end compress tab --}}
+
+        {{-- ======================== CONVERT TAB ======================== --}}
+        <div x-show="activeTab === 'convert'" x-transition.opacity.duration.200ms
+             x-data="converter()" x-init="initConv()">
+
+            {{-- IDLE / ERROR --}}
+            <div x-show="cstate === 'idle' || cstate === 'error'" class="animate-slide-up">
+                <div x-on:dragover.prevent="cisDragging = true"
+                     x-on:dragleave.prevent="cisDragging = false"
+                     x-on:drop.prevent="cHandleDrop($event)"
+                     x-on:click="$refs.fileInputV.click()"
+                     :class="{ 'drop-active ring-2 ring-purple-400': cisDragging }"
+                     class="relative bg-white border-2 border-dashed border-gray-300 rounded-3xl p-10 sm:p-14 text-center cursor-pointer transition-all duration-300 group shadow-sm hover:shadow-lg hover:border-purple-400">
+                    <input type="file" x-ref="fileInputV" x-on:change="cHandleFileSelect($event)" accept=".jpg,.jpeg,.png,.webp,.gif" class="hidden">
+                    <div class="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-6">
+                        <div class="absolute inset-0 bg-purple-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+                        <div class="relative bg-gradient-to-br from-purple-500 to-purple-700 rounded-3xl w-full h-full flex items-center justify-center shadow-xl shadow-purple-500/25">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2">Drop your image to convert</h2>
+                    <p class="text-gray-500 mb-5">or <span class="text-purple-600 font-semibold underline decoration-purple-300 underline-offset-2">browse files</span> from your device</p>
+                    <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded">Ctrl+V</kbd> to paste</span>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">JPG</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">PNG</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">WEBP</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">GIF</span>
+                        <span class="inline-flex items-center gap-1 bg-purple-50 text-purple-600 text-xs font-semibold px-3 py-1.5 rounded-full">Max 20MB</span>
+                    </div>
+                </div>
+                <div x-show="cerrorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
                     <div>
-                        <label class="text-sm font-semibold text-gray-700 mb-3 block">Output Format</label>
-                        <div class="grid grid-cols-4 gap-2">
-                            <template x-for="fmt in ['original', 'jpg', 'png', 'webp']" :key="fmt">
-                                <button x-on:click="outputFormat = fmt"
-                                    :class="outputFormat === fmt ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-500/25' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'"
-                                    class="px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all text-center"
-                                    x-text="fmt === 'original' ? 'Original' : fmt.toUpperCase()">
-                                </button>
-                            </template>
+                        <p class="text-red-700 text-sm font-medium" x-text="cerrorMessage"></p>
+                        <button x-on:click="cerrorMessage = ''" class="text-red-400 text-xs mt-1 hover:text-red-600 transition-colors">Dismiss</button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- SETTINGS --}}
+            <div x-show="cstate === 'settings'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 overflow-hidden">
+                    <div class="px-6 sm:px-8 pt-6 sm:pt-8 pb-5 border-b border-gray-100 flex items-center gap-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="font-bold text-base truncate" x-text="cfileName"></p>
+                            <p class="text-sm text-gray-500 flex items-center gap-2">
+                                <span x-text="cformatBytes(cfileSize)"></span>
+                                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                <span x-text="cfileType.toUpperCase()"></span>
+                            </p>
+                        </div>
+                        <button x-on:click="creset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all" title="Remove file">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <div class="px-6 sm:px-8 py-6 sm:py-8 space-y-7">
+                        <div x-show="cpreviewUrl" class="rounded-2xl overflow-hidden bg-gray-100 max-h-64 flex items-center justify-center">
+                            <img :src="cpreviewUrl" alt="Preview" class="max-h-64 object-contain w-full" loading="lazy">
+                        </div>
+
+                        {{-- Format Picker with arrow --}}
+                        <div>
+                            <label class="text-sm font-semibold text-gray-700 mb-4 block">Convert To Format</label>
+
+                            {{-- From / To visual --}}
+                            <div class="flex items-center gap-3 mb-5 bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                                <div class="flex-1 text-center">
+                                    <p class="text-xs text-gray-400 font-medium mb-1">From</p>
+                                    <span class="inline-block bg-gray-200 text-gray-700 font-bold text-sm px-4 py-2 rounded-xl uppercase" x-text="cfileType || '?'"></span>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1 text-center">
+                                    <p class="text-xs text-gray-400 font-medium mb-1">To</p>
+                                    <span class="inline-block bg-purple-600 text-white font-bold text-sm px-4 py-2 rounded-xl uppercase" x-text="ctargetFormat || 'Select'"></span>
+                                </div>
+                            </div>
+
+                            {{-- Format buttons --}}
+                            <div class="grid grid-cols-3 gap-3">
+                                <template x-for="fmt in ['jpg', 'png', 'webp']" :key="fmt">
+                                    <button x-on:click="ctargetFormat = fmt"
+                                        :class="ctargetFormat === fmt
+                                            ? 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-500/25 scale-105'
+                                            : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300'"
+                                        class="px-4 py-4 rounded-2xl border text-sm font-bold transition-all duration-150 text-center">
+                                        <div class="text-lg mb-1" x-text="fmt === 'jpg' ? '📸' : fmt === 'png' ? '🎨' : '🌐'"></div>
+                                        <div x-text="fmt.toUpperCase()"></div>
+                                        <div class="text-xs mt-0.5 opacity-70" x-text="fmt === 'jpg' ? 'Smallest size' : fmt === 'png' ? 'Lossless' : 'Modern web'"></div>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                        {{-- Info note --}}
+                        <div class="flex items-start gap-3 bg-purple-50 border border-purple-100 rounded-xl px-4 py-3 text-sm text-purple-700">
+                            <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Images are converted at high quality (90%). Use the <strong>Compress</strong> tab to reduce file size.</span>
+                        </div>
+
+                        <button x-on:click="cconvert()" :disabled="!ctargetFormat"
+                            :class="ctargetFormat ? 'opacity-100 hover:scale-[1.02] active:scale-[0.98]' : 'opacity-50 cursor-not-allowed'"
+                            class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-purple-500/25">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
+                            Convert to <span class="uppercase ml-1" x-text="ctargetFormat || '...'"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PROCESSING --}}
+            <div x-show="cstate === 'processing'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-10 sm:p-14 text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-6">
+                        <div class="absolute inset-0 rounded-full bg-purple-100 animate-ping opacity-40"></div>
+                        <div class="relative w-full h-full rounded-full bg-purple-50 flex items-center justify-center">
+                            <svg class="animate-spin w-10 h-10 text-purple-600" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+                                <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                            </svg>
                         </div>
                     </div>
-
-                    {{-- Estimated Time --}}
-                    <div class="flex items-center gap-2 text-sm text-gray-400 bg-gray-50 rounded-xl px-4 py-3">
-                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Estimated time: <strong class="text-gray-600" x-text="estimatedTime()"></strong></span>
+                    <h3 class="text-2xl font-bold mb-2">Converting your image...</h3>
+                    <p class="text-gray-500 mb-6">This usually takes just a few seconds</p>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full w-1/3 shimmer"></div>
                     </div>
-
-                    {{-- Compress Button --}}
-                    <button x-on:click="compress()"
-                        class="w-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-brand-500/25 hover:shadow-brand-500/40 hover:scale-[1.02] active:scale-[0.98]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-                        Compress Image
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        {{-- ======== PROCESSING STATE ======== --}}
-        <div x-show="state === 'processing'" x-transition class="animate-slide-up">
-            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-10 sm:p-14 text-center">
-                <div class="relative w-20 h-20 mx-auto mb-6">
-                    <div class="absolute inset-0 rounded-full bg-brand-100 animate-ping opacity-40"></div>
-                    <div class="relative w-full h-full rounded-full bg-brand-50 flex items-center justify-center">
-                        <svg class="animate-spin w-10 h-10 text-brand-600" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
-                            <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                        </svg>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-bold mb-2">Compressing your image...</h3>
-                <p class="text-gray-500 mb-6">This usually takes just a few seconds</p>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
-                    <div class="bg-gradient-to-r from-brand-500 to-brand-600 h-1.5 rounded-full w-1/3 shimmer"></div>
-                </div>
-            </div>
-        </div>
-
-        {{-- ======== RESULT STATE ======== --}}
-        <div x-show="state === 'result'" x-transition class="animate-slide-up space-y-5">
-
-            {{-- Stats Row --}}
-            <div class="grid grid-cols-3 gap-3">
-                <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
-                    <div class="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-                    </div>
-                    <p class="text-xs text-gray-400 font-medium mb-0.5">Original</p>
-                    <p class="text-base sm:text-lg font-bold text-gray-700" x-text="result.formatted_original"></p>
-                </div>
-                <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
-                    <div class="w-9 h-9 bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-2">
-                        <svg class="w-4 h-4 text-accent-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <p class="text-xs text-gray-400 font-medium mb-0.5">Compressed</p>
-                    <p class="text-base sm:text-lg font-bold text-accent-600" x-text="result.formatted_compressed"></p>
-                </div>
-                <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
-                    <div class="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-2"
-                         :class="result.reduction > 0 ? 'bg-green-50' : 'bg-red-50'">
-                        <svg class="w-4 h-4" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    </div>
-                    <p class="text-xs text-gray-400 font-medium mb-0.5">Saved</p>
-                    <p class="text-base sm:text-lg font-bold"
-                       :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'"
-                       x-text="result.reduction + '%'"></p>
                 </div>
             </div>
 
-            {{-- Actions Card --}}
-            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-6 sm:p-8">
-
-                {{-- Reduction bar visual --}}
-                <div class="mb-6">
-                    <div class="flex justify-between text-xs font-medium text-gray-400 mb-2">
-                        <span>File size reduction</span>
-                        <span x-text="result.reduction + '% smaller'"></span>
+            {{-- RESULT --}}
+            <div x-show="cstate === 'result'" x-transition class="animate-slide-up space-y-5">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                        <div class="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                        </div>
+                        <p class="text-xs text-gray-400 font-medium mb-0.5">Original</p>
+                        <p class="text-base sm:text-lg font-bold text-gray-700" x-text="cresult.formatted_original"></p>
                     </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                        <div class="h-3 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 transition-all duration-1000 ease-out" :style="'width:' + Math.min(Math.max(result.reduction, 2), 100) + '%'"></div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                        <div class="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <p class="text-xs text-gray-400 font-medium mb-0.5">Converted</p>
+                        <p class="text-base sm:text-lg font-bold text-purple-600" x-text="cresult.formatted_converted"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                        <div class="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5"/></svg>
+                        </div>
+                        <p class="text-xs text-gray-400 font-medium mb-0.5">Format</p>
+                        <p class="text-base sm:text-lg font-bold text-purple-600 uppercase" x-text="cresult.format"></p>
                     </div>
                 </div>
-
-                {{-- Buttons --}}
-                <div class="flex flex-col sm:flex-row gap-3 mb-6">
-                    <a :href="result.download_url" download
-                       class="flex-1 bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-accent-500/25 hover:shadow-accent-500/40 hover:scale-[1.02] active:scale-[0.98]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        Download
-                    </a>
-                    <button x-on:click="reset()"
-                        class="bg-gray-100 hover:bg-gray-200:bg-gray-700 text-gray-700 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                        New Image
-                    </button>
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                        <a :href="cresult.download_url" download
+                           class="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Download Converted
+                        </a>
+                        <button x-on:click="creset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            New Image
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm pt-5 border-t border-gray-100">
+                        <div class="flex justify-between"><span class="text-gray-400">Output Format</span><strong class="text-gray-900 uppercase" x-text="cresult.format"></strong></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Dimensions</span><strong class="text-gray-900" x-text="(cresult.width || '—') + ' × ' + (cresult.height || '—')"></strong></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Original Size</span><strong class="text-gray-900" x-text="cresult.formatted_original"></strong></div>
+                        <div class="flex justify-between"><span class="text-gray-400">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900" x-text="cresult.original_name"></strong></div>
+                    </div>
                 </div>
-
-                {{-- Details Grid --}}
-                <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm pt-5 border-t border-gray-100">
-                    <div class="flex justify-between"><span class="text-gray-400">Format</span><strong class="text-gray-900" x-text="result.format"></strong></div>
-                    <div class="flex justify-between"><span class="text-gray-400">Dimensions</span><strong class="text-gray-900" x-text="(result.width || '—') + ' × ' + (result.height || '—')"></strong></div>
-                    <div class="flex justify-between"><span class="text-gray-400">Quality</span><strong class="text-gray-900" x-text="quality + '%'"></strong></div>
-                    <div class="flex justify-between"><span class="text-gray-400">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900" x-text="result.original_name"></strong></div>
-                </div>
+                <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">Advertisement</div>
             </div>
+        </div>{{-- end convert tab --}}
 
-            {{-- Ad: Below Download --}}
-            <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">
-                Advertisement
-            </div>
-        </div>
-
-    </main>
+    </div>{{-- end toolTabs wrapper --}}
 
     {{-- Ad Banner: Middle --}}
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
@@ -794,6 +959,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script>
+        /* ─── Tab controller ─────────────────────────────────────────── */
+        function toolTabs() {
+            return { activeTab: 'compress' };
+        }
+
+        /* ─── COMPRESS component ─────────────────────────────────────── */
         function compressor() {
             return {
                 state: 'idle',
@@ -809,9 +980,10 @@
                 result: {},
                 previewUrl: null,
 
-                init() {
-                    // Add paste event listener
+                initComp() {
                     document.addEventListener('paste', (event) => {
+                        // Only handle paste when compress tab is visible and idle/error
+                        if (document.querySelector('[x-data="toolTabs()"]')?._x_dataStack?.[0]?.activeTab !== 'compress') return;
                         if (this.state === 'idle' || this.state === 'error') {
                             this.handlePaste(event);
                         }
@@ -821,17 +993,13 @@
                 handlePaste(event) {
                     const items = event.clipboardData?.items;
                     if (!items) return;
-
                     for (let i = 0; i < items.length; i++) {
                         if (items[i].type.indexOf('image') !== -1) {
                             event.preventDefault();
                             this.isPasting = true;
                             const file = items[i].getAsFile();
                             if (file) {
-                                setTimeout(() => {
-                                    this.processFile(file);
-                                    this.isPasting = false;
-                                }, 300);
+                                setTimeout(() => { this.processFile(file); this.isPasting = false; }, 300);
                             }
                             break;
                         }
@@ -854,25 +1022,19 @@
                     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
                     if (!allowedTypes.includes(file.type)) {
                         this.errorMessage = 'Invalid file type. Please upload a JPG, PNG, WEBP, or GIF image.';
-                        this.state = 'error';
-                        return;
+                        this.state = 'error'; return;
                     }
-                    const maxSize = 20 * 1024 * 1024;
-                    if (file.size > maxSize) {
+                    if (file.size > 20 * 1024 * 1024) {
                         this.errorMessage = 'File size exceeds 20MB. Please choose a smaller image.';
-                        this.state = 'error';
-                        return;
+                        this.state = 'error'; return;
                     }
                     this.file = file;
                     this.fileName = file.name;
                     this.fileSize = file.size;
                     this.fileType = file.type.split('/')[1];
                     if (this.fileType === 'jpeg') this.fileType = 'jpg';
-
-                    // Generate preview
                     if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
                     this.previewUrl = URL.createObjectURL(file);
-
                     this.state = 'settings';
                 },
 
@@ -883,7 +1045,6 @@
                     formData.append('image', this.file);
                     formData.append('quality', this.quality);
                     formData.append('format', this.outputFormat);
-
                     try {
                         const response = await fetch('{{ route("image.compress") }}', {
                             method: 'POST',
@@ -894,9 +1055,7 @@
                             body: formData,
                         });
                         const data = await response.json();
-                        if (!response.ok || !data.success) {
-                            throw new Error(data.message || 'Compression failed. Please try again.');
-                        }
+                        if (!response.ok || !data.success) throw new Error(data.message || 'Compression failed. Please try again.');
                         this.result = data;
                         this.state = 'result';
                     } catch (error) {
@@ -906,23 +1065,16 @@
                 },
 
                 reset() {
-                    this.state = 'idle';
-                    this.file = null;
-                    this.fileName = '';
-                    this.fileSize = 0;
-                    this.fileType = '';
-                    this.quality = 50;
-                    this.outputFormat = 'original';
-                    this.result = {};
-                    this.errorMessage = '';
+                    this.state = 'idle'; this.file = null; this.fileName = ''; this.fileSize = 0;
+                    this.fileType = ''; this.quality = 50; this.outputFormat = 'original';
+                    this.result = {}; this.errorMessage = '';
                     if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl); this.previewUrl = null; }
-                    if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                    if (this.$refs.fileInputC) this.$refs.fileInputC.value = '';
                 },
 
                 formatBytes(bytes, p = 2) {
                     if (bytes === 0) return '0 B';
-                    const u = ['B', 'KB', 'MB', 'GB'];
-                    let i = 0, s = bytes;
+                    const u = ['B','KB','MB','GB']; let i = 0, s = bytes;
                     while (s >= 1024 && i < u.length - 1) { s /= 1024; i++; }
                     return s.toFixed(p) + ' ' + u[i];
                 },
@@ -933,6 +1085,115 @@
                     if (sec <= 2) return '~1-2 seconds';
                     if (sec <= 5) return '~3-5 seconds';
                     return '~' + sec + ' seconds';
+                },
+            };
+        }
+
+        /* ─── CONVERT component ──────────────────────────────────────── */
+        function converter() {
+            return {
+                cstate: 'idle',
+                cisDragging: false,
+                cerrorMessage: '',
+                cfile: null,
+                cfileName: '',
+                cfileSize: 0,
+                cfileType: '',
+                ctargetFormat: '',
+                cresult: {},
+                cpreviewUrl: null,
+
+                initConv() {
+                    document.addEventListener('paste', (event) => {
+                        if (document.querySelector('[x-data="toolTabs()"]')?._x_dataStack?.[0]?.activeTab !== 'convert') return;
+                        if (this.cstate === 'idle' || this.cstate === 'error') {
+                            const items = event.clipboardData?.items;
+                            if (!items) return;
+                            for (let i = 0; i < items.length; i++) {
+                                if (items[i].type.indexOf('image') !== -1) {
+                                    event.preventDefault();
+                                    const file = items[i].getAsFile();
+                                    if (file) this.cProcessFile(file);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                },
+
+                cHandleDrop(event) {
+                    this.cisDragging = false;
+                    const files = event.dataTransfer.files;
+                    if (files.length > 0) this.cProcessFile(files[0]);
+                },
+
+                cHandleFileSelect(event) {
+                    const files = event.target.files;
+                    if (files.length > 0) this.cProcessFile(files[0]);
+                },
+
+                cProcessFile(file) {
+                    this.cerrorMessage = '';
+                    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                    if (!allowedTypes.includes(file.type)) {
+                        this.cerrorMessage = 'Invalid file type. Please upload a JPG, PNG, WEBP, or GIF image.';
+                        this.cstate = 'error'; return;
+                    }
+                    if (file.size > 20 * 1024 * 1024) {
+                        this.cerrorMessage = 'File size exceeds 20MB. Please choose a smaller image.';
+                        this.cstate = 'error'; return;
+                    }
+                    this.cfile = file;
+                    this.cfileName = file.name;
+                    this.cfileSize = file.size;
+                    this.cfileType = file.type.split('/')[1];
+                    if (this.cfileType === 'jpeg') this.cfileType = 'jpg';
+                    // Auto-suggest a different target format
+                    const suggestions = { jpg: 'webp', png: 'webp', webp: 'jpg', gif: 'png' };
+                    this.ctargetFormat = suggestions[this.cfileType] || 'jpg';
+                    if (this.cpreviewUrl) URL.revokeObjectURL(this.cpreviewUrl);
+                    this.cpreviewUrl = URL.createObjectURL(file);
+                    this.cstate = 'settings';
+                },
+
+                async cconvert() {
+                    if (!this.ctargetFormat) return;
+                    this.cstate = 'processing';
+                    this.cerrorMessage = '';
+                    const formData = new FormData();
+                    formData.append('image', this.cfile);
+                    formData.append('format', this.ctargetFormat);
+                    try {
+                        const response = await fetch('{{ route("image.convert") }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json',
+                            },
+                            body: formData,
+                        });
+                        const data = await response.json();
+                        if (!response.ok || !data.success) throw new Error(data.message || 'Conversion failed. Please try again.');
+                        this.cresult = data;
+                        this.cstate = 'result';
+                    } catch (error) {
+                        this.cerrorMessage = error.message || 'An unexpected error occurred.';
+                        this.cstate = 'error';
+                    }
+                },
+
+                creset() {
+                    this.cstate = 'idle'; this.cfile = null; this.cfileName = ''; this.cfileSize = 0;
+                    this.cfileType = ''; this.ctargetFormat = ''; this.cresult = ''; this.cerrorMessage = '';
+                    if (this.cpreviewUrl) { URL.revokeObjectURL(this.cpreviewUrl); this.cpreviewUrl = null; }
+                    if (this.$refs.fileInputV) this.$refs.fileInputV.value = '';
+                },
+
+                cformatBytes(bytes, p = 2) {
+                    if (bytes === 0) return '0 B';
+                    const u = ['B','KB','MB','GB']; let i = 0, s = bytes;
+                    while (s >= 1024 && i < u.length - 1) { s /= 1024; i++; }
+                    return s.toFixed(p) + ' ' + u[i];
                 },
             };
         }

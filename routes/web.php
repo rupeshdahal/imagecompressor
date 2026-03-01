@@ -18,6 +18,10 @@ Route::post('/compress', [ImageController::class, 'compress'])
     ->name('image.compress')
     ->middleware('throttle:30,1');
 
+Route::post('/convert', [ImageController::class, 'convert'])
+    ->name('image.convert')
+    ->middleware('throttle:30,1');
+
 Route::get('/download/{filename}', [ImageController::class, 'download'])
     ->name('image.download');
 
