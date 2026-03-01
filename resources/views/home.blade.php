@@ -6,7 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     {{-- SEO Meta --}}
@@ -360,7 +362,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <a href="/" class="flex items-center group">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-8 sm:h-9 w-auto dark:brightness-0 dark:invert transition-all" style="height: 20rem;">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-14 sm:h-16 w-auto dark:brightness-0 dark:invert transition-all">
                 </a>
                 <div class="flex items-center gap-3">
                     <button x-on:click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
@@ -376,7 +378,7 @@
 
     {{-- Ad Banner: Top --}}
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-        <div class="bg-gray-100/60 dark:bg-gray-800/40 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-3 text-center text-gray-400 dark:text-gray-600 text-xs font-medium tracking-wide uppercase">
+        <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">
             Advertisement
         </div>
     </div>
@@ -384,7 +386,7 @@
     {{-- Hero Section --}}
     <header class="hero-bg pt-10 pb-6 sm:pt-14 sm:pb-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center gap-2 bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-slide-down">
+            <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-slide-down">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 100% Free · No Signup · Unlimited Compressions
             </div>
@@ -392,8 +394,8 @@
                 Free Online Image Compressor –
                 <span class="gradient-text">Reduce JPG, PNG & WebP File Size by 90%</span>
             </h1>
-            <p class="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                Compress images online FREE! Reduce JPG, PNG & WebP file size up to <strong class="text-gray-700 dark:text-gray-200">90% smaller</strong> without quality loss. No signup. Instant results. Convert formats. Privacy-first compression tool.
+            <p class="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                Compress images online FREE! Reduce JPG, PNG & WebP file size up to <strong class="text-gray-700">90% smaller</strong> without quality loss. No signup. Instant results. Convert formats. Privacy-first compression tool.
             </p>
         </div>
     </header>
@@ -410,37 +412,37 @@
                  x-on:dragleave.prevent="isDragging = false"
                  x-on:drop.prevent="handleDrop($event)"
                  x-on:click="$refs.fileInput.click()"
-                 :class="{ 'drop-active ring-2 ring-brand-400': isDragging, 'ring-2 ring-green-400 dark:ring-green-500': isPasting }"
-                 class="relative bg-white dark:bg-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-3xl p-10 sm:p-14 text-center cursor-pointer hover:border-brand-400 dark:hover:border-brand-500 transition-all duration-300 group shadow-sm hover:shadow-lg">
+                 :class="{ 'drop-active ring-2 ring-brand-400': isDragging, 'ring-2 ring-green-400': isPasting }"
+                 class="relative bg-white border-2 border-dashed border-gray-300 rounded-3xl p-10 sm:p-14 text-center cursor-pointer hover:border-brand-400:border-brand-500 transition-all duration-300 group shadow-sm hover:shadow-lg">
 
                 <input type="file" x-ref="fileInput" x-on:change="handleFileSelect($event)" accept=".jpg,.jpeg,.png,.webp,.gif" class="hidden">
 
                 {{-- Floating icon --}}
                 <div class="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-6">
-                    <div class="absolute inset-0 bg-brand-100 dark:bg-brand-900/40 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+                    <div class="absolute inset-0 bg-brand-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
                     <div class="relative bg-gradient-to-br from-brand-500 to-brand-700 rounded-3xl w-full h-full flex items-center justify-center shadow-xl shadow-brand-500/25">
                         <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
                     </div>
                 </div>
 
                 <h2 class="text-xl sm:text-2xl font-bold mb-2">Drop your image here</h2>
-                <p class="text-gray-500 dark:text-gray-400 mb-5">or <span class="text-brand-600 dark:text-brand-400 font-semibold underline decoration-brand-300 underline-offset-2">browse files</span> from your device</p>
+                <p class="text-gray-500 mb-5">or <span class="text-brand-600 font-semibold underline decoration-brand-300 underline-offset-2">browse files</span> from your device</p>
                 
                 {{-- Paste hint --}}
-                <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400 dark:text-gray-500">
+                <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded">Ctrl+V</kbd> to paste</span>
+                    <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded">Ctrl+V</kbd> to paste</span>
                 </div>
 
                 {{-- Format badges --}}
                 <div class="flex flex-wrap justify-center gap-2">
-                    <span class="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs font-semibold px-3 py-1.5 rounded-full">JPG</span>
-                    <span class="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs font-semibold px-3 py-1.5 rounded-full">PNG</span>
-                    <span class="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs font-semibold px-3 py-1.5 rounded-full">WEBP</span>
-                    <span class="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs font-semibold px-3 py-1.5 rounded-full">GIF</span>
-                    <span class="inline-flex items-center gap-1 bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 text-xs font-semibold px-3 py-1.5 rounded-full">
+                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">JPG</span>
+                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">PNG</span>
+                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">WEBP</span>
+                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">GIF</span>
+                    <span class="inline-flex items-center gap-1 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                         Max 20MB
                     </span>
@@ -448,12 +450,12 @@
             </div>
 
             {{-- Error Alert --}}
-            <div x-show="errorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/40 rounded-2xl p-4 flex items-start gap-3 animate-scale-in">
-                <div class="w-8 h-8 bg-red-100 dark:bg-red-900/40 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div x-show="errorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-scale-in">
+                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                     <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                    <p class="text-red-700 dark:text-red-300 text-sm font-medium" x-text="errorMessage"></p>
+                    <p class="text-red-700 text-sm font-medium" x-text="errorMessage"></p>
                     <button x-on:click="errorMessage = ''" class="text-red-400 text-xs mt-1 hover:text-red-600 transition-colors">Dismiss</button>
                 </div>
             </div>
@@ -461,22 +463,22 @@
 
         {{-- ======== SETTINGS STATE ======== --}}
         <div x-show="state === 'settings'" x-transition class="animate-slide-up">
-            <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-200/60 dark:border-gray-800/60 overflow-hidden">
+            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 overflow-hidden">
 
                 {{-- File Header --}}
-                <div class="px-6 sm:px-8 pt-6 sm:pt-8 pb-5 border-b border-gray-100 dark:border-gray-800 flex items-center gap-4">
-                    <div class="w-14 h-14 bg-gradient-to-br from-brand-100 to-brand-50 dark:from-brand-900/40 dark:to-brand-800/20 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-7 h-7 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                <div class="px-6 sm:px-8 pt-6 sm:pt-8 pb-5 border-b border-gray-100 flex items-center gap-4">
+                    <div class="w-14 h-14 bg-gradient-to-br from-brand-100 to-brand-50 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
                     </div>
                     <div class="min-w-0 flex-1">
                         <p class="font-bold text-base truncate" x-text="fileName"></p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                        <p class="text-sm text-gray-500 flex items-center gap-2">
                             <span x-text="formatBytes(fileSize)"></span>
-                            <span class="w-1 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></span>
+                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
                             <span x-text="fileType.toUpperCase()"></span>
                         </p>
                     </div>
-                    <button x-on:click="reset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all" title="Remove file">
+                    <button x-on:click="reset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50:bg-red-900/20 transition-all" title="Remove file">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
@@ -484,21 +486,21 @@
                 <div class="px-6 sm:px-8 py-6 sm:py-8 space-y-7">
 
                     {{-- Image Preview --}}
-                    <div x-show="previewUrl" class="rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 max-h-64 flex items-center justify-center">
+                    <div x-show="previewUrl" class="rounded-2xl overflow-hidden bg-gray-100 max-h-64 flex items-center justify-center">
                         <img :src="previewUrl" alt="Preview" class="max-h-64 object-contain w-full" loading="lazy">
                     </div>
 
                     {{-- Quality Slider --}}
                     <div>
                         <div class="flex items-center justify-between mb-3">
-                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Compression Quality</label>
-                            <span class="text-sm font-bold bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 px-3 py-1 rounded-full" x-text="quality + '%'"></span>
+                            <label class="text-sm font-semibold text-gray-700">Compression Quality</label>
+                            <span class="text-sm font-bold bg-brand-100 text-brand-700 px-3 py-1 rounded-full" x-text="quality + '%'"></span>
                         </div>
                         <input type="range" min="10" max="90" step="1" x-model.number="quality"
                                class="w-full" :style="darkMode 
                                    ? 'background: linear-gradient(to right, #6366f1 ' + ((quality - 10) / 80 * 100) + '%, #374151 ' + ((quality - 10) / 80 * 100) + '%)'
                                    : 'background: linear-gradient(to right, #6366f1 ' + ((quality - 10) / 80 * 100) + '%, #e5e7eb ' + ((quality - 10) / 80 * 100) + '%)'">
-                        <div class="flex justify-between mt-2 text-xs text-gray-400 dark:text-gray-500 font-medium">
+                        <div class="flex justify-between mt-2 text-xs text-gray-400 font-medium">
                             <span>🗜️ Smaller file</span>
                             <span>🖼️ Higher quality</span>
                         </div>
@@ -506,17 +508,17 @@
                         {{-- Quick Presets --}}
                         <div class="flex gap-2 mt-4">
                             <button x-on:click="quality = 20"
-                                :class="quality >= 10 && quality <= 30 ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 border-brand-200 dark:border-brand-700 ring-1 ring-brand-200 dark:ring-brand-700' : 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-brand-300'"
+                                :class="quality >= 10 && quality <= 30 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'"
                                 class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">
                                 Max Compression
                             </button>
                             <button x-on:click="quality = 50"
-                                :class="quality >= 31 && quality <= 65 ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 border-brand-200 dark:border-brand-700 ring-1 ring-brand-200 dark:ring-brand-700' : 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-brand-300'"
+                                :class="quality >= 31 && quality <= 65 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'"
                                 class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">
                                 Balanced
                             </button>
                             <button x-on:click="quality = 80"
-                                :class="quality >= 66 && quality <= 90 ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 border-brand-200 dark:border-brand-700 ring-1 ring-brand-200 dark:ring-brand-700' : 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-brand-300'"
+                                :class="quality >= 66 && quality <= 90 ? 'bg-brand-100 text-brand-700 border-brand-200 ring-1 ring-brand-200' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-brand-300'"
                                 class="flex-1 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all text-center">
                                 High Quality
                             </button>
@@ -525,11 +527,11 @@
 
                     {{-- Output Format --}}
                     <div>
-                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 block">Output Format</label>
+                        <label class="text-sm font-semibold text-gray-700 mb-3 block">Output Format</label>
                         <div class="grid grid-cols-4 gap-2">
                             <template x-for="fmt in ['original', 'jpg', 'png', 'webp']" :key="fmt">
                                 <button x-on:click="outputFormat = fmt"
-                                    :class="outputFormat === fmt ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-500/25' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-brand-300'"
+                                    :class="outputFormat === fmt ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-500/25' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'"
                                     class="px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all text-center"
                                     x-text="fmt === 'original' ? 'Original' : fmt.toUpperCase()">
                                 </button>
@@ -538,9 +540,9 @@
                     </div>
 
                     {{-- Estimated Time --}}
-                    <div class="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-4 py-3">
+                    <div class="flex items-center gap-2 text-sm text-gray-400 bg-gray-50 rounded-xl px-4 py-3">
                         <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Estimated time: <strong class="text-gray-600 dark:text-gray-300" x-text="estimatedTime()"></strong></span>
+                        <span>Estimated time: <strong class="text-gray-600" x-text="estimatedTime()"></strong></span>
                     </div>
 
                     {{-- Compress Button --}}
@@ -555,10 +557,10 @@
 
         {{-- ======== PROCESSING STATE ======== --}}
         <div x-show="state === 'processing'" x-transition class="animate-slide-up">
-            <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-200/60 dark:border-gray-800/60 p-10 sm:p-14 text-center">
+            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-10 sm:p-14 text-center">
                 <div class="relative w-20 h-20 mx-auto mb-6">
-                    <div class="absolute inset-0 rounded-full bg-brand-100 dark:bg-brand-900/30 animate-ping opacity-40"></div>
-                    <div class="relative w-full h-full rounded-full bg-brand-50 dark:bg-brand-900/20 flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full bg-brand-100 animate-ping opacity-40"></div>
+                    <div class="relative w-full h-full rounded-full bg-brand-50 flex items-center justify-center">
                         <svg class="animate-spin w-10 h-10 text-brand-600" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
                             <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
@@ -566,8 +568,8 @@
                     </div>
                 </div>
                 <h3 class="text-2xl font-bold mb-2">Compressing your image...</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6">This usually takes just a few seconds</p>
-                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
+                <p class="text-gray-500 mb-6">This usually takes just a few seconds</p>
+                <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden max-w-xs mx-auto">
                     <div class="bg-gradient-to-r from-brand-500 to-brand-600 h-1.5 rounded-full w-1/3 shimmer"></div>
                 </div>
             </div>
@@ -578,34 +580,34 @@
 
             {{-- Stats Row --}}
             <div class="grid grid-cols-3 gap-3">
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-4 sm:p-5 text-center shadow-sm">
-                    <div class="w-9 h-9 bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center mx-auto mb-2">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                    <div class="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
                     </div>
-                    <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-0.5">Original</p>
-                    <p class="text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200" x-text="result.formatted_original"></p>
+                    <p class="text-xs text-gray-400 font-medium mb-0.5">Original</p>
+                    <p class="text-base sm:text-lg font-bold text-gray-700" x-text="result.formatted_original"></p>
                 </div>
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-4 sm:p-5 text-center shadow-sm">
-                    <div class="w-9 h-9 bg-accent-50 dark:bg-accent-900/30 rounded-xl flex items-center justify-center mx-auto mb-2">
-                        <svg class="w-4 h-4 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
+                    <div class="w-9 h-9 bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+                        <svg class="w-4 h-4 text-accent-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-0.5">Compressed</p>
-                    <p class="text-base sm:text-lg font-bold text-accent-600 dark:text-accent-400" x-text="result.formatted_compressed"></p>
+                    <p class="text-xs text-gray-400 font-medium mb-0.5">Compressed</p>
+                    <p class="text-base sm:text-lg font-bold text-accent-600" x-text="result.formatted_compressed"></p>
                 </div>
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-4 sm:p-5 text-center shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
                     <div class="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-2"
-                         :class="result.reduction > 0 ? 'bg-green-50 dark:bg-green-900/30' : 'bg-red-50 dark:bg-red-900/30'">
-                        <svg class="w-4 h-4" :class="result.reduction > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                         :class="result.reduction > 0 ? 'bg-green-50' : 'bg-red-50'">
+                        <svg class="w-4 h-4" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                     </div>
-                    <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-0.5">Saved</p>
+                    <p class="text-xs text-gray-400 font-medium mb-0.5">Saved</p>
                     <p class="text-base sm:text-lg font-bold"
-                       :class="result.reduction > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500'"
+                       :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'"
                        x-text="result.reduction + '%'"></p>
                 </div>
             </div>
 
             {{-- Actions Card --}}
-            <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-8">
+            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-6 sm:p-8">
 
                 {{-- Reduction bar visual --}}
                 <div class="mb-6">
@@ -613,7 +615,7 @@
                         <span>File size reduction</span>
                         <span x-text="result.reduction + '% smaller'"></span>
                     </div>
-                    <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-3 overflow-hidden">
+                    <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
                         <div class="h-3 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 transition-all duration-1000 ease-out" :style="'width:' + Math.min(Math.max(result.reduction, 2), 100) + '%'"></div>
                     </div>
                 </div>
@@ -626,23 +628,23 @@
                         Download
                     </a>
                     <button x-on:click="reset()"
-                        class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
+                        class="bg-gray-100 hover:bg-gray-200:bg-gray-700 text-gray-700 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                         New Image
                     </button>
                 </div>
 
                 {{-- Details Grid --}}
-                <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm pt-5 border-t border-gray-100 dark:border-gray-800">
-                    <div class="flex justify-between"><span class="text-gray-400 dark:text-gray-500">Format</span><strong class="text-gray-900 dark:text-gray-100" x-text="result.format"></strong></div>
-                    <div class="flex justify-between"><span class="text-gray-400 dark:text-gray-500">Dimensions</span><strong class="text-gray-900 dark:text-gray-100" x-text="(result.width || '—') + ' × ' + (result.height || '—')"></strong></div>
-                    <div class="flex justify-between"><span class="text-gray-400 dark:text-gray-500">Quality</span><strong class="text-gray-900 dark:text-gray-100" x-text="quality + '%'"></strong></div>
-                    <div class="flex justify-between"><span class="text-gray-400 dark:text-gray-500">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900 dark:text-gray-100" x-text="result.original_name"></strong></div>
+                <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm pt-5 border-t border-gray-100">
+                    <div class="flex justify-between"><span class="text-gray-400">Format</span><strong class="text-gray-900" x-text="result.format"></strong></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Dimensions</span><strong class="text-gray-900" x-text="(result.width || '—') + ' × ' + (result.height || '—')"></strong></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Quality</span><strong class="text-gray-900" x-text="quality + '%'"></strong></div>
+                    <div class="flex justify-between"><span class="text-gray-400">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900" x-text="result.original_name"></strong></div>
                 </div>
             </div>
 
             {{-- Ad: Below Download --}}
-            <div class="bg-gray-100/60 dark:bg-gray-800/40 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-3 text-center text-gray-400 dark:text-gray-600 text-xs font-medium tracking-wide uppercase">
+            <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">
                 Advertisement
             </div>
         </div>
@@ -651,7 +653,7 @@
 
     {{-- Ad Banner: Middle --}}
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-        <div class="bg-gray-100/60 dark:bg-gray-800/40 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-3 text-center text-gray-400 dark:text-gray-600 text-xs font-medium tracking-wide uppercase">
+        <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">
             Advertisement
         </div>
     </div>
@@ -660,91 +662,91 @@
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center mb-12">
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Why Choose Our Compressor?</h2>
-            <p class="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">Trusted by thousands of creators, developers, and businesses worldwide</p>
+            <p class="text-gray-500 max-w-xl mx-auto">Trusted by thousands of creators, developers, and businesses worldwide</p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {{-- Feature 1 --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-brand-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Lightning Fast</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Server-side compression in milliseconds. No waiting, no queues.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">Server-side compression in milliseconds. No waiting, no queues.</p>
             </div>
             {{-- Feature 2 --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-accent-50 dark:bg-accent-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-accent-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">100% Secure</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Files auto-delete in 30 minutes. We never store or analyze your data.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">Files auto-delete in 30 minutes. We never store or analyze your data.</p>
             </div>
             {{-- Feature 3 --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-purple-50 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Format Conversion</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Convert between JPG, PNG, and WEBP while compressing.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">Convert between JPG, PNG, and WEBP while compressing.</p>
             </div>
             {{-- Feature 4 --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Mobile Friendly</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Fully responsive. Compress images from any device, anywhere.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">Fully responsive. Compress images from any device, anywhere.</p>
             </div>
             {{-- Feature 5 --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-rose-50 dark:bg-rose-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Quality Control</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Fine-tune compression with a precise quality slider (10–90%).</p>
+                <p class="text-sm text-gray-500 leading-relaxed">Fine-tune compression with a precise quality slider (10–90%).</p>
             </div>
             {{-- Feature 6 --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-teal-50 dark:bg-teal-900/30 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Totally Free</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">No signup, no watermarks, no limits. Compress as many images as you need.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">No signup, no watermarks, no limits. Compress as many images as you need.</p>
             </div>
         </div>
     </section>
 
     {{-- Why Compress / Formats Section --}}
-    <section class="bg-white dark:bg-gray-900 border-y border-gray-200/60 dark:border-gray-800/60 py-16">
+    <section class="bg-white border-y border-gray-200/60 py-16">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-extrabold mb-6">Why Compress Images?</h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+            <p class="text-gray-600 mb-6 leading-relaxed">
                 Image compression is essential for modern web development and digital content. Large files slow down websites, waste bandwidth, and hurt user experience.
             </p>
             <div class="grid sm:grid-cols-2 gap-4 mb-10">
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 dark:bg-accent-900/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 dark:text-gray-400 text-sm"><strong class="text-gray-800 dark:text-gray-200">Faster websites</strong> — Compressed images load instantly, improving Core Web Vitals.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 dark:bg-accent-900/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 dark:text-gray-400 text-sm"><strong class="text-gray-800 dark:text-gray-200">Better SEO</strong> — Google uses page speed as a ranking factor.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 dark:bg-accent-900/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 dark:text-gray-400 text-sm"><strong class="text-gray-800 dark:text-gray-200">Save storage</strong> — Reduce sizes by up to 80% without quality loss.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 dark:bg-accent-900/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 dark:text-gray-400 text-sm"><strong class="text-gray-800 dark:text-gray-200">Lower costs</strong> — Less bandwidth = lower hosting and CDN bills.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Faster websites</strong> — Compressed images load instantly, improving Core Web Vitals.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Better SEO</strong> — Google uses page speed as a ranking factor.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Save storage</strong> — Reduce sizes by up to 80% without quality loss.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Lower costs</strong> — Less bandwidth = lower hosting and CDN bills.</p></div>
             </div>
 
             <h2 class="text-3xl font-extrabold mb-6">Supported Formats</h2>
             <div class="grid sm:grid-cols-2 gap-4">
-                <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-5 border border-gray-200/60 dark:border-gray-700/60">
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">📸</span><h3 class="font-bold">JPEG / JPG</h3></div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Best for photographs. Lossy compression with adjustable quality.</p>
+                    <p class="text-sm text-gray-500">Best for photographs. Lossy compression with adjustable quality.</p>
                 </div>
-                <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-5 border border-gray-200/60 dark:border-gray-700/60">
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">🎨</span><h3 class="font-bold">PNG</h3></div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Ideal for graphics with transparency. Lossless compression.</p>
+                    <p class="text-sm text-gray-500">Ideal for graphics with transparency. Lossless compression.</p>
                 </div>
-                <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-5 border border-gray-200/60 dark:border-gray-700/60">
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">🌐</span><h3 class="font-bold">WEBP</h3></div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Modern format, 30% smaller than JPEG at equivalent quality.</p>
+                    <p class="text-sm text-gray-500">Modern format, 30% smaller than JPEG at equivalent quality.</p>
                 </div>
-                <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-5 border border-gray-200/60 dark:border-gray-700/60">
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">🎞️</span><h3 class="font-bold">GIF</h3></div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Animated images and simple graphics with limited colors.</p>
+                    <p class="text-sm text-gray-500">Animated images and simple graphics with limited colors.</p>
                 </div>
             </div>
         </div>
@@ -754,7 +756,7 @@
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16" x-data="{ openFaq: null }">
         <div class="text-center mb-10">
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">Frequently Asked Questions</h2>
-            <p class="text-gray-500 dark:text-gray-400">Everything you need to know</p>
+            <p class="text-gray-500">Everything you need to know</p>
         </div>
         <div class="space-y-3">
             @php
@@ -770,14 +772,14 @@
             @endphp
 
             @foreach ($faqs as $i => $faq)
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 overflow-hidden transition-shadow hover:shadow-md">
+                <div class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden transition-shadow hover:shadow-md">
                     <button x-on:click="openFaq = openFaq === {{ $i }} ? null : {{ $i }}"
-                            class="w-full px-6 py-5 text-left font-semibold text-gray-900 dark:text-gray-100 flex items-center justify-between gap-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                            class="w-full px-6 py-5 text-left font-semibold text-gray-900 flex items-center justify-between gap-4 hover:bg-gray-50:bg-gray-800/50 transition-colors">
                         <span>{{ $faq[0] }}</span>
-                        <svg :class="openFaq === {{ $i }} ? 'rotate-180' : ''" class="w-5 h-5 flex-shrink-0 text-gray-400 dark:text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        <svg :class="openFaq === {{ $i }} ? 'rotate-180' : ''" class="w-5 h-5 flex-shrink-0 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="openFaq === {{ $i }}" x-collapse>
-                        <div class="px-6 pb-5 text-gray-600 dark:text-gray-300 leading-relaxed">{{ $faq[1] }}</div>
+                        <div class="px-6 pb-5 text-gray-600 leading-relaxed">{{ $faq[1] }}</div>
                     </div>
                 </div>
             @endforeach
@@ -789,7 +791,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-5 w-auto dark:brightness-0 dark:invert">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-12 w-auto dark:brightness-0 dark:invert">
                     <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">&copy; {{ date('Y') }} CompresslyPro</span>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-gray-400 dark:text-gray-500">

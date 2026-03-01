@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard – CompresslyPro</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -53,7 +55,7 @@
             {{-- Logo --}}
             <div class="p-6 border-b border-gray-200 dark:border-gray-800">
                 <a href="{{ route('admin.dashboard') }}" class="block">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-7 w-auto dark:brightness-0 dark:invert transition-all">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-10 w-auto dark:brightness-0 dark:invert transition-all">
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Admin Panel</p>
                 </a>
             </div>

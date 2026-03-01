@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compression Reports – CompresslyPro</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
@@ -48,7 +50,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-8 w-auto dark:brightness-0 dark:invert transition-all">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-10 sm:h-12 w-auto dark:brightness-0 dark:invert transition-all">
                     <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-brand-800 dark:from-brand-400 dark:to-brand-300 bg-clip-text text-transparent">Admin Reports</span>
                 </a>
                 <div class="flex items-center gap-3">
@@ -72,13 +74,13 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h1 class="text-3xl font-extrabold tracking-tight">Compression Reports</h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Track usage, savings, and performance metrics</p>
+                <p class="text-gray-500 mt-1">Track usage, savings, and performance metrics</p>
             </div>
             {{-- Period Selector --}}
-            <div class="flex bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-1 gap-1">
+            <div class="flex bg-white rounded-xl border border-gray-200 p-1 gap-1">
                 <template x-for="p in periods" :key="p.value">
                     <button x-on:click="period = p.value; fetchData()"
-                        :class="period === p.value ? 'bg-brand-600 text-white shadow-md' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'"
+                        :class="period === p.value ? 'bg-brand-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-100:bg-gray-800'"
                         class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
                         x-text="p.label">
                     </button>
@@ -99,11 +101,11 @@
 
         {{-- Empty State --}}
         <div x-show="!loading && data && data.summary.total_compressions === 0" class="text-center py-20 animate-fade-in">
-            <div class="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+            <div class="w-20 h-20 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
             </div>
             <h3 class="text-xl font-bold mb-2">No Data Yet</h3>
-            <p class="text-gray-500 dark:text-gray-400 mb-6">Compress some images to see reports here</p>
+            <p class="text-gray-500 mb-6">Compress some images to see reports here</p>
             <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                 Compress an Image
@@ -115,41 +117,41 @@
 
             {{-- Summary Cards --}}
             <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm">
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 bg-brand-50 dark:bg-brand-900/30 rounded-lg flex items-center justify-center">
-                            <svg class="w-4 h-4 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <div class="w-8 h-8 bg-brand-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         </div>
-                        <span class="text-xs font-medium text-gray-400 dark:text-gray-500">Total Compressions</span>
+                        <span class="text-xs font-medium text-gray-400">Total Compressions</span>
                     </div>
                     <p class="text-2xl font-extrabold" x-text="data.summary.total_compressions"></p>
                 </div>
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm">
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 bg-orange-50 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                            <svg class="w-4 h-4 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        <div class="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         </div>
-                        <span class="text-xs font-medium text-gray-400 dark:text-gray-500">Total Uploaded</span>
+                        <span class="text-xs font-medium text-gray-400">Total Uploaded</span>
                     </div>
                     <p class="text-2xl font-extrabold" x-text="data.summary.total_original_size"></p>
                 </div>
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm">
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 bg-accent-50 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
-                            <svg class="w-4 h-4 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div class="w-8 h-8 bg-accent-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-accent-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <span class="text-xs font-medium text-gray-400 dark:text-gray-500">After Compression</span>
+                        <span class="text-xs font-medium text-gray-400">After Compression</span>
                     </div>
-                    <p class="text-2xl font-extrabold text-accent-600 dark:text-accent-400" x-text="data.summary.total_compressed"></p>
+                    <p class="text-2xl font-extrabold text-accent-600" x-text="data.summary.total_compressed"></p>
                 </div>
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm">
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 bg-green-50 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                            <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        <div class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                         </div>
-                        <span class="text-xs font-medium text-gray-400 dark:text-gray-500">Total Saved</span>
+                        <span class="text-xs font-medium text-gray-400">Total Saved</span>
                     </div>
-                    <p class="text-2xl font-extrabold text-green-600 dark:text-green-400" x-text="data.summary.total_saved"></p>
+                    <p class="text-2xl font-extrabold text-green-600" x-text="data.summary.total_saved"></p>
                 </div>
                 <div class="col-span-2 lg:col-span-1 bg-gradient-to-br from-brand-600 to-brand-700 rounded-2xl p-5 shadow-lg shadow-brand-500/20 text-white">
                     <div class="flex items-center gap-2 mb-3">
@@ -166,13 +168,13 @@
             <div class="grid lg:grid-cols-2 gap-6">
 
                 {{-- Daily Activity Chart (CSS only) --}}
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-6 shadow-sm">
                     <h3 class="font-bold text-lg mb-4">Daily Activity</h3>
                     <div x-show="data.daily_stats.length > 0" class="space-y-2">
                         <template x-for="(day, idx) in data.daily_stats.slice(-10)" :key="idx">
                             <div class="flex items-center gap-3">
-                                <span class="text-xs text-gray-400 dark:text-gray-500 w-20 flex-shrink-0 font-mono" x-text="day.date.substring(5)"></span>
-                                <div class="flex-1 bg-gray-100 dark:bg-gray-800 rounded-full h-6 overflow-hidden relative">
+                                <span class="text-xs text-gray-400 w-20 flex-shrink-0 font-mono" x-text="day.date.substring(5)"></span>
+                                <div class="flex-1 bg-gray-100 rounded-full h-6 overflow-hidden relative">
                                     <div class="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600 bar-animate flex items-center justify-end pr-2"
                                          :style="'width:' + Math.max(8, (day.count / Math.max(...data.daily_stats.map(d=>d.count))) * 100) + '%'">
                                         <span class="text-xs font-bold text-white" x-text="day.count"></span>
@@ -185,20 +187,20 @@
                 </div>
 
                 {{-- Format Distribution --}}
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-6 shadow-sm">
                     <h3 class="font-bold text-lg mb-4">Format Distribution</h3>
                     <div class="grid grid-cols-2 gap-4">
                         {{-- Input Formats --}}
                         <div>
-                            <p class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Input Formats</p>
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Input Formats</p>
                             <div class="space-y-3">
                                 <template x-for="(fmt, idx) in data.format_stats" :key="'in-'+idx">
                                     <div>
                                         <div class="flex justify-between text-sm mb-1">
-                                            <span class="font-semibold text-gray-900 dark:text-gray-100" x-text="fmt.original_format.toUpperCase()"></span>
-                                            <span class="text-gray-400 dark:text-gray-500" x-text="fmt.count"></span>
+                                            <span class="font-semibold text-gray-900" x-text="fmt.original_format.toUpperCase()"></span>
+                                            <span class="text-gray-400" x-text="fmt.count"></span>
                                         </div>
-                                        <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+                                        <div class="w-full bg-gray-100 rounded-full h-2">
                                             <div class="h-2 rounded-full bg-brand-500 bar-animate" :style="'width:' + Math.max(5, (fmt.count / data.summary.total_compressions) * 100) + '%'"></div>
                                         </div>
                                     </div>
@@ -207,15 +209,15 @@
                         </div>
                         {{-- Output Formats --}}
                         <div>
-                            <p class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Output Formats</p>
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Output Formats</p>
                             <div class="space-y-3">
                                 <template x-for="(fmt, idx) in data.output_format_stats" :key="'out-'+idx">
                                     <div>
                                         <div class="flex justify-between text-sm mb-1">
-                                            <span class="font-semibold text-gray-900 dark:text-gray-100" x-text="fmt.output_format.toUpperCase()"></span>
-                                            <span class="text-gray-400 dark:text-gray-500" x-text="fmt.count"></span>
+                                            <span class="font-semibold text-gray-900" x-text="fmt.output_format.toUpperCase()"></span>
+                                            <span class="text-gray-400" x-text="fmt.count"></span>
                                         </div>
-                                        <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+                                        <div class="w-full bg-gray-100 rounded-full h-2">
                                             <div class="h-2 rounded-full bg-accent-500 bar-animate" :style="'width:' + Math.max(5, (fmt.count / data.summary.total_compressions) * 100) + '%'"></div>
                                         </div>
                                     </div>
@@ -228,91 +230,91 @@
 
             {{-- Quality Distribution & Top Savings --}}
             <div class="grid lg:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-6 shadow-sm">
                     <h3 class="font-bold text-lg mb-4">Quality Preferences</h3>
                     <div class="space-y-4">
                         <template x-for="(q, idx) in data.quality_stats" :key="'q-'+idx">
                             <div>
                                 <div class="flex justify-between text-sm mb-1.5">
-                                    <span class="font-medium text-gray-900 dark:text-gray-100" x-text="q.quality_range"></span>
-                                    <span class="text-gray-400 dark:text-gray-500 font-semibold" x-text="q.count + ' uses'"></span>
+                                    <span class="font-medium text-gray-900" x-text="q.quality_range"></span>
+                                    <span class="text-gray-400 font-semibold" x-text="q.count + ' uses'"></span>
                                 </div>
-                                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-3">
+                                <div class="w-full bg-gray-100 rounded-full h-3">
                                     <div class="h-3 rounded-full bg-gradient-to-r from-purple-400 to-purple-600 bar-animate" :style="'width:' + Math.max(5, (q.count / data.summary.total_compressions) * 100) + '%'"></div>
                                 </div>
                             </div>
                         </template>
                     </div>
-                    <p x-show="data.quality_stats.length === 0" class="text-gray-400 dark:text-gray-500 text-sm text-center py-6">No data available</p>
+                    <p x-show="data.quality_stats.length === 0" class="text-gray-400 text-sm text-center py-6">No data available</p>
                 </div>
 
-                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 shadow-sm">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-6 shadow-sm">
                     <h3 class="font-bold text-lg mb-4">🏆 Top Savings</h3>
                     <div class="space-y-3">
                         <template x-for="(item, idx) in data.top_savings" :key="'top-'+idx">
-                            <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
-                                <div class="w-8 h-8 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <span class="text-sm font-bold text-accent-600 dark:text-accent-400" x-text="'#' + (idx + 1)"></span>
+                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                                <div class="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="text-sm font-bold text-accent-600" x-text="'#' + (idx + 1)"></span>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate" x-text="item.original_name"></p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500" x-text="'Saved ' + item.saved + ' (' + item.reduction + ')'"></p>
+                                    <p class="text-sm font-semibold text-gray-900 truncate" x-text="item.original_name"></p>
+                                    <p class="text-xs text-gray-400" x-text="'Saved ' + item.saved + ' (' + item.reduction + ')'"></p>
                                 </div>
                             </div>
                         </template>
                     </div>
-                    <p x-show="data.top_savings.length === 0" class="text-gray-400 dark:text-gray-500 text-sm text-center py-6">No data available</p>
+                    <p x-show="data.top_savings.length === 0" class="text-gray-400 text-sm text-center py-6">No data available</p>
                 </div>
             </div>
 
             {{-- Recent Compressions Table --}}
-            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 shadow-sm overflow-hidden">
-                <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+            <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden">
+                <div class="px-6 py-5 border-b border-gray-100">
                     <h3 class="font-bold text-lg">Recent Compressions</h3>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
-                        <thead class="bg-gray-50 dark:bg-gray-800/50">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <th class="text-left px-6 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">File</th>
-                                <th class="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">Format</th>
-                                <th class="text-right px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">Original</th>
-                                <th class="text-right px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">Compressed</th>
-                                <th class="text-right px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">Saved</th>
-                                <th class="text-right px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">Quality</th>
-                                <th class="text-right px-6 py-3 font-semibold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">When</th>
+                                <th class="text-left px-6 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">File</th>
+                                <th class="text-left px-4 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">Format</th>
+                                <th class="text-right px-4 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">Original</th>
+                                <th class="text-right px-4 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">Compressed</th>
+                                <th class="text-right px-4 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">Saved</th>
+                                <th class="text-right px-4 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">Quality</th>
+                                <th class="text-right px-6 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wider">When</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                        <tbody class="divide-y divide-gray-100">
                             <template x-for="(row, idx) in data.recent" :key="'row-'+idx">
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                <tr class="hover:bg-gray-50:bg-gray-800/50 transition-colors">
                                     <td class="px-6 py-3.5">
-                                        <span class="font-medium text-gray-900 dark:text-gray-100 truncate block max-w-[200px]" x-text="row.original_name"></span>
-                                        <span class="text-xs text-gray-400 dark:text-gray-500" x-text="row.dimensions"></span>
+                                        <span class="font-medium text-gray-900 truncate block max-w-[200px]" x-text="row.original_name"></span>
+                                        <span class="text-xs text-gray-400" x-text="row.dimensions"></span>
                                     </td>
                                     <td class="px-4 py-3.5">
-                                        <span class="text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2 py-1 rounded" x-text="row.original_format + ' → ' + row.output_format"></span>
+                                        <span class="text-xs font-semibold bg-gray-100 text-gray-900 px-2 py-1 rounded" x-text="row.original_format + ' → ' + row.output_format"></span>
                                     </td>
-                                    <td class="px-4 py-3.5 text-right font-mono text-gray-500 dark:text-gray-400" x-text="row.original_size"></td>
-                                    <td class="px-4 py-3.5 text-right font-mono text-accent-600 dark:text-accent-400" x-text="row.compressed_size"></td>
-                                    <td class="px-4 py-3.5 text-right font-bold text-green-600 dark:text-green-400" x-text="row.reduction"></td>
-                                    <td class="px-4 py-3.5 text-right text-gray-500 dark:text-gray-400" x-text="row.quality"></td>
-                                    <td class="px-6 py-3.5 text-right text-gray-400 dark:text-gray-500 text-xs" x-text="row.created_at" :title="row.created_date"></td>
+                                    <td class="px-4 py-3.5 text-right font-mono text-gray-500" x-text="row.original_size"></td>
+                                    <td class="px-4 py-3.5 text-right font-mono text-accent-600" x-text="row.compressed_size"></td>
+                                    <td class="px-4 py-3.5 text-right font-bold text-green-600" x-text="row.reduction"></td>
+                                    <td class="px-4 py-3.5 text-right text-gray-500" x-text="row.quality"></td>
+                                    <td class="px-6 py-3.5 text-right text-gray-400 text-xs" x-text="row.created_at" :title="row.created_date"></td>
                                 </tr>
                             </template>
                         </tbody>
                     </table>
                 </div>
-                <p x-show="data.recent.length === 0" class="text-gray-400 dark:text-gray-500 text-sm text-center py-8">No compressions yet</p>
+                <p x-show="data.recent.length === 0" class="text-gray-400 text-sm text-center py-8">No compressions yet</p>
             </div>
 
         </div>
     </main>
 
     {{-- Footer --}}
-    <footer class="bg-white dark:bg-gray-900 border-t border-gray-200/60 dark:border-gray-800/60 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400 dark:text-gray-500">
-            <p>&copy; {{ date('Y') }} CompresslyPro Admin Panel · <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Back to Dashboard</a></p>
+    <footer class="bg-white border-t border-gray-200/60 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <p>&copy; {{ date('Y') }} CompresslyPro Admin Panel · <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600:text-brand-400 transition-colors">Back to Dashboard</a></p>
         </div>
     </footer>
 
