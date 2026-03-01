@@ -6,10 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('logo.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('logo.png') }}">
 
     {{-- SEO Meta --}}
     <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%</title>
@@ -350,8 +350,12 @@
     <nav class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-b border-indigo-800/40 sticky top-0 z-50 shadow-lg">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="/" class="flex items-center group">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-14 sm:h-16 w-auto transition-all">
+                <a href="/" class="flex items-center gap-2.5 group">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-10 sm:h-12 w-auto transition-all flex-shrink-0">
+                    <div class="flex flex-col leading-tight">
+                        <span class="text-white font-bold text-base sm:text-lg tracking-tight group-hover:text-indigo-200 transition-colors">CompresslyPro</span>
+                        <span class="text-indigo-300/70 text-[10px] sm:text-xs font-medium hidden sm:block tracking-wide">Free Image Compressor</span>
+                    </div>
                 </a>
             </div>
         </div>
@@ -769,14 +773,17 @@
     <footer class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-t border-indigo-800/40 py-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-12 w-auto">
-                    <span class="text-sm font-semibold text-indigo-200">&copy; {{ date('Y') }} CompresslyPro</span>
+                <div class="flex items-center gap-2.5">
+                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-9 w-auto flex-shrink-0">
+                    <div class="flex flex-col leading-tight">
+                        <span class="text-white font-bold text-sm tracking-tight">CompresslyPro</span>
+                        <span class="text-indigo-300/70 text-[10px] font-medium">&copy; {{ date('Y') }} All rights reserved</span>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-indigo-300/70">
                     <span>Files auto-delete in 30 minutes</span>
                     <span class="w-1 h-1 bg-indigo-500 rounded-full"></span>
-                    <span>&copy; {{ date('Y') }} All rights reserved</span>
+                    <span>Free · No Signup · Secure</span>
                 </div>
             </div>
         </div>
