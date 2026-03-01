@@ -14,19 +14,19 @@ use App\Http\Controllers\AdminController;
 // Public routes
 Route::get('/', [ImageController::class, 'index'])->name('home');
 
-Route::post('/api/img/proc', [ImageController::class, 'compress'])
+Route::post('/api/' . config('api_routes.compress'), [ImageController::class, 'compress'])
     ->name('image.compress')
     ->middleware('throttle:30,1');
 
-Route::post('/api/img/xfm', [ImageController::class, 'convert'])
+Route::post('/api/' . config('api_routes.convert'), [ImageController::class, 'convert'])
     ->name('image.convert')
     ->middleware('throttle:30,1');
 
-Route::post('/api/up/seg', [ImageController::class, 'uploadChunk'])
+Route::post('/api/' . config('api_routes.chunk'), [ImageController::class, 'uploadChunk'])
     ->name('upload.chunk')
     ->middleware('throttle:120,1');
 
-Route::post('/api/up/done', [ImageController::class, 'finalizeUpload'])
+Route::post('/api/' . config('api_routes.finalize'), [ImageController::class, 'finalizeUpload'])
     ->name('upload.finalize')
     ->middleware('throttle:30,1');
 
