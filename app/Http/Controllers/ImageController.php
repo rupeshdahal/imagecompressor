@@ -151,13 +151,13 @@ class ImageController extends Controller
         }
 
         $safeName   = Str::slug(Str::limit(pathinfo($originalName, PATHINFO_FILENAME), 50, '')) ?: 'image';
-        $uniqueId   = Str::random(12);
+        $uniqueId   = Str::random(8);
         $quality    = (int) ($request->input('quality', 50));
 
         try {
             if ($action === 'compress') {
                 $outputExt      = self::MIME_TO_EXT[$mime] ?? 'jpg';
-                $outputFilename = "{$safeName}-compressed-{$uniqueId}.{$outputExt}";
+                $outputFilename = "compresslypro-{$safeName}.{$outputExt}";
                 $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
 
                 $image   = Image::read($assembledPath);
@@ -206,7 +206,7 @@ class ImageController extends Controller
             } else { // convert
                 $outputExt      = $request->input('format', 'jpg');
                 if (!in_array($outputExt, ['jpg', 'png', 'webp'])) $outputExt = 'jpg';
-                $outputFilename = "{$safeName}-converted-{$uniqueId}.{$outputExt}";
+                $outputFilename = "compresslypro-{$safeName}.{$outputExt}";
                 $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
 
                 $image   = Image::read($assembledPath);
@@ -303,8 +303,7 @@ class ImageController extends Controller
             $outputExt     = $validated['format'];
             $originalName  = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeName      = Str::slug(Str::limit($originalName, 50, '')) ?: 'image';
-            $uniqueId      = Str::random(12);
-            $outputFilename = "{$safeName}-converted-{$uniqueId}.{$outputExt}";
+            $outputFilename = "compresslypro-{$safeName}.{$outputExt}";
             $outputPath    = storage_path("app/public/uploads/{$outputFilename}");
 
             $image   = Image::read($file->getRealPath());
@@ -409,7 +408,6 @@ class ImageController extends Controller
             // Sanitize filename
             $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeName = Str::slug(Str::limit($originalName, 50, '')) ?: 'image';
-            $uniqueId = Str::random(12);
 
             // Determine output extension
             if ($outputFormat === 'original') {
@@ -418,7 +416,7 @@ class ImageController extends Controller
                 $outputExt = $outputFormat;
             }
 
-            $outputFilename = "{$safeName}-compressed-{$uniqueId}.{$outputExt}";
+            $outputFilename = "compresslypro-{$safeName}.{$outputExt}";
             $outputPath = storage_path("app/public/uploads/{$outputFilename}");
 
             // Process image with Intervention Image
@@ -489,8 +487,8 @@ class ImageController extends Controller
      */
     public function download(string $filename)
     {
-        // Sanitize: only allow expected filename pattern
-        if (!preg_match('/^[a-z0-9\-]+\.(jpg|jpeg|png|webp|gif)$/i', $filename)) {
+        // Sanitize: only allow expected filename pattern (compresslypro-{slug}.ext)
+        if (!preg_match('/^compresslypro-[a-z0-9\-]+\.(jpg|jpeg|png|webp|gif)$/i', $filename)) {
             abort(404);
         }
 

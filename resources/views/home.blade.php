@@ -949,6 +949,19 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    {{-- API endpoint config (base64-encoded to avoid plain-text scraping) --}}
+    <script>
+        (function(){
+            var _e = atob;
+            window.__cp = {
+                seg:  _e('{{ base64_encode(route("upload.chunk")) }}'),
+                done: _e('{{ base64_encode(route("upload.finalize")) }}'),
+                proc: _e('{{ base64_encode(route("image.compress")) }}'),
+                xfm:  _e('{{ base64_encode(route("image.convert")) }}'),
+            };
+        })();
+    </script>
+
     <script>
         /* ─── Tab controller ─────────────────────────────────────────── */
         function toolTabs() {
@@ -974,7 +987,7 @@
                 fd.append('chunk_index',  i);
                 fd.append('total_chunks', totalChunks);
 
-                const res = await fetch('{{ route("upload.chunk") }}', {
+                const res = await fetch(window.__cp.seg, {
                     method: 'POST',
                     headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
                     body: fd,
@@ -1077,7 +1090,7 @@
                             formData.append('image',   this.file);
                             formData.append('quality', this.quality);
                             formData.append('format',  this.outputFormat);
-                            const response = await fetch('{{ route("image.compress") }}', {
+                            const response = await fetch(window.__cp.proc, {
                                 method: 'POST',
                                 headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
                                 body: formData,
@@ -1098,7 +1111,7 @@
                             fd.append('action',        'compress');
                             fd.append('quality',       this.quality);
                             fd.append('format',        this.outputFormat);
-                            const response = await fetch('{{ route("upload.finalize") }}', {
+                            const response = await fetch(window.__cp.done, {
                                 method: 'POST',
                                 headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
                                 body: fd,
@@ -1221,7 +1234,7 @@
                             const formData = new FormData();
                             formData.append('image',  this.cfile);
                             formData.append('format', this.ctargetFormat);
-                            const response = await fetch('{{ route("image.convert") }}', {
+                            const response = await fetch(window.__cp.xfm, {
                                 method: 'POST',
                                 headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
                                 body: formData,
@@ -1241,7 +1254,7 @@
                             fd.append('original_name', this.cfile.name);
                             fd.append('action',        'convert');
                             fd.append('format',        this.ctargetFormat);
-                            const response = await fetch('{{ route("upload.finalize") }}', {
+                            const response = await fetch(window.__cp.done, {
                                 method: 'POST',
                                 headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
                                 body: fd,

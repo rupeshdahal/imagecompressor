@@ -14,23 +14,23 @@ use App\Http\Controllers\AdminController;
 // Public routes
 Route::get('/', [ImageController::class, 'index'])->name('home');
 
-Route::post('/compress', [ImageController::class, 'compress'])
+Route::post('/api/img/proc', [ImageController::class, 'compress'])
     ->name('image.compress')
     ->middleware('throttle:30,1');
 
-Route::post('/convert', [ImageController::class, 'convert'])
+Route::post('/api/img/xfm', [ImageController::class, 'convert'])
     ->name('image.convert')
     ->middleware('throttle:30,1');
 
-Route::post('/upload/chunk', [ImageController::class, 'uploadChunk'])
+Route::post('/api/up/seg', [ImageController::class, 'uploadChunk'])
     ->name('upload.chunk')
     ->middleware('throttle:120,1');
 
-Route::post('/upload/finalize', [ImageController::class, 'finalizeUpload'])
+Route::post('/api/up/done', [ImageController::class, 'finalizeUpload'])
     ->name('upload.finalize')
     ->middleware('throttle:30,1');
 
-Route::get('/download/{filename}', [ImageController::class, 'download'])
+Route::get('/dl/{filename}', [ImageController::class, 'download'])
     ->name('image.download');
 
 // Admin authentication routes (using /authorize instead of /login)
