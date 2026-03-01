@@ -1,23 +1,23 @@
-# Robots.txt for Image Compressor Tool
+# Robots.txt — CompresslyPro
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /authorize
-Disallow: /download/
+Disallow: /dl/
 Disallow: /storage/
+Disallow: /api/
 
 # Sitemap
-Sitemap: https://img.beginnersoft.com/sitemap.xml
+Sitemap: https://compresslypro.com/sitemap.xml
 
-# Crawl delay (optional, prevents overloading)
-Crawl-delay: 1
-
-# Popular search engine bots
+# Popular bots
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /

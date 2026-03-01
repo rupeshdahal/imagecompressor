@@ -6,10 +6,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('logo.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('logo.png') }}">
-    <link rel="shortcut icon" href="{{ asset('logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     {{-- SEO Meta --}}
     <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%</title>
@@ -71,7 +72,7 @@
         "name": "Free Online Image Compressor",
         "alternateName": "CompresslyPro",
         "description": "Compress JPG, PNG, WebP images online for free. Reduce image file size by up to 90% without losing quality. Fast, secure, no signup required.",
-        "url": "https://img.beginnersoft.com",
+        "url": "https://compresslypro.com",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -107,7 +108,7 @@
             "@type": "UseAction",
             "target": {
                 "@type": "EntryPoint",
-                "urlTemplate": "https://img.beginnersoft.com",
+                "urlTemplate": "https://compresslypro.com",
                 "actionPlatform": [
                     "http://schema.org/DesktopWebPlatform",
                     "http://schema.org/MobileWebPlatform"
@@ -131,7 +132,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://img.beginnersoft.com"
+            "item": "https://compresslypro.com"
         }]
     }
     </script>
@@ -148,28 +149,28 @@
                 "position": 1,
                 "name": "Upload Image",
                 "text": "Drag and drop your image, click to browse, or paste from clipboard (Ctrl+V/Cmd+V)",
-                "image": "https://img.beginnersoft.com/steps/upload.png"
+                "image": "https://compresslypro.com/og-image.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 2,
                 "name": "Adjust Settings",
                 "text": "Choose output format (JPG, PNG, or WebP) and set quality level (10-90%). Higher quality = larger file.",
-                "image": "https://img.beginnersoft.com/steps/settings.png"
+                "image": "https://compresslypro.com/og-image.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 3,
                 "name": "Compress",
                 "text": "Click 'Compress Image' button and wait 2-5 seconds for processing",
-                "image": "https://img.beginnersoft.com/steps/compress.png"
+                "image": "https://compresslypro.com/og-image.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 4,
                 "name": "Download",
                 "text": "Click 'Download' button to save your compressed image. View statistics showing original vs compressed size.",
-                "image": "https://img.beginnersoft.com/steps/download.png"
+                "image": "https://compresslypro.com/og-image.png"
             }
         ]
     }
@@ -228,6 +229,31 @@
                 }
             }
         ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CompresslyPro",
+        "url": "https://compresslypro.com",
+        "logo": "https://compresslypro.com/logo.png",
+        "description": "Free online image compression and conversion tool. Compress JPG, PNG, WebP, GIF images up to 90% smaller.",
+        "sameAs": []
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "CompresslyPro",
+        "url": "https://compresslypro.com",
+        "description": "Free online image compressor and converter. Compress JPG, PNG, WebP up to 90% smaller.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://compresslypro.com/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
     }
     </script>
     @endverbatim
@@ -790,6 +816,30 @@
 
     </div>{{-- end toolTabs wrapper --}}
 
+    {{-- Trust / Stats Bar --}}
+    <section class="bg-white border-y border-gray-200/60 py-8 mt-4" aria-label="Statistics">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">90%</p>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">Max size reduction</p>
+                </div>
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">20MB</p>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">Max file size</p>
+                </div>
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">4</p>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">Formats supported</p>
+                </div>
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">100%</p>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">Free · No signup</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- Ad Banner: Middle --}}
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
         <div class="bg-gray-100/60 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-xs font-medium tracking-wide uppercase">
@@ -797,10 +847,52 @@
         </div>
     </div>
 
-    {{-- Features Section --}}
-    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    {{-- How It Works Section --}}
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="how-it-works-title">
         <div class="text-center mb-12">
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Why Choose Our Compressor?</h2>
+            <h2 id="how-it-works-title" class="text-3xl sm:text-4xl font-extrabold mb-4">How to Compress Images Online</h2>
+            <p class="text-gray-500 max-w-xl mx-auto">Three simple steps — done in under 10 seconds</p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-6 relative">
+            {{-- connector line (desktop only) --}}
+            <div class="hidden sm:block absolute top-10 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-brand-200 via-brand-400 to-brand-200 z-0" style="left:16%;right:16%;top:2.5rem;"></div>
+
+            {{-- Step 1 --}}
+            <div class="relative z-10 bg-white rounded-2xl border border-gray-200/60 p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-gradient-to-br from-brand-500 to-brand-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-500/30">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                </div>
+                <span class="inline-block bg-brand-100 text-brand-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 1</span>
+                <h3 class="font-bold text-lg mb-2">Upload Your Image</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Drag & drop, click to browse, or paste from clipboard with <kbd class="text-xs bg-gray-100 border border-gray-200 rounded px-1.5 py-0.5">Ctrl+V</kbd></p>
+            </div>
+
+            {{-- Step 2 --}}
+            <div class="relative z-10 bg-white rounded-2xl border border-gray-200/60 p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/30">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
+                </div>
+                <span class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 2</span>
+                <h3 class="font-bold text-lg mb-2">Choose Settings</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Set quality level (10–90%) for compression, or pick your target format for conversion.</p>
+            </div>
+
+            {{-- Step 3 --}}
+            <div class="relative z-10 bg-white rounded-2xl border border-gray-200/60 p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-gradient-to-br from-accent-500 to-accent-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-accent-500/30">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="inline-block bg-accent-100 text-accent-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 3</span>
+                <h3 class="font-bold text-lg mb-2">Download Result</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Click Download to save your optimised image. See original vs compressed size comparison instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    {{-- Features Section --}}
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="features-title">
+        <div class="text-center mb-12">
+            <h2 id="features-title" class="text-3xl sm:text-4xl font-extrabold mb-4">Why Choose Our Compressor?</h2>
             <p class="text-gray-500 max-w-xl mx-auto">Trusted by thousands of creators, developers, and businesses worldwide</p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -856,9 +948,9 @@
     </section>
 
     {{-- Why Compress / Formats Section --}}
-    <section class="bg-white border-y border-gray-200/60 py-16">
+    <section class="bg-white border-y border-gray-200/60 py-16" aria-labelledby="why-compress-title">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-extrabold mb-6">Why Compress Images?</h2>
+            <h2 id="why-compress-title" class="text-3xl font-extrabold mb-6">Why Compress Images?</h2>
             <p class="text-gray-600 mb-6 leading-relaxed">
                 Image compression is essential for modern web development and digital content. Large files slow down websites, waste bandwidth, and hurt user experience.
             </p>
@@ -926,22 +1018,73 @@
     </section>
 
     {{-- Footer --}}
-    <footer class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-t border-indigo-800/40 py-10">
+    <footer class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-t border-indigo-800/40 pt-12 pb-6" itemscope itemtype="https://schema.org/WPFooter">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-2.5">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-9 w-auto flex-shrink-0">
-                    <div class="flex flex-col leading-tight">
-                        <span class="text-white font-bold text-sm tracking-tight">CompresslyPro</span>
-                        <span class="text-indigo-300/70 text-[10px] font-medium">&copy; {{ date('Y') }} All rights reserved</span>
+
+            {{-- Top row: logo + tagline + tool links --}}
+            <div class="grid sm:grid-cols-3 gap-8 pb-10 border-b border-indigo-800/40">
+
+                {{-- Brand --}}
+                <div>
+                    <a href="/" class="flex items-center gap-2.5 mb-3">
+                        <img src="{{ asset('logo.png') }}" alt="CompresslyPro logo" class="h-9 w-auto flex-shrink-0">
+                        <div class="flex flex-col leading-tight">
+                            <span class="text-white font-bold text-sm tracking-tight">CompresslyPro</span>
+                            <span class="text-indigo-300/70 text-[10px] font-medium">Free Image Compressor</span>
+                        </div>
+                    </a>
+                    <p class="text-indigo-300/60 text-xs leading-relaxed max-w-xs">
+                        Compress & convert JPG, PNG, WebP and GIF images online for free. No signup, no watermarks, privacy-first.
+                    </p>
+                </div>
+
+                {{-- Tools --}}
+                <div>
+                    <h3 class="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Tools</h3>
+                    <nav aria-label="Footer tools" class="space-y-2">
+                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Compressor</a>
+                        <a href="/#convert" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Converter</a>
+                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">JPG Compressor</a>
+                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PNG Compressor</a>
+                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">WebP Compressor</a>
+                    </nav>
+                </div>
+
+                {{-- Info --}}
+                <div>
+                    <h3 class="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Information</h3>
+                    <nav aria-label="Footer info links" class="space-y-2">
+                        <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors" rel="nofollow">Sitemap</a>
+                    </nav>
+                    <div class="mt-4 space-y-1.5 text-xs text-indigo-300/50">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            <span>Files auto-delete in 30 min</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            <span>100% secure &amp; private</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Free · No signup required</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-4 text-sm text-indigo-300/70">
-                    <span>Files auto-delete in 30 minutes</span>
-                    <span class="w-1 h-1 bg-indigo-500 rounded-full"></span>
-                    <span>Free · No Signup · Secure</span>
+            </div>
+
+            {{-- Bottom bar --}}
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-indigo-300/50">
+                <span>&copy; {{ date('Y') }} CompresslyPro. All rights reserved.</span>
+                <div class="flex items-center gap-3 flex-wrap justify-center">
+                    <span>Supported: JPG · PNG · WEBP · GIF</span>
+                    <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
+                    <span>Max 20MB per image</span>
+                    <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
+                    <a href="/sitemap.xml" class="hover:text-white transition-colors" rel="nofollow">Sitemap</a>
                 </div>
             </div>
+
         </div>
     </footer>
 

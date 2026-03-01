@@ -2,13 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-    
-    <!-- Homepage - Image Compressor Tool -->
+
+    <!-- Homepage -->
     <url>
-        <loc>https://img.beginnersoft.com/</loc>
-        <lastmod>2026-02-18</lastmod>
+        <loc>https://compresslypro.com/</loc>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Online Image Compressor &amp; Converter — CompresslyPro</image:title>
+            <image:caption>Compress JPG, PNG, WebP images up to 90% smaller. Convert formats. Free, fast, no signup.</image:caption>
+        </image:image>
     </url>
-    
+
 </urlset>

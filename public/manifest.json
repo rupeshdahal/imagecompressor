@@ -1,0 +1,33 @@
+{
+    "name": "CompresslyPro - Free Image Compressor",
+    "short_name": "CompresslyPro",
+    "description": "Compress and convert JPG, PNG, WebP images online for free. Up to 90% smaller. No signup.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#111827",
+    "theme_color": "#6366f1",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["utilities", "productivity"],
+    "screenshots": [
+        {
+            "src": "/og-image.png",
+            "sizes": "1200x630",
+            "type": "image/png",
+            "label": "CompresslyPro Image Compressor"
+        }
+    ]
+}
