@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\T2Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,41 @@ Route::post('/api/' . config('api_routes.finalize'), [ImageController::class, 'f
     ->name('upload.finalize')
     ->middleware('throttle:30,1');
 
+// T2 Routes
+Route::post('/api/' . config('api_routes.batch'), [T2Controller::class, 'compressBatch'])
+    ->name('batch.compress')
+    ->middleware('throttle:10,1');
+
+Route::post('/api/' . config('api_routes.batch_zip'), [T2Controller::class, 'downloadBatchZip'])
+    ->name('batch.zip')
+    ->middleware('throttle:10,1');
+
+Route::post('/api/' . config('api_routes.resize'), [T2Controller::class, 'resize'])
+    ->name('image.resize')
+    ->middleware('throttle:30,1');
+
+Route::post('/api/' . config('api_routes.img_to_pdf'), [T2Controller::class, 'imageToPdf'])
+    ->name('image.to.pdf')
+    ->middleware('throttle:15,1');
+
+Route::post('/api/' . config('api_routes.pdf_to_img'), [T2Controller::class, 'pdfToImage'])
+    ->name('pdf.to.image')
+    ->middleware('throttle:10,1');
+
+Route::post('/api/' . config('api_routes.watermark'), [T2Controller::class, 'watermark'])
+    ->name('image.watermark')
+    ->middleware('throttle:30,1');
+
+Route::post('/api/' . config('api_routes.url_press'), [T2Controller::class, 'compressFromUrl'])
+    ->name('url.compress')
+    ->middleware('throttle:15,1');
+
+// Download routes
 Route::get('/dl/{filename}', [ImageController::class, 'download'])
     ->name('image.download');
+
+Route::get('/pdf/{filename}', [T2Controller::class, 'downloadPdf'])
+    ->name('pdf.download');
 
 // Admin authentication routes (using /authorize instead of /login)
 Route::get('/authorize', [AdminController::class, 'showLogin'])->name('admin.login');
@@ -43,4 +77,5 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports');
     Route::get('/admin/api/reports', [ReportController::class, 'data'])->name('reports.data');
+    Route::get('/admin/export', [ReportController::class, 'export'])->name('reports.export');
 });

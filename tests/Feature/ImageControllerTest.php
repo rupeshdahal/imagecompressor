@@ -164,7 +164,7 @@ class ImageControllerTest extends TestCase
         $this->get('/')
              ->assertStatus(200)
              ->assertSee('Compress Image')
-             ->assertSee('Convert Format');
+             ->assertSee('Convert');
     }
 
     // ─────────────────────────────────────────────────────────────────────────

@@ -116,6 +116,13 @@
                         </svg>
                         Loading...
                     </div>
+                    {{-- CSV Export Button --}}
+                    <a :href="`/admin/export?period=${period}`"
+                       class="flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md"
+                       title="Export CSV">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <span class="hidden sm:inline">Export CSV</span>
+                    </a>
                     <button x-on:click="darkMode = !darkMode"
                         class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
                         aria-label="Toggle dark mode">
@@ -189,6 +196,7 @@
                                 <thead class="bg-gray-50 dark:bg-gray-800/50">
                                     <tr>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Image</th>
+                                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Action</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Format</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Original</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Compressed</th>
@@ -200,7 +208,7 @@
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                                     <template x-if="!data.recent || data.recent.length === 0">
                                         <tr>
-                                            <td colspan="7" class="px-5 py-12 text-center text-gray-500 dark:text-gray-400">
+                                            <td colspan="8" class="px-5 py-12 text-center text-gray-500 dark:text-gray-400">
                                                 <svg class="w-10 h-10 mx-auto mb-2 text-gray-300 dark:text-gray-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
                                                 <p>No reports for this period</p>
                                             </td>
@@ -208,7 +216,21 @@
                                     </template>
                                     <template x-for="r in (data.recent || [])" :key="r.id">
                                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                            <td class="px-5 py-3 font-medium text-gray-900 dark:text-gray-100 max-w-[200px] truncate" x-text="r.original_name"></td>
+                                            <td class="px-5 py-3 font-medium text-gray-900 dark:text-gray-100 max-w-[160px] truncate" x-text="r.original_name"></td>
+                                            <td class="px-5 py-3">
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
+                                                      :class="{
+                                                          'bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300': r.action === 'compress',
+                                                          'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300': r.action === 'convert',
+                                                          'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300': r.action === 'batch',
+                                                          'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300': r.action === 'resize',
+                                                          'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300': r.action === 'watermark',
+                                                          'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300': r.action === 'url_compress',
+                                                          'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300': !['compress','convert','batch','resize','watermark','url_compress'].includes(r.action),
+                                                      }"
+                                                      x-text="r.action || 'compress'">
+                                                </span>
+                                            </td>
                                             <td class="px-5 py-3">
                                                 <span class="inline-flex items-center gap-1">
                                                     <span class="px-1.5 py-0.5 bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 rounded text-xs font-medium" x-text="r.original_format"></span>

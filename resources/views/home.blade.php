@@ -419,31 +419,61 @@
     </header>
 
     {{-- ============================================================ --}}
-    {{-- TOOL TABS: Compress / Convert                                --}}
+    {{-- TOOL TABS: Compress / Convert / Batch / Resize / PDF        --}}
     {{-- ============================================================ --}}
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-12" x-data="toolTabs()">
 
         {{-- Tab Switcher --}}
-        <div class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 shadow-sm">
+        <div class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 shadow-sm overflow-x-auto">
             <button x-on:click="activeTab = 'compress'"
                 :class="activeTab === 'compress'
                     ? 'bg-white text-brand-700 shadow-sm font-bold'
                     : 'text-gray-500 hover:text-gray-700 font-semibold'"
-                class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm sm:text-base transition-all duration-200">
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                 </svg>
-                <span>Compress Image</span>
+                <span class="truncate">Compress</span>
             </button>
             <button x-on:click="activeTab = 'convert'"
                 :class="activeTab === 'convert'
                     ? 'bg-white text-purple-700 shadow-sm font-bold'
                     : 'text-gray-500 hover:text-gray-700 font-semibold'"
-                class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm sm:text-base transition-all duration-200">
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/>
                 </svg>
-                <span>Convert Format</span>
+                <span class="truncate">Convert</span>
+            </button>
+            <button x-on:click="activeTab = 'batch'"
+                :class="activeTab === 'batch'
+                    ? 'bg-white text-blue-700 shadow-sm font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/>
+                </svg>
+                <span class="truncate">Batch</span>
+            </button>
+            <button x-on:click="activeTab = 'resize'"
+                :class="activeTab === 'resize'
+                    ? 'bg-white text-orange-700 shadow-sm font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+                </svg>
+                <span class="truncate">Resize</span>
+            </button>
+            <button x-on:click="activeTab = 'tools'"
+                :class="activeTab === 'tools'
+                    ? 'bg-white text-teal-700 shadow-sm font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
+                </svg>
+                <span class="truncate">More Tools</span>
             </button>
         </div>
 
@@ -900,6 +930,642 @@
             </div>
         </div>{{-- end convert tab --}}
 
+        {{-- ======================== BATCH TAB ======================== --}}
+        <div x-show="activeTab === 'batch'" x-transition.opacity.duration.200ms
+             x-data="batchCompressor()" x-init="initBatch()">
+
+            {{-- IDLE --}}
+            <div x-show="bstate === 'idle' || bstate === 'error'" class="animate-slide-up">
+                <div x-on:dragover.prevent="bisDragging = true"
+                     x-on:dragleave.prevent="bisDragging = false"
+                     x-on:drop.prevent="bHandleDrop($event)"
+                     x-on:click="$refs.batchFileInput.click()"
+                     :class="{ 'drop-active ring-2 ring-blue-400': bisDragging }"
+                     class="relative bg-white border-2 border-dashed border-gray-300 rounded-3xl p-10 sm:p-14 text-center cursor-pointer transition-all duration-300 group shadow-sm hover:shadow-lg hover:border-blue-400">
+                    <input type="file" x-ref="batchFileInput" multiple accept=".jpg,.jpeg,.png,.webp,.gif" x-on:change="bHandleFileSelect($event)" class="hidden">
+                    <div class="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-6">
+                        <div class="absolute inset-0 bg-blue-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+                        <div class="relative bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl w-full h-full flex items-center justify-center shadow-xl shadow-blue-500/25">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
+                        </div>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2">Batch compress up to 20 images</h2>
+                    <p class="text-gray-500 mb-5">Drop multiple files or <span class="text-blue-600 font-semibold underline decoration-blue-300 underline-offset-2">browse files</span></p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">JPG</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">PNG</span>
+                        <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full">WEBP</span>
+                        <span class="inline-flex items-center gap-1 bg-blue-50 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full">Max 20 files · 20MB each</span>
+                    </div>
+                </div>
+                <div x-show="berrorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <p class="text-red-700 text-sm font-medium" x-text="berrorMessage"></p>
+                </div>
+            </div>
+
+            {{-- SETTINGS --}}
+            <div x-show="bstate === 'settings'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 overflow-hidden">
+                    <div class="px-6 sm:px-8 pt-6 sm:pt-8 pb-5 border-b border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-base text-gray-900" x-text="bfiles.length + ' image' + (bfiles.length === 1 ? '' : 's') + ' selected'"></p>
+                            <p class="text-sm text-gray-500">Total: <span x-text="bFormatBytes(bTotalSize)"></span></p>
+                        </div>
+                        <button x-on:click="bReset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all" title="Clear all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    {{-- File list --}}
+                    <div class="max-h-48 overflow-y-auto divide-y divide-gray-100">
+                        <template x-for="(f, i) in bfiles" :key="i">
+                            <div class="px-6 py-3 flex items-center gap-3 hover:bg-gray-50">
+                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                                </div>
+                                <span class="text-sm text-gray-700 truncate flex-1" x-text="f.name"></span>
+                                <span class="text-xs text-gray-400 flex-shrink-0" x-text="bFormatBytes(f.size)"></span>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="px-6 sm:px-8 py-6 space-y-5">
+                        {{-- Quality Slider --}}
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <label class="text-sm font-semibold text-gray-700">Compression Quality</label>
+                                <span class="text-sm font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full" x-text="bquality + '%'"></span>
+                            </div>
+                            <input type="range" min="10" max="90" step="1" x-model.number="bquality"
+                                   class="w-full" :style="'background: linear-gradient(to right, #3b82f6 ' + ((bquality-10)/80*100) + '%, #e5e7eb ' + ((bquality-10)/80*100) + '%)'">
+                            <div class="flex gap-2 mt-3">
+                                <button x-on:click="bquality = 20" :class="bquality <= 30 ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold transition-all">Max Compress</button>
+                                <button x-on:click="bquality = 50" :class="bquality > 30 && bquality <= 65 ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold transition-all">Balanced</button>
+                                <button x-on:click="bquality = 80" :class="bquality > 65 ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold transition-all">High Quality</button>
+                            </div>
+                        </div>
+                        <button x-on:click="bCompress()"
+                            class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
+                            Compress All Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PROCESSING --}}
+            <div x-show="bstate === 'processing'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-200/60 p-10 text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-6">
+                        <div class="absolute inset-0 rounded-full bg-blue-100 animate-ping opacity-40"></div>
+                        <div class="relative w-full h-full rounded-full bg-blue-50 flex items-center justify-center">
+                            <svg class="animate-spin w-10 h-10 text-blue-600" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+                                <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Compressing batch...</h3>
+                    <p class="text-gray-500">Processing <span x-text="bfiles.length"></span> images</p>
+                </div>
+            </div>
+
+            {{-- RESULTS --}}
+            <div x-show="bstate === 'result'" x-transition class="animate-slide-up space-y-4">
+                {{-- Summary --}}
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 text-center shadow-sm">
+                        <p class="text-xs text-gray-400 mb-1">Processed</p>
+                        <p class="text-xl font-bold text-blue-600" x-text="bresults.succeeded + '/' + bresults.total"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 text-center shadow-sm">
+                        <p class="text-xs text-gray-400 mb-1">Total Saved</p>
+                        <p class="text-xl font-bold text-green-600" x-text="bFormatBytes(bTotalSaved)"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 text-center shadow-sm">
+                        <p class="text-xs text-gray-400 mb-1">Avg Reduction</p>
+                        <p class="text-xl font-bold text-amber-600" x-text="bAvgReduction + '%'"></p>
+                    </div>
+                </div>
+
+                {{-- File list --}}
+                <div class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+                    <div class="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
+                        <h3 class="font-bold text-gray-900 text-sm">Results</h3>
+                        <div class="flex gap-2">
+                            <button x-on:click="bDownloadZip()" x-show="bresults.filenames && bresults.filenames.length > 0"
+                                class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                Download ZIP
+                            </button>
+                            <button x-on:click="bReset()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition-all">New Batch</button>
+                        </div>
+                    </div>
+                    <div class="divide-y divide-gray-100 max-h-72 overflow-y-auto">
+                        <template x-for="r in (bresults.results || [])" :key="r.original_name">
+                            <div class="px-5 py-3 flex items-center gap-3">
+                                <div :class="r.success ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-500'" class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg x-show="r.success" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                    <svg x-show="!r.success" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </div>
+                                <span class="text-sm text-gray-700 truncate flex-1" x-text="r.original_name"></span>
+                                <template x-if="r.success">
+                                    <div class="flex items-center gap-2 flex-shrink-0">
+                                        <span class="text-xs text-green-600 font-semibold" x-text="'-' + r.reduction + '%'"></span>
+                                        <a :href="r.download_url" download class="px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold rounded-lg transition-all">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                        </a>
+                                    </div>
+                                </template>
+                                <template x-if="!r.success">
+                                    <span class="text-xs text-red-500 flex-shrink-0" x-text="r.message || 'Failed'"></span>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>{{-- end batch tab --}}
+
+        {{-- ======================== RESIZE TAB ======================== --}}
+        <div x-show="activeTab === 'resize'" x-transition.opacity.duration.200ms
+             x-data="resizer()" x-init="initResize()">
+
+            {{-- IDLE --}}
+            <div x-show="rstate === 'idle' || rstate === 'error'" class="animate-slide-up">
+                <div x-on:dragover.prevent="risDragging = true"
+                     x-on:dragleave.prevent="risDragging = false"
+                     x-on:drop.prevent="rHandleDrop($event)"
+                     x-on:click="$refs.resizeFileInput.click()"
+                     :class="{ 'drop-active ring-2 ring-orange-400': risDragging }"
+                     class="relative bg-white border-2 border-dashed border-gray-300 rounded-3xl p-10 sm:p-14 text-center cursor-pointer transition-all duration-300 group shadow-sm hover:shadow-lg hover:border-orange-400">
+                    <input type="file" x-ref="resizeFileInput" accept=".jpg,.jpeg,.png,.webp,.gif" x-on:change="rHandleFileSelect($event)" class="hidden">
+                    <div class="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-6">
+                        <div class="absolute inset-0 bg-orange-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+                        <div class="relative bg-gradient-to-br from-orange-500 to-orange-700 rounded-3xl w-full h-full flex items-center justify-center shadow-xl shadow-orange-500/25">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
+                        </div>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2">Resize your image</h2>
+                    <p class="text-gray-500 mb-5">or <span class="text-orange-600 font-semibold underline decoration-orange-300 underline-offset-2">browse files</span></p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="inline-flex items-center bg-orange-50 text-orange-600 text-xs font-semibold px-3 py-1.5 rounded-full">Exact size · Percentage · Fit width/height</span>
+                    </div>
+                </div>
+                <div x-show="rerrorMessage" x-transition.duration.300ms class="mt-4 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <p class="text-red-700 text-sm font-medium" x-text="rerrorMessage"></p>
+                </div>
+            </div>
+
+            {{-- SETTINGS --}}
+            <div x-show="rstate === 'settings'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 overflow-hidden">
+                    <div class="px-6 sm:px-8 pt-6 pb-5 border-b border-gray-100 flex items-center gap-4">
+                        <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="font-bold text-base truncate" x-text="rfileName"></p>
+                            <p class="text-sm text-gray-500">
+                                <span x-text="rformatBytes(rfileSize)"></span>
+                                <span x-show="rorigW && rorigH"> · <span x-text="rorigW + '×' + rorigH + ' px'"></span></span>
+                            </p>
+                        </div>
+                        <button x-on:click="rReset()" class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <div class="px-6 sm:px-8 py-6 space-y-5">
+                        {{-- Preview --}}
+                        <div x-show="rpreviewUrl" class="rounded-2xl overflow-hidden bg-gray-100 max-h-48 flex items-center justify-center">
+                            <img :src="rpreviewUrl" class="max-h-48 object-contain w-full" loading="lazy">
+                        </div>
+
+                        {{-- Mode selection --}}
+                        <div>
+                            <label class="text-sm font-semibold text-gray-700 mb-3 block">Resize Mode</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <template x-for="m in [{v:'percentage',l:'Percentage'},{v:'max_width',l:'Max Width'},{v:'max_height',l:'Max Height'},{v:'exact',l:'Exact Size'}]" :key="m.v">
+                                    <button x-on:click="rmode = m.v"
+                                        :class="rmode === m.v ? 'bg-orange-600 text-white border-orange-600 shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-orange-300'"
+                                        class="px-3 py-3 rounded-xl border text-xs font-bold transition-all text-center" x-text="m.l">
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                        {{-- Percentage mode --}}
+                        <div x-show="rmode === 'percentage'" class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm font-semibold text-gray-700">Scale</label>
+                                <span class="text-sm font-bold bg-orange-100 text-orange-700 px-3 py-1 rounded-full" x-text="rpercentage + '%'"></span>
+                            </div>
+                            <input type="range" min="10" max="200" step="5" x-model.number="rpercentage"
+                                class="w-full" :style="'background: linear-gradient(to right, #f97316 ' + ((rpercentage-10)/190*100) + '%, #e5e7eb ' + ((rpercentage-10)/190*100) + '%)'">
+                            <div class="flex gap-2 mt-2">
+                                <button x-on:click="rpercentage=25" :class="rpercentage===25?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">25%</button>
+                                <button x-on:click="rpercentage=50" :class="rpercentage===50?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">50%</button>
+                                <button x-on:click="rpercentage=75" :class="rpercentage===75?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">75%</button>
+                                <button x-on:click="rpercentage=150" :class="rpercentage===150?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">150%</button>
+                            </div>
+                            <div x-show="rorigW && rorigH" class="text-xs text-gray-400 text-center">
+                                Output: <span x-text="Math.round(rorigW * rpercentage / 100) + ' × ' + Math.round(rorigH * rpercentage / 100) + ' px'"></span>
+                            </div>
+                        </div>
+
+                        {{-- Max width mode --}}
+                        <div x-show="rmode === 'max_width'" class="space-y-3">
+                            <label class="text-sm font-semibold text-gray-700 block">Maximum Width (px)</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" x-model.number="rwidth" min="1" max="8000"
+                                    class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none" placeholder="e.g. 1920">
+                                <span class="text-sm text-gray-400">px</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button x-on:click="rwidth=320" :class="rwidth===320?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">320</button>
+                                <button x-on:click="rwidth=640" :class="rwidth===640?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">640</button>
+                                <button x-on:click="rwidth=1280" :class="rwidth===1280?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">1280</button>
+                                <button x-on:click="rwidth=1920" :class="rwidth===1920?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">1920</button>
+                            </div>
+                        </div>
+
+                        {{-- Max height mode --}}
+                        <div x-show="rmode === 'max_height'" class="space-y-3">
+                            <label class="text-sm font-semibold text-gray-700 block">Maximum Height (px)</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" x-model.number="rheight" min="1" max="8000"
+                                    class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none" placeholder="e.g. 1080">
+                                <span class="text-sm text-gray-400">px</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button x-on:click="rheight=480" :class="rheight===480?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">480</button>
+                                <button x-on:click="rheight=720" :class="rheight===720?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">720</button>
+                                <button x-on:click="rheight=1080" :class="rheight===1080?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">1080</button>
+                                <button x-on:click="rheight=2160" :class="rheight===2160?'bg-orange-100 text-orange-700 border-orange-200':'bg-gray-50 text-gray-600 border-gray-200'" class="flex-1 px-3 py-2 rounded-xl border text-xs font-semibold">2160</button>
+                            </div>
+                        </div>
+
+                        {{-- Exact mode --}}
+                        <div x-show="rmode === 'exact'" class="space-y-3">
+                            <label class="text-sm font-semibold text-gray-700 block">Exact Dimensions</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" x-model.number="rwidth" min="1" max="8000"
+                                    class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none" placeholder="Width">
+                                <span class="text-gray-400 text-sm font-bold">×</span>
+                                <input type="number" x-model.number="rheight" min="1" max="8000"
+                                    class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none" placeholder="Height">
+                                <span class="text-sm text-gray-400">px</span>
+                            </div>
+                        </div>
+
+                        <button x-on:click="rResize()"
+                            class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-orange-500/25 hover:scale-[1.02] active:scale-[0.98]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
+                            Resize Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PROCESSING --}}
+            <div x-show="rstate === 'processing'" x-transition class="animate-slide-up">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-200/60 p-10 text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-6">
+                        <div class="absolute inset-0 rounded-full bg-orange-100 animate-ping opacity-40"></div>
+                        <div class="relative w-full h-full rounded-full bg-orange-50 flex items-center justify-center">
+                            <svg class="animate-spin w-10 h-10 text-orange-600" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+                                <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Resizing your image...</h3>
+                </div>
+            </div>
+
+            {{-- RESULT --}}
+            <div x-show="rstate === 'result'" x-transition class="animate-slide-up space-y-5">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 text-center shadow-sm">
+                        <p class="text-xs text-gray-400 mb-1">Original</p>
+                        <p class="text-lg font-bold text-gray-700" x-text="rresult.formatted_original"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 text-center shadow-sm">
+                        <p class="text-xs text-gray-400 mb-1">Resized</p>
+                        <p class="text-lg font-bold text-orange-600" x-text="rresult.formatted_resized"></p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-200/60 p-4 text-center shadow-sm">
+                        <p class="text-xs text-gray-400 mb-1">Dimensions</p>
+                        <p class="text-sm font-bold text-gray-700" x-text="(rresult.width || '—') + '×' + (rresult.height || '—')"></p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-200/60 p-6">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a :href="rresult.download_url" download
+                           class="flex-1 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-orange-500/25 hover:scale-[1.02]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Download Resized
+                        </a>
+                        <button x-on:click="rReset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-5 rounded-2xl flex items-center justify-center gap-2 text-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            New Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>{{-- end resize tab --}}
+
+        {{-- ======================== MORE TOOLS TAB ======================== --}}
+        <div x-show="activeTab === 'tools'" x-transition.opacity.duration.200ms>
+            <div class="grid sm:grid-cols-2 gap-4">
+
+                {{-- Watermark Tool --}}
+                <div x-data="watermarkTool()" x-init="initWatermark()" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+                    <div class="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-sm">Add Watermark</h3>
+                            <p class="text-xs text-gray-500">Text watermark overlay</p>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div x-show="wstate === 'idle' || wstate === 'error'">
+                            <div x-on:click="$refs.wFileInput.click()" class="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:border-pink-400 hover:bg-pink-50 transition-all">
+                                <input type="file" x-ref="wFileInput" accept=".jpg,.jpeg,.png,.webp" x-on:change="wHandleFile($event)" class="hidden">
+                                <p class="text-sm text-gray-400">Click to select image</p>
+                            </div>
+                        </div>
+
+                        <div x-show="wstate === 'settings'" class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-semibold text-gray-500 flex-shrink-0">File:</span>
+                                <span class="text-xs text-gray-700 truncate" x-text="wfileName"></span>
+                                <button x-on:click="wReset()" class="ml-auto text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                            </div>
+                            <input type="text" x-model="wtext" maxlength="100" placeholder="Watermark text (e.g. © MyBrand)"
+                                class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-pink-400 focus:border-transparent outline-none">
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-500 mb-1 block">Position</label>
+                                    <select x-model="wposition" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-pink-400 outline-none">
+                                        <option value="bottom-right">Bottom Right</option>
+                                        <option value="bottom-left">Bottom Left</option>
+                                        <option value="top-right">Top Right</option>
+                                        <option value="top-left">Top Left</option>
+                                        <option value="center">Center</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-500 mb-1 block">Opacity: <span x-text="wopacity + '%'"></span></label>
+                                    <input type="range" min="10" max="100" step="5" x-model.number="wopacity" class="w-full mt-1.5">
+                                </div>
+                            </div>
+                            <button x-on:click="wApply()" :disabled="!wtext.trim()"
+                                :class="wtext.trim() ? 'opacity-100 hover:scale-[1.02]' : 'opacity-50 cursor-not-allowed'"
+                                class="w-full bg-gradient-to-r from-pink-600 to-pink-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
+                                <svg x-show="wstate !== 'processing'" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                                Apply Watermark
+                            </button>
+                        </div>
+
+                        <div x-show="wstate === 'processing'" class="text-center py-4">
+                            <svg class="animate-spin w-8 h-8 text-pink-600 mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            <p class="text-sm text-gray-500 mt-2">Applying watermark...</p>
+                        </div>
+
+                        <div x-show="wstate === 'result'" class="space-y-3">
+                            <div class="flex items-center gap-2 bg-green-50 rounded-xl px-3 py-2.5">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span class="text-sm font-semibold text-green-700">Watermark applied!</span>
+                            </div>
+                            <a :href="wresult.download_url" download
+                               class="flex w-full items-center justify-center gap-2 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-sm transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                Download
+                            </a>
+                            <button x-on:click="wReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Apply another</button>
+                        </div>
+
+                        <div x-show="werrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="werrorMessage"></div>
+                    </div>
+                </div>
+
+                {{-- URL Compress Tool --}}
+                <div x-data="urlCompressor()" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+                    <div class="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-sm">Compress from URL</h3>
+                            <p class="text-xs text-gray-500">Paste image URL to compress</p>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div x-show="ustate === 'idle' || ustate === 'error'" class="space-y-3">
+                            <input type="url" x-model="uurl" placeholder="https://example.com/image.jpg"
+                                class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-teal-400 focus:border-transparent outline-none"
+                                x-on:keydown.enter="uCompress()">
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs text-gray-500 flex-shrink-0">Quality</label>
+                                <input type="range" min="10" max="90" step="5" x-model.number="uquality" class="flex-1">
+                                <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2 py-1 rounded-lg flex-shrink-0" x-text="uquality + '%'"></span>
+                            </div>
+                            <button x-on:click="uCompress()" :disabled="!uurl.trim()"
+                                :class="uurl.trim() ? 'opacity-100' : 'opacity-50 cursor-not-allowed'"
+                                class="w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                                Compress URL Image
+                            </button>
+                            <div x-show="uerrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="uerrorMessage"></div>
+                        </div>
+
+                        <div x-show="ustate === 'processing'" class="text-center py-4">
+                            <svg class="animate-spin w-8 h-8 text-teal-600 mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            <p class="text-sm text-gray-500 mt-2">Fetching and compressing...</p>
+                        </div>
+
+                        <div x-show="ustate === 'result'" class="space-y-3">
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="bg-gray-50 rounded-xl p-2 text-center">
+                                    <p class="text-xs text-gray-400">Original</p>
+                                    <p class="text-xs font-bold text-gray-700" x-text="uresult.formatted_original"></p>
+                                </div>
+                                <div class="bg-teal-50 rounded-xl p-2 text-center">
+                                    <p class="text-xs text-gray-400">Compressed</p>
+                                    <p class="text-xs font-bold text-teal-600" x-text="uresult.formatted_compressed"></p>
+                                </div>
+                                <div class="bg-green-50 rounded-xl p-2 text-center">
+                                    <p class="text-xs text-gray-400">Saved</p>
+                                    <p class="text-xs font-bold text-green-600" x-text="uresult.reduction + '%'"></p>
+                                </div>
+                            </div>
+                            <a :href="uresult.download_url" download
+                               class="flex w-full items-center justify-center gap-2 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-sm transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                Download
+                            </a>
+                            <button x-on:click="uReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Compress another</button>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Image → PDF Tool --}}
+                <div x-data="imgToPdfTool()" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+                    <div class="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-sm">Image → PDF</h3>
+                            <p class="text-xs text-gray-500">Convert image to PDF document</p>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div x-show="pstate === 'idle' || pstate === 'error'">
+                            <div x-on:click="$refs.pdfImgInput.click()" class="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:border-red-400 hover:bg-red-50 transition-all">
+                                <input type="file" x-ref="pdfImgInput" accept=".jpg,.jpeg,.png,.webp" x-on:change="pHandleFile($event)" class="hidden">
+                                <p class="text-sm text-gray-400">Click to select image</p>
+                            </div>
+                        </div>
+
+                        <div x-show="pstate === 'settings'" class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-semibold text-gray-600 truncate flex-1" x-text="pfileName"></span>
+                                <button x-on:click="pReset()" class="ml-2 text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-500 mb-1 block">Page Size</label>
+                                    <select x-model="ppageSize" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-400 outline-none">
+                                        <option value="A4">A4</option>
+                                        <option value="A3">A3</option>
+                                        <option value="Letter">Letter</option>
+                                        <option value="Legal">Legal</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-500 mb-1 block">Orientation</label>
+                                    <select x-model="porientation" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-400 outline-none">
+                                        <option value="portrait">Portrait</option>
+                                        <option value="landscape">Landscape</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button x-on:click="pConvert()"
+                                class="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                                Convert to PDF
+                            </button>
+                        </div>
+
+                        <div x-show="pstate === 'processing'" class="text-center py-4">
+                            <svg class="animate-spin w-8 h-8 text-red-600 mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            <p class="text-sm text-gray-500 mt-2">Generating PDF...</p>
+                        </div>
+
+                        <div x-show="pstate === 'result'" class="space-y-3">
+                            <div class="flex items-center gap-2 bg-green-50 rounded-xl px-3 py-2.5">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span class="text-sm text-green-700 font-semibold">PDF ready! <span class="font-normal" x-text="'(' + presult.formatted_size + ')'"></span></span>
+                            </div>
+                            <a :href="presult.download_url" download
+                               class="flex w-full items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                Download PDF
+                            </a>
+                            <button x-on:click="pReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Convert another</button>
+                        </div>
+
+                        <div x-show="perrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="perrorMessage"></div>
+                    </div>
+                </div>
+
+                {{-- PDF → Image Tool --}}
+                <div x-data="pdfToImgTool()" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+                    <div class="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-sm">PDF → Image</h3>
+                            <p class="text-xs text-gray-500">Convert PDF page to image</p>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div x-show="pdfistate === 'idle' || pdfistate === 'error'">
+                            <div x-on:click="$refs.pdfFileInput.click()" class="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-all">
+                                <input type="file" x-ref="pdfFileInput" accept=".pdf" x-on:change="pdfiHandleFile($event)" class="hidden">
+                                <p class="text-sm text-gray-400">Click to select PDF file</p>
+                                <p class="text-xs text-gray-400 mt-1">Max 20MB</p>
+                            </div>
+                        </div>
+
+                        <div x-show="pdfistate === 'settings'" class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-semibold text-gray-600 truncate flex-1" x-text="pdfifileName"></span>
+                                <button x-on:click="pdfiReset()" class="ml-2 text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-500 mb-1 block">Output Format</label>
+                                    <select x-model="pdfiformat" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 outline-none">
+                                        <option value="jpg">JPG</option>
+                                        <option value="png">PNG</option>
+                                        <option value="webp">WebP</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-500 mb-1 block">DPI</label>
+                                    <select x-model.number="pdfidpi" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 outline-none">
+                                        <option value="72">72</option>
+                                        <option value="96">96</option>
+                                        <option value="150" selected>150</option>
+                                        <option value="200">200</option>
+                                        <option value="300">300</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button x-on:click="pdfiConvert()"
+                                class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909"/></svg>
+                                Convert to Image
+                            </button>
+                        </div>
+
+                        <div x-show="pdfistate === 'processing'" class="text-center py-4">
+                            <svg class="animate-spin w-8 h-8 text-indigo-600 mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            <p class="text-sm text-gray-500 mt-2">Converting PDF...</p>
+                        </div>
+
+                        <div x-show="pdfistate === 'result'" class="space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-indigo-50 rounded-xl p-2 text-center">
+                                    <p class="text-xs text-gray-400">Size</p>
+                                    <p class="text-xs font-bold text-indigo-600" x-text="pdfiresult.formatted_size"></p>
+                                </div>
+                                <div class="bg-indigo-50 rounded-xl p-2 text-center">
+                                    <p class="text-xs text-gray-400">Dimensions</p>
+                                    <p class="text-xs font-bold text-indigo-600" x-text="(pdfiresult.width||'—') + '×' + (pdfiresult.height||'—')"></p>
+                                </div>
+                            </div>
+                            <a :href="pdfiresult.download_url" download
+                               class="flex w-full items-center justify-center gap-2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                Download Image
+                            </a>
+                            <button x-on:click="pdfiReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Convert another</button>
+                        </div>
+
+                        <div x-show="pdfierrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="pdfierrorMessage"></div>
+                    </div>
+                </div>
+
+            </div>{{-- end grid --}}
+        </div>{{-- end tools tab --}}
+
     </div>{{-- end toolTabs wrapper --}}
 
     {{-- Trust / Stats Bar --}}
@@ -1187,6 +1853,13 @@
                 done: _e('{{ base64_encode(route("upload.finalize")) }}'),
                 proc: _e('{{ base64_encode(route("image.compress")) }}'),
                 xfm:  _e('{{ base64_encode(route("image.convert")) }}'),
+                btch: _e('{{ base64_encode(route("batch.compress")) }}'),
+                bzip: _e('{{ base64_encode(route("batch.zip")) }}'),
+                rsz:  _e('{{ base64_encode(route("image.resize")) }}'),
+                urlp: _e('{{ base64_encode(route("url.compress")) }}'),
+                i2p:  _e('{{ base64_encode(route("image.to.pdf")) }}'),
+                p2i:  _e('{{ base64_encode(route("pdf.to.image")) }}'),
+                wmk:  _e('{{ base64_encode(route("image.watermark")) }}'),
             };
         })();
     </script>
@@ -1565,6 +2238,391 @@
                     const u = ['B','KB','MB','GB']; let i = 0, s = bytes;
                     while (s >= 1024 && i < u.length - 1) { s /= 1024; i++; }
                     return s.toFixed(p) + ' ' + u[i];
+                },
+            };
+        }
+
+        /* ─── Batch Compressor ───────────────────────────────────────── */
+        function batchCompressor() {
+            return {
+                bstate: 'idle',
+                bfiles: [],
+                bquality: 50,
+                bisDragging: false,
+                berrorMessage: '',
+                bresults: {},
+
+                initBatch() {},
+
+                get bTotalSize() {
+                    return this.bfiles.reduce((s, f) => s + f.size, 0);
+                },
+                get bTotalSaved() {
+                    if (!this.bresults.results) return 0;
+                    return this.bresults.results.reduce((s, r) => {
+                        if (r.success) return s + (r.original_size - r.compressed_size);
+                        return s;
+                    }, 0);
+                },
+                get bAvgReduction() {
+                    if (!this.bresults.results) return 0;
+                    const ok = this.bresults.results.filter(r => r.success);
+                    if (!ok.length) return 0;
+                    return Math.round(ok.reduce((s, r) => s + r.reduction, 0) / ok.length);
+                },
+
+                bHandleDrop(e) {
+                    this.bisDragging = false;
+                    const files = Array.from(e.dataTransfer.files || []);
+                    this.bAddFiles(files);
+                },
+                bHandleFileSelect(e) {
+                    const files = Array.from(e.target.files || []);
+                    this.bAddFiles(files);
+                    e.target.value = '';
+                },
+                bAddFiles(files) {
+                    const allowed = ['image/jpeg','image/png','image/webp','image/gif'];
+                    const valid = files.filter(f => allowed.includes(f.type) && f.size <= 20 * 1024 * 1024);
+                    if (!valid.length) { this.berrorMessage = 'No valid images found (JPG/PNG/WebP/GIF, max 20MB each).'; return; }
+                    const combined = [...this.bfiles, ...valid].slice(0, 20);
+                    if (this.bfiles.length + valid.length > 20) {
+                        this.berrorMessage = 'Maximum 20 files allowed. Only the first 20 were kept.';
+                    } else {
+                        this.berrorMessage = '';
+                    }
+                    this.bfiles = combined;
+                    this.bstate = 'settings';
+                },
+
+                async bCompress() {
+                    if (!this.bfiles.length) return;
+                    this.bstate = 'processing';
+                    this.berrorMessage = '';
+                    const fd = new FormData();
+                    this.bfiles.forEach(f => fd.append('images[]', f));
+                    fd.append('quality', this.bquality);
+                    try {
+                        const res = await fetch(window.__cp.btch, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Batch compression failed.');
+                        this.bresults = data;
+                        this.bstate = 'result';
+                    } catch (err) {
+                        this.berrorMessage = err.message || 'An error occurred.';
+                        this.bstate = 'error';
+                    }
+                },
+
+                async bDownloadZip() {
+                    if (!this.bresults.filenames || !this.bresults.filenames.length) return;
+                    const fd = new FormData();
+                    this.bresults.filenames.forEach(fn => fd.append('filenames[]', fn));
+                    fd.append('batch_id', this.bresults.batch_id || '');
+                    try {
+                        const res = await fetch(window.__cp.bzip, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        if (!res.ok) { const d = await res.json(); throw new Error(d.message || 'ZIP error.'); }
+                        const blob = await res.blob();
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url; a.download = 'compressed-batch.zip'; a.click();
+                        setTimeout(() => URL.revokeObjectURL(url), 5000);
+                    } catch (err) {
+                        this.berrorMessage = err.message || 'Could not download ZIP.';
+                    }
+                },
+
+                bReset() {
+                    this.bstate = 'idle'; this.bfiles = []; this.bresults = {};
+                    this.berrorMessage = ''; this.bquality = 50;
+                },
+
+                bFormatBytes(bytes, p = 1) {
+                    if (!bytes || bytes === 0) return '0 B';
+                    const u = ['B','KB','MB','GB']; let i = 0, s = bytes;
+                    while (s >= 1024 && i < u.length - 1) { s /= 1024; i++; }
+                    return s.toFixed(p) + ' ' + u[i];
+                },
+            };
+        }
+
+        /* ─── Resizer ────────────────────────────────────────────────── */
+        function resizer() {
+            return {
+                rstate: 'idle',
+                rfile: null,
+                rfileName: '',
+                rfileSize: 0,
+                rmode: 'max_width',
+                rwidth: 1920,
+                rheight: 1080,
+                rpercentage: 50,
+                rquality: 85,
+                rformat: 'original',
+                rresult: {},
+                rerrorMessage: '',
+                risDragging: false,
+                rpreviewUrl: null,
+                rorigW: 0,
+                rorigH: 0,
+
+                initResize() {},
+
+                rHandleDrop(e) {
+                    this.risDragging = false;
+                    const file = (e.dataTransfer.files || [])[0];
+                    if (file) this.rSetFile(file);
+                },
+                rHandleFileSelect(e) {
+                    const file = (e.target.files || [])[0];
+                    if (file) { this.rSetFile(file); e.target.value = ''; }
+                },
+                rSetFile(file) {
+                    const allowed = ['image/jpeg','image/png','image/webp','image/gif'];
+                    if (!allowed.includes(file.type)) { this.rerrorMessage = 'Only JPG, PNG, WebP, GIF supported.'; this.rstate = 'error'; return; }
+                    if (file.size > 20 * 1024 * 1024) { this.rerrorMessage = 'File too large (max 20MB).'; this.rstate = 'error'; return; }
+                    this.rerrorMessage = '';
+                    this.rfile = file;
+                    this.rfileName = file.name;
+                    this.rfileSize = file.size;
+                    if (this.rpreviewUrl) URL.revokeObjectURL(this.rpreviewUrl);
+                    this.rpreviewUrl = URL.createObjectURL(file);
+                    const img = new Image();
+                    img.onload = () => { this.rorigW = img.naturalWidth; this.rorigH = img.naturalHeight; };
+                    img.src = this.rpreviewUrl;
+                    this.rstate = 'settings';
+                },
+
+                async rResize() {
+                    if (!this.rfile) return;
+                    this.rstate = 'processing';
+                    this.rerrorMessage = '';
+                    const fd = new FormData();
+                    fd.append('image', this.rfile);
+                    fd.append('mode', this.rmode);
+                    fd.append('quality', this.rquality);
+                    fd.append('format', this.rformat);
+                    if (this.rmode === 'percentage') { fd.append('percentage', this.rpercentage); }
+                    else if (this.rmode === 'max_width') { fd.append('width', this.rwidth); }
+                    else if (this.rmode === 'max_height') { fd.append('height', this.rheight); }
+                    else if (this.rmode === 'exact') { fd.append('width', this.rwidth); fd.append('height', this.rheight); }
+                    try {
+                        const res = await fetch(window.__cp.rsz, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Resize failed.');
+                        this.rresult = data;
+                        this.rstate = 'result';
+                    } catch (err) {
+                        this.rerrorMessage = err.message || 'An error occurred.';
+                        this.rstate = 'error';
+                    }
+                },
+
+                rReset() {
+                    this.rstate = 'idle'; this.rfile = null; this.rfileName = '';
+                    this.rfileSize = 0; this.rresult = {}; this.rerrorMessage = '';
+                    this.rorigW = 0; this.rorigH = 0;
+                    if (this.rpreviewUrl) { URL.revokeObjectURL(this.rpreviewUrl); this.rpreviewUrl = null; }
+                },
+
+                rformatBytes(bytes, p = 1) {
+                    if (!bytes || bytes === 0) return '0 B';
+                    const u = ['B','KB','MB','GB']; let i = 0, s = bytes;
+                    while (s >= 1024 && i < u.length - 1) { s /= 1024; i++; }
+                    return s.toFixed(p) + ' ' + u[i];
+                },
+            };
+        }
+
+        /* ─── Watermark Tool ─────────────────────────────────────────── */
+        function watermarkTool() {
+            return {
+                wstate: 'idle',
+                wfile: null,
+                wfileName: '',
+                wtext: '',
+                wposition: 'bottom-right',
+                wopacity: 70,
+                wresult: {},
+                werrorMessage: '',
+                initWatermark() {},
+                wHandleFile(e) {
+                    const file = (e.target.files || [])[0];
+                    if (!file) return;
+                    const ok = ['image/jpeg','image/png','image/webp'];
+                    if (!ok.includes(file.type)) { this.werrorMessage = 'Only JPG/PNG/WebP supported.'; return; }
+                    if (file.size > 20 * 1024 * 1024) { this.werrorMessage = 'Max 20MB.'; return; }
+                    this.werrorMessage = ''; this.wfile = file; this.wfileName = file.name;
+                    this.wstate = 'settings';
+                    e.target.value = '';
+                },
+                async wApply() {
+                    if (!this.wfile || !this.wtext.trim()) return;
+                    this.wstate = 'processing';
+                    const fd = new FormData();
+                    fd.append('image', this.wfile);
+                    fd.append('text', this.wtext);
+                    fd.append('position', this.wposition);
+                    fd.append('opacity', this.wopacity);
+                    try {
+                        const res = await fetch(window.__cp.wmk, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Watermark failed.');
+                        this.wresult = data; this.wstate = 'result';
+                    } catch (err) {
+                        this.werrorMessage = err.message || 'Error applying watermark.';
+                        this.wstate = 'settings';
+                    }
+                },
+                wReset() {
+                    this.wstate = 'idle'; this.wfile = null; this.wfileName = '';
+                    this.wtext = ''; this.wresult = {}; this.werrorMessage = '';
+                },
+            };
+        }
+
+        /* ─── URL Compressor ─────────────────────────────────────────── */
+        function urlCompressor() {
+            return {
+                ustate: 'idle',
+                uurl: '',
+                uquality: 50,
+                uresult: {},
+                uerrorMessage: '',
+                async uCompress() {
+                    if (!this.uurl.trim()) return;
+                    this.ustate = 'processing';
+                    this.uerrorMessage = '';
+                    const fd = new FormData();
+                    fd.append('url', this.uurl);
+                    fd.append('quality', this.uquality);
+                    try {
+                        const res = await fetch(window.__cp.urlp, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'URL compression failed.');
+                        this.uresult = data; this.ustate = 'result';
+                    } catch (err) {
+                        this.uerrorMessage = err.message || 'An error occurred.';
+                        this.ustate = 'error';
+                    }
+                },
+                uReset() {
+                    this.ustate = 'idle'; this.uurl = ''; this.uresult = {}; this.uerrorMessage = '';
+                },
+            };
+        }
+
+        /* ─── Image → PDF Tool ───────────────────────────────────────── */
+        function imgToPdfTool() {
+            return {
+                pstate: 'idle',
+                pfile: null,
+                pfileName: '',
+                ppageSize: 'A4',
+                porientation: 'portrait',
+                presult: {},
+                perrorMessage: '',
+                pHandleFile(e) {
+                    const file = (e.target.files || [])[0];
+                    if (!file) return;
+                    const ok = ['image/jpeg','image/png','image/webp'];
+                    if (!ok.includes(file.type)) { this.perrorMessage = 'Only JPG/PNG/WebP supported.'; return; }
+                    if (file.size > 20 * 1024 * 1024) { this.perrorMessage = 'Max 20MB.'; return; }
+                    this.perrorMessage = ''; this.pfile = file; this.pfileName = file.name;
+                    this.pstate = 'settings';
+                    e.target.value = '';
+                },
+                async pConvert() {
+                    if (!this.pfile) return;
+                    this.pstate = 'processing';
+                    const fd = new FormData();
+                    fd.append('image', this.pfile);
+                    fd.append('page_size', this.ppageSize);
+                    fd.append('orientation', this.porientation);
+                    try {
+                        const res = await fetch(window.__cp.i2p, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'PDF conversion failed.');
+                        this.presult = data; this.pstate = 'result';
+                    } catch (err) {
+                        this.perrorMessage = err.message || 'An error occurred.';
+                        this.pstate = 'error';
+                    }
+                },
+                pReset() {
+                    this.pstate = 'idle'; this.pfile = null; this.pfileName = '';
+                    this.presult = {}; this.perrorMessage = '';
+                },
+            };
+        }
+
+        /* ─── PDF → Image Tool ───────────────────────────────────────── */
+        function pdfToImgTool() {
+            return {
+                pdfistate: 'idle',
+                pdfifile: null,
+                pdfifileName: '',
+                pdfiformat: 'jpg',
+                pdfidpi: 150,
+                pdfiresult: {},
+                pdfierrorMessage: '',
+                pdfiHandleFile(e) {
+                    const file = (e.target.files || [])[0];
+                    if (!file) return;
+                    if (file.type !== 'application/pdf') { this.pdfierrorMessage = 'Only PDF files supported.'; return; }
+                    if (file.size > 20 * 1024 * 1024) { this.pdfierrorMessage = 'Max 20MB.'; return; }
+                    this.pdfierrorMessage = ''; this.pdfifile = file; this.pdfifileName = file.name;
+                    this.pdfistate = 'settings';
+                    e.target.value = '';
+                },
+                async pdfiConvert() {
+                    if (!this.pdfifile) return;
+                    this.pdfistate = 'processing';
+                    const fd = new FormData();
+                    fd.append('pdf', this.pdfifile);
+                    fd.append('format', this.pdfiformat);
+                    fd.append('dpi', this.pdfidpi);
+                    try {
+                        const res = await fetch(window.__cp.p2i, {
+                            method: 'POST',
+                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                            body: fd,
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Conversion failed.');
+                        this.pdfiresult = data; this.pdfistate = 'result';
+                    } catch (err) {
+                        this.pdfierrorMessage = err.message || 'An error occurred.';
+                        this.pdfistate = 'error';
+                    }
+                },
+                pdfiReset() {
+                    this.pdfistate = 'idle'; this.pdfifile = null; this.pdfifileName = '';
+                    this.pdfiresult = {}; this.pdfierrorMessage = '';
                 },
             };
         }

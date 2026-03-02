@@ -106,6 +106,8 @@ class ReportController extends Controller
                     'dimensions'      => ($r->width && $r->height) ? "{$r->width}×{$r->height}" : '—',
                     'created_at'      => $r->created_at->diffForHumans(),
                     'created_date'    => $r->created_at->format('M d, Y H:i'),
+                    'action'          => $r->action ?? 'compress',
+                    'batch_id'        => $r->batch_id,
                 ];
             });
 
@@ -140,6 +142,67 @@ class ReportController extends Controller
             'recent'             => $recentCompressions,
             'top_savings'        => $topSavings,
         ]);
+    }
+
+    /**
+     * Export all reports as a CSV file.
+     */
+    public function export(Request $request)
+    {
+        $period = $request->get('period', 'all');
+
+        $startDate = match ($period) {
+            '24h'  => \Carbon\Carbon::now()->subHours(24),
+            '7d'   => \Carbon\Carbon::now()->subDays(7),
+            '30d'  => \Carbon\Carbon::now()->subDays(30),
+            '90d'  => \Carbon\Carbon::now()->subDays(90),
+            default => \Carbon\Carbon::create(2020, 1, 1),
+        };
+
+        $filename = 'compression-reports-' . date('Y-m-d') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Cache-Control'       => 'no-cache, must-revalidate',
+            'Pragma'              => 'no-cache',
+        ];
+
+        $callback = function () use ($startDate) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, [
+                'ID', 'Action', 'Original Name', 'Original Format', 'Output Format',
+                'Original Size (bytes)', 'Compressed Size (bytes)', 'Reduction (%)',
+                'Quality', 'Width', 'Height', 'Batch ID', 'IP Address', 'Date',
+            ]);
+
+            CompressionReport::where('created_at', '>=', $startDate)
+                ->orderByDesc('created_at')
+                ->chunk(500, function ($rows) use ($handle) {
+                    foreach ($rows as $r) {
+                        fputcsv($handle, [
+                            $r->id,
+                            $r->action ?? 'compress',
+                            $r->original_name,
+                            $r->original_format,
+                            $r->output_format,
+                            $r->original_size,
+                            $r->compressed_size,
+                            $r->reduction_percent,
+                            $r->quality,
+                            $r->width ?? '',
+                            $r->height ?? '',
+                            $r->batch_id ?? '',
+                            $r->ip_address ?? '',
+                            $r->created_at->format('Y-m-d H:i:s'),
+                        ]);
+                    }
+                });
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

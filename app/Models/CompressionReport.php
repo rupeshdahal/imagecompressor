@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class CompressionReport extends Model
 {
     protected $fillable = [
+        'action',
+        'batch_id',
+        'referrer',
         'original_name',
         'original_format',
         'output_format',
