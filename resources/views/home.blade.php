@@ -573,6 +573,7 @@
 
             {{-- RESULT --}}
             <div x-show="state === 'result'" x-transition class="animate-slide-up space-y-5">
+                {{-- Stats row --}}
                 <div class="grid grid-cols-3 gap-3">
                     <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
                         <div class="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
@@ -596,6 +597,62 @@
                         <p class="text-base sm:text-lg font-bold" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" x-text="result.reduction + '%'"></p>
                     </div>
                 </div>
+
+                {{-- ── Before / After Slider ────────────────────────────── --}}
+                <div x-show="previewUrl && result.download_url"
+                     x-data="{ sliderPos: 50, dragging: false }"
+                     class="relative rounded-2xl overflow-hidden bg-gray-200 select-none touch-none"
+                     style="height:260px;"
+                     x-on:mousedown="dragging = true"
+                     x-on:mouseup.window="dragging = false"
+                     x-on:mousemove="if(dragging){ let r=$el.getBoundingClientRect(); sliderPos = Math.min(Math.max((($event.clientX - r.left)/r.width)*100, 2), 98) }"
+                     x-on:touchmove.prevent="let r=$el.getBoundingClientRect(); sliderPos = Math.min(Math.max((($event.touches[0].clientX - r.left)/r.width)*100, 2), 98)">
+
+                    {{-- Original image (full width, behind) --}}
+                    <img :src="previewUrl"
+                         class="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                         alt="Original image">
+
+                    {{-- Compressed image (clipped to left side) --}}
+                    <div class="absolute inset-0 overflow-hidden pointer-events-none"
+                         :style="'width:' + sliderPos + '%'">
+                        <img :src="result.download_url + '?t=' + Date.now()"
+                             class="absolute inset-0 w-full h-full object-contain"
+                             alt="Compressed image"
+                             x-ref="compressedImg"
+                             :style="'min-width:' + (100 / (sliderPos/100)) + '%'"
+                             style="object-position: left center;">
+                    </div>
+
+                    {{-- Divider line --}}
+                    <div class="absolute top-0 bottom-0 w-px bg-white shadow-[0_0_6px_rgba(0,0,0,0.4)] z-10 pointer-events-none"
+                         :style="'left:' + sliderPos + '%'"></div>
+
+                    {{-- Drag handle --}}
+                    <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-20 cursor-ew-resize"
+                         :style="'left:' + sliderPos + '%'"
+                         x-on:mousedown.stop="dragging = true">
+                        <div class="w-9 h-9 bg-white rounded-full shadow-xl flex items-center justify-center border-2 border-white/80">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-3 3 3 3M16 9l3 3-3 3"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    {{-- Labels --}}
+                    <span class="absolute bottom-2 right-3 bg-black/50 text-white text-[10px] font-bold px-2 py-0.5 rounded pointer-events-none"
+                          x-show="sliderPos < 90">Original</span>
+                    <span class="absolute bottom-2 left-3 bg-brand-600/80 text-white text-[10px] font-bold px-2 py-0.5 rounded pointer-events-none"
+                          x-show="sliderPos > 10">Compressed</span>
+
+                    {{-- Instruction hint --}}
+                    <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-black/40 text-white text-[10px] font-medium px-3 py-1 rounded-full pointer-events-none whitespace-nowrap"
+                         x-show="sliderPos === 50">
+                        ← Drag to compare →
+                    </div>
+                </div>
+
+                {{-- ── Main result card ─────────────────────────────────── --}}
                 <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-6 sm:p-8">
                     <div class="mb-6">
                         <div class="flex justify-between text-xs font-medium text-gray-400 mb-2">
@@ -606,17 +663,39 @@
                             <div class="h-3 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 transition-all duration-1000 ease-out" :style="'width:' + Math.min(Math.max(result.reduction, 2), 100) + '%'"></div>
                         </div>
                     </div>
+
+                    {{-- Action buttons --}}
                     <div class="flex flex-col sm:flex-row gap-3 mb-6">
                         <a :href="result.download_url" download
-                           class="flex-1 bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-accent-500/25 hover:scale-[1.02] active:scale-[0.98]">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            Download Compressed
+                           class="flex-1 bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-base shadow-xl shadow-accent-500/25 hover:scale-[1.02] active:scale-[0.98]">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Download
                         </a>
-                        <button x-on:click="reset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
+
+                        {{-- Copy to Clipboard --}}
+                        <button x-on:click="copyToClipboard()"
+                                :disabled="copying"
+                                :class="copied ? 'bg-green-100 text-green-700 border-green-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'"
+                                class="sm:w-auto px-5 py-4 rounded-2xl border border-transparent font-bold transition-all duration-200 flex items-center justify-center gap-2 text-sm active:scale-[0.97]"
+                                title="Copy compressed image to clipboard">
+                            <svg x-show="!copied" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg x-show="copied" class="w-5 h-5 flex-shrink-0 text-green-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span x-text="copied ? 'Copied!' : (copying ? '…' : 'Copy')"></span>
+                        </button>
+
+                        <button x-on:click="reset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-5 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 text-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                            New Image
+                            New
                         </button>
                     </div>
+
+                    {{-- Clipboard unsupported notice --}}
+                    <div x-show="clipboardError" x-transition.duration.300ms
+                         class="mb-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 text-xs text-amber-700 flex items-center gap-2">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Clipboard API not supported in this browser. Please use the Download button instead.</span>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm pt-5 border-t border-gray-100">
                         <div class="flex justify-between"><span class="text-gray-400">Format</span><strong class="text-gray-900" x-text="result.format"></strong></div>
                         <div class="flex justify-between"><span class="text-gray-400">Dimensions</span><strong class="text-gray-900" x-text="(result.width || '—') + ' × ' + (result.height || '—')"></strong></div>
@@ -1168,6 +1247,10 @@
                 result: {},
                 previewUrl: null,
                 uploadProgress: 0,
+                // Clipboard state
+                copied: false,
+                copying: false,
+                clipboardError: false,
 
                 initComp() {
                     document.addEventListener('paste', (event) => {
@@ -1230,6 +1313,8 @@
                     this.state = 'processing';
                     this.uploadProgress = 0;
                     this.errorMessage = '';
+                    this.copied = false;
+                    this.clipboardError = false;
                     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
                     try {
@@ -1278,10 +1363,56 @@
                     }
                 },
 
+                /**
+                 * Copy the compressed image to the system clipboard.
+                 * Uses the modern Clipboard API (write + ClipboardItem).
+                 * Falls back to a user-visible error notice when unavailable.
+                 */
+                async copyToClipboard() {
+                    if (!this.result?.download_url) return;
+                    this.clipboardError = false;
+
+                    // Clipboard API requires a secure context (https or localhost)
+                    if (!navigator.clipboard || !window.ClipboardItem) {
+                        this.clipboardError = true;
+                        return;
+                    }
+
+                    this.copying = true;
+                    try {
+                        const res  = await fetch(this.result.download_url);
+                        const blob = await res.blob();
+
+                        // Browsers only support writing PNG via ClipboardItem.
+                        // If the compressed file is not PNG, we re-draw it on a canvas first.
+                        let writeBlob = blob;
+                        if (blob.type !== 'image/png') {
+                            const bmp  = await createImageBitmap(blob);
+                            const cvs  = document.createElement('canvas');
+                            cvs.width  = bmp.width;
+                            cvs.height = bmp.height;
+                            cvs.getContext('2d').drawImage(bmp, 0, 0);
+                            writeBlob = await new Promise(r => cvs.toBlob(r, 'image/png'));
+                        }
+
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': writeBlob }),
+                        ]);
+                        this.copied = true;
+                        setTimeout(() => { this.copied = false; }, 2500);
+                    } catch (e) {
+                        // Common cause: user denied clipboard permission
+                        this.clipboardError = true;
+                    } finally {
+                        this.copying = false;
+                    }
+                },
+
                 reset() {
                     this.state = 'idle'; this.file = null; this.fileName = ''; this.fileSize = 0;
                     this.fileType = ''; this.quality = 50; this.outputFormat = 'original';
                     this.result = {}; this.errorMessage = ''; this.uploadProgress = 0;
+                    this.copied = false; this.copying = false; this.clipboardError = false;
                     if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl); this.previewUrl = null; }
                     if (this.$refs.fileInputC) this.$refs.fileInputC.value = '';
                 },
