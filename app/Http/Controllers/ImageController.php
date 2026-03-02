@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\RateLimiter;
 use Intervention\Image\Laravel\Facades\Image;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
@@ -276,16 +275,6 @@ class ImageController extends Controller
     {
         ini_set('memory_limit', '512M');
 
-        $key = 'convert:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 30)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Please try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
-
         $validated = $request->validate([
             'image'  => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
             'format' => 'required|string|in:jpg,png,webp',
@@ -360,19 +349,7 @@ class ImageController extends Controller
      */
     public function compress(Request $request): JsonResponse
     {
-        // Increase memory limit for large image processing
         ini_set('memory_limit', '512M');
-        
-        // Rate limiting: 30 requests per minute per IP
-        $key = 'compress:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 30)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Please try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
 
         // Validate request
         $validated = $request->validate([

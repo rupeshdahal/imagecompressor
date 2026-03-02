@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\RateLimiter;
 use Tests\TestCase;
 
 /**
@@ -20,13 +18,6 @@ use Tests\TestCase;
 class T2BatchFinalizeTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        // Flush the rate-limiter cache so tests don't bleed into each other
-        Cache::flush();
-    }
 
     // ─────────────────────────────────────────────────────────────────
     // Helpers
@@ -349,8 +340,7 @@ class T2BatchFinalizeTest extends TestCase
     public function batch_finalize_quality_boundary_values(): void
     {
         foreach ([10, 50, 90] as $q) {
-            // Fresh upload + clear rate limiter per iteration
-            Cache::flush();
+            // Fresh upload per quality value — chunks are cleaned after each finalize
             $manifest = $this->uploadChunksFor($this->minimalJpeg(), 'quality-test.jpg');
             $response = $this->postJson(route('batch.finalize'), $this->buildBody(
                 [$manifest],

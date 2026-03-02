@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\RateLimiter;
 use Intervention\Image\Laravel\Facades\Image;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
@@ -204,16 +203,6 @@ class T2Controller extends Controller
     {
         ini_set('memory_limit', '512M');
 
-        $key = 'batch:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 10)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
-
         $request->validate([
             'images'   => 'required|array|min:1|max:' . self::MAX_BATCH,
             'images.*' => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -334,16 +323,6 @@ class T2Controller extends Controller
     public function finalizeBatch(Request $request): JsonResponse
     {
         ini_set('memory_limit', '512M');
-
-        $key = 'batch_finalize:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 10)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
 
         $request->validate([
             'files'                  => 'required|array|min:1|max:' . self::MAX_BATCH,
@@ -551,16 +530,6 @@ class T2Controller extends Controller
     {
         ini_set('memory_limit', '512M');
 
-        $key = 'resize:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 30)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
-
         $request->validate([
             'image'      => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
             'mode'       => 'required|string|in:exact,percentage,max_width,max_height',
@@ -605,16 +574,6 @@ class T2Controller extends Controller
     public function imageToPdf(Request $request)
     {
         ini_set('memory_limit', '512M');
-
-        $key = 'img2pdf:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 15)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
 
         $request->validate([
             'image'       => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -673,16 +632,6 @@ class T2Controller extends Controller
     {
         ini_set('memory_limit', '512M');
 
-        $key = 'pdf2img:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 10)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
-
         $request->validate([
             'pdf'        => 'required|file|mimes:pdf|max:20480',
             'format'     => 'nullable|string|in:jpg,png,webp',
@@ -724,16 +673,6 @@ class T2Controller extends Controller
     public function watermark(Request $request): JsonResponse
     {
         ini_set('memory_limit', '512M');
-
-        $key = 'watermark:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 30)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
 
         $request->validate([
             'image'     => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -781,16 +720,6 @@ class T2Controller extends Controller
     public function compressFromUrl(Request $request): JsonResponse
     {
         ini_set('memory_limit', '512M');
-
-        $key = 'url_press:' . $request->ip();
-        if (RateLimiter::tooManyAttempts($key, 15)) {
-            $seconds = RateLimiter::availableIn($key);
-            return response()->json([
-                'success' => false,
-                'message' => "Too many requests. Try again in {$seconds} seconds.",
-            ], 429);
-        }
-        RateLimiter::hit($key, 60);
 
         $request->validate([
             'url'     => ['required', 'string', 'max:2048', 'url', 'regex:/^https?:\/\//i'],
