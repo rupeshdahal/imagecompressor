@@ -1024,8 +1024,14 @@
                             </svg>
                         </div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">Compressing batch...</h3>
-                    <p class="text-gray-500">Processing <span x-text="bfiles.length"></span> images</p>
+                    <h3 class="text-2xl font-bold mb-2">Processing batch…</h3>
+                    <p class="text-gray-500 mb-4 truncate max-w-xs mx-auto text-sm" x-text="bCurrentFile || ('Uploading ' + bfiles.length + ' images…')"></p>
+                    {{-- Progress bar --}}
+                    <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                             :style="'width:' + buploadProgress + '%'"></div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2" x-text="buploadProgress + '%'"></p>
                 </div>
             </div>
 
@@ -1855,11 +1861,14 @@
                 xfm:  _e('{{ base64_encode(route("image.convert")) }}'),
                 btch: _e('{{ base64_encode(route("batch.compress")) }}'),
                 bzip: _e('{{ base64_encode(route("batch.zip")) }}'),
+                btchf: _e('{{ base64_encode(route("batch.finalize")) }}'),
                 rsz:  _e('{{ base64_encode(route("image.resize")) }}'),
                 urlp: _e('{{ base64_encode(route("url.compress")) }}'),
                 i2p:  _e('{{ base64_encode(route("image.to.pdf")) }}'),
                 p2i:  _e('{{ base64_encode(route("pdf.to.image")) }}'),
                 wmk:  _e('{{ base64_encode(route("image.watermark")) }}'),
+                t2seg: _e('{{ base64_encode(route("t2.chunk")) }}'),
+                t2don: _e('{{ base64_encode(route("t2.finalize")) }}'),
             };
         })();
     </script>
@@ -1873,7 +1882,8 @@
         /* ─── Shared chunked uploader ────────────────────────────────── */
         const CHUNK_SIZE = 1 * 1024 * 1024; // 1 MB per chunk
 
-        async function uploadInChunks(file, onProgress) {
+        async function uploadInChunks(file, onProgress, chunkEndpoint) {
+            const endpoint    = chunkEndpoint || window.__cp.seg;
             const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
             const uploadId    = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
             const csrf        = document.querySelector('meta[name="csrf-token"]').content;
@@ -1889,7 +1899,7 @@
                 fd.append('chunk_index',  i);
                 fd.append('total_chunks', totalChunks);
 
-                const res = await fetch(window.__cp.seg, {
+                const res = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
                     body: fd,
@@ -2251,6 +2261,8 @@
                 bisDragging: false,
                 berrorMessage: '',
                 bresults: {},
+                buploadProgress: 0,     // 0-100 across all files
+                bCurrentFile: '',        // name of file being uploaded
 
                 initBatch() {},
 
@@ -2299,17 +2311,69 @@
                     if (!this.bfiles.length) return;
                     this.bstate = 'processing';
                     this.berrorMessage = '';
-                    const fd = new FormData();
-                    this.bfiles.forEach(f => fd.append('images[]', f));
-                    fd.append('quality', this.bquality);
+                    this.buploadProgress = 0;
+                    this.bCurrentFile = '';
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+                    const total = this.bfiles.length;
+                    const manifests = [];
+
+                    // Upload every file in chunks individually — no single POST ever holds file bytes
+                    for (let idx = 0; idx < total; idx++) {
+                        const file = this.bfiles[idx];
+                        this.bCurrentFile = file.name;
+                        try {
+                            const { uploadId, totalChunks } = await uploadInChunks(
+                                file,
+                                p => {
+                                    // Overall progress: each file gets an equal slice of 0-90%
+                                    this.buploadProgress = Math.round(
+                                        ((idx + p / 100) / total) * 90
+                                    );
+                                },
+                                window.__cp.t2seg
+                            );
+                            manifests.push({
+                                upload_id:     uploadId,
+                                total_chunks:  totalChunks,
+                                original_name: file.name,
+                            });
+                        } catch (err) {
+                            // Record a failed entry and keep going for remaining files
+                            manifests.push({ upload_id: '', total_chunks: 0, original_name: file.name, _failed: true });
+                        }
+                    }
+
+                    this.buploadProgress = 92;
+                    this.bCurrentFile = 'Compressing…';
+
+                    // Filter out locally-failed uploads before sending
+                    const valid = manifests.filter(m => !m._failed);
+                    if (!valid.length) {
+                        this.berrorMessage = 'All file uploads failed. Please try again.';
+                        this.bstate = 'error';
+                        return;
+                    }
+
                     try {
-                        const res = await fetch(window.__cp.btch, {
+                        // Finalize: server assembles each uploaded ID and compresses it
+                        const body = new URLSearchParams();
+                        body.append('quality', this.bquality);
+                        valid.forEach((m, i) => {
+                            body.append(`files[${i}][upload_id]`,     m.upload_id);
+                            body.append(`files[${i}][total_chunks]`,  m.total_chunks);
+                            body.append(`files[${i}][original_name]`, m.original_name);
+                        });
+                        const res = await fetch(window.__cp.btchf, {
                             method: 'POST',
-                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                            body: fd,
+                            headers: {
+                                'X-CSRF-TOKEN': csrf,
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: body.toString(),
                         });
                         const data = await res.json();
                         if (!res.ok) throw new Error(data.message || 'Batch compression failed.');
+                        this.buploadProgress = 100;
                         this.bresults = data;
                         this.bstate = 'result';
                     } catch (err) {
@@ -2333,7 +2397,7 @@
                         const blob = await res.blob();
                         const url = URL.createObjectURL(blob);
                         const a = document.createElement('a');
-                        a.href = url; a.download = 'compressed-batch.zip'; a.click();
+                        a.href = url; a.download = 'compresslypro-batch.zip'; a.click();
                         setTimeout(() => URL.revokeObjectURL(url), 5000);
                     } catch (err) {
                         this.berrorMessage = err.message || 'Could not download ZIP.';
@@ -2343,6 +2407,7 @@
                 bReset() {
                     this.bstate = 'idle'; this.bfiles = []; this.bresults = {};
                     this.berrorMessage = ''; this.bquality = 50;
+                    this.buploadProgress = 0; this.bCurrentFile = '';
                 },
 
                 bFormatBytes(bytes, p = 1) {
@@ -2373,6 +2438,7 @@
                 rpreviewUrl: null,
                 rorigW: 0,
                 rorigH: 0,
+                ruploadProgress: 0,
 
                 initResize() {},
 
@@ -2405,23 +2471,57 @@
                     if (!this.rfile) return;
                     this.rstate = 'processing';
                     this.rerrorMessage = '';
-                    const fd = new FormData();
-                    fd.append('image', this.rfile);
-                    fd.append('mode', this.rmode);
-                    fd.append('quality', this.rquality);
-                    fd.append('format', this.rformat);
-                    if (this.rmode === 'percentage') { fd.append('percentage', this.rpercentage); }
-                    else if (this.rmode === 'max_width') { fd.append('width', this.rwidth); }
-                    else if (this.rmode === 'max_height') { fd.append('height', this.rheight); }
-                    else if (this.rmode === 'exact') { fd.append('width', this.rwidth); fd.append('height', this.rheight); }
+                    this.ruploadProgress = 0;
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
                     try {
-                        const res = await fetch(window.__cp.rsz, {
-                            method: 'POST',
-                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                            body: fd,
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.message || 'Resize failed.');
+                        let data;
+                        if (this.rfile.size <= 2 * 1024 * 1024) {
+                            // Small file: direct POST
+                            const fd = new FormData();
+                            fd.append('image', this.rfile);
+                            fd.append('mode', this.rmode);
+                            fd.append('quality', this.rquality);
+                            fd.append('format', this.rformat);
+                            if (this.rmode === 'percentage') { fd.append('percentage', this.rpercentage); }
+                            else if (this.rmode === 'max_width') { fd.append('width', this.rwidth); }
+                            else if (this.rmode === 'max_height') { fd.append('height', this.rheight); }
+                            else if (this.rmode === 'exact') { fd.append('width', this.rwidth); fd.append('height', this.rheight); }
+                            const res = await fetch(window.__cp.rsz, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'Resize failed.');
+                        } else {
+                            // Large file: chunked upload then finalize
+                            const { uploadId, totalChunks } = await uploadInChunks(
+                                this.rfile,
+                                p => { this.ruploadProgress = p; },
+                                window.__cp.t2seg
+                            );
+                            this.ruploadProgress = 85;
+                            const fd = new FormData();
+                            fd.append('upload_id', uploadId);
+                            fd.append('total_chunks', totalChunks);
+                            fd.append('original_name', this.rfile.name);
+                            fd.append('action', 'resize');
+                            fd.append('mode', this.rmode);
+                            fd.append('quality', this.rquality);
+                            fd.append('format', this.rformat);
+                            if (this.rmode === 'percentage') { fd.append('percentage', this.rpercentage); }
+                            else if (this.rmode === 'max_width') { fd.append('width', this.rwidth); }
+                            else if (this.rmode === 'max_height') { fd.append('height', this.rheight); }
+                            else if (this.rmode === 'exact') { fd.append('width', this.rwidth); fd.append('height', this.rheight); }
+                            const res = await fetch(window.__cp.t2don, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'Resize failed.');
+                            this.ruploadProgress = 100;
+                        }
                         this.rresult = data;
                         this.rstate = 'result';
                     } catch (err) {
@@ -2433,7 +2533,7 @@
                 rReset() {
                     this.rstate = 'idle'; this.rfile = null; this.rfileName = '';
                     this.rfileSize = 0; this.rresult = {}; this.rerrorMessage = '';
-                    this.rorigW = 0; this.rorigH = 0;
+                    this.rorigW = 0; this.rorigH = 0; this.ruploadProgress = 0;
                     if (this.rpreviewUrl) { URL.revokeObjectURL(this.rpreviewUrl); this.rpreviewUrl = null; }
                 },
 
@@ -2457,6 +2557,7 @@
                 wopacity: 70,
                 wresult: {},
                 werrorMessage: '',
+                wuploadProgress: 0,
                 initWatermark() {},
                 wHandleFile(e) {
                     const file = (e.target.files || [])[0];
@@ -2471,19 +2572,49 @@
                 async wApply() {
                     if (!this.wfile || !this.wtext.trim()) return;
                     this.wstate = 'processing';
-                    const fd = new FormData();
-                    fd.append('image', this.wfile);
-                    fd.append('text', this.wtext);
-                    fd.append('position', this.wposition);
-                    fd.append('opacity', this.wopacity);
+                    this.wuploadProgress = 0;
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
                     try {
-                        const res = await fetch(window.__cp.wmk, {
-                            method: 'POST',
-                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                            body: fd,
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.message || 'Watermark failed.');
+                        let data;
+                        if (this.wfile.size <= 2 * 1024 * 1024) {
+                            // Small file: direct POST
+                            const fd = new FormData();
+                            fd.append('image', this.wfile);
+                            fd.append('text', this.wtext);
+                            fd.append('position', this.wposition);
+                            fd.append('opacity', this.wopacity);
+                            const res = await fetch(window.__cp.wmk, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'Watermark failed.');
+                        } else {
+                            // Large file: chunked upload then finalize
+                            const { uploadId, totalChunks } = await uploadInChunks(
+                                this.wfile,
+                                p => { this.wuploadProgress = p; },
+                                window.__cp.t2seg
+                            );
+                            this.wuploadProgress = 85;
+                            const fd = new FormData();
+                            fd.append('upload_id', uploadId);
+                            fd.append('total_chunks', totalChunks);
+                            fd.append('original_name', this.wfile.name);
+                            fd.append('action', 'watermark');
+                            fd.append('text', this.wtext);
+                            fd.append('position', this.wposition);
+                            fd.append('opacity', this.wopacity);
+                            const res = await fetch(window.__cp.t2don, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'Watermark failed.');
+                            this.wuploadProgress = 100;
+                        }
                         this.wresult = data; this.wstate = 'result';
                     } catch (err) {
                         this.werrorMessage = err.message || 'Error applying watermark.';
@@ -2492,7 +2623,7 @@
                 },
                 wReset() {
                     this.wstate = 'idle'; this.wfile = null; this.wfileName = '';
-                    this.wtext = ''; this.wresult = {}; this.werrorMessage = '';
+                    this.wtext = ''; this.wresult = {}; this.werrorMessage = ''; this.wuploadProgress = 0;
                 },
             };
         }
@@ -2542,6 +2673,7 @@
                 porientation: 'portrait',
                 presult: {},
                 perrorMessage: '',
+                puploadProgress: 0,
                 pHandleFile(e) {
                     const file = (e.target.files || [])[0];
                     if (!file) return;
@@ -2555,18 +2687,47 @@
                 async pConvert() {
                     if (!this.pfile) return;
                     this.pstate = 'processing';
-                    const fd = new FormData();
-                    fd.append('image', this.pfile);
-                    fd.append('page_size', this.ppageSize);
-                    fd.append('orientation', this.porientation);
+                    this.puploadProgress = 0;
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
                     try {
-                        const res = await fetch(window.__cp.i2p, {
-                            method: 'POST',
-                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                            body: fd,
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.message || 'PDF conversion failed.');
+                        let data;
+                        if (this.pfile.size <= 2 * 1024 * 1024) {
+                            // Small file: direct POST
+                            const fd = new FormData();
+                            fd.append('image', this.pfile);
+                            fd.append('page_size', this.ppageSize);
+                            fd.append('orientation', this.porientation);
+                            const res = await fetch(window.__cp.i2p, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'PDF conversion failed.');
+                        } else {
+                            // Large file: chunked upload then finalize
+                            const { uploadId, totalChunks } = await uploadInChunks(
+                                this.pfile,
+                                p => { this.puploadProgress = p; },
+                                window.__cp.t2seg
+                            );
+                            this.puploadProgress = 85;
+                            const fd = new FormData();
+                            fd.append('upload_id', uploadId);
+                            fd.append('total_chunks', totalChunks);
+                            fd.append('original_name', this.pfile.name);
+                            fd.append('action', 'img_to_pdf');
+                            fd.append('page_size', this.ppageSize);
+                            fd.append('orientation', this.porientation);
+                            const res = await fetch(window.__cp.t2don, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'PDF conversion failed.');
+                            this.puploadProgress = 100;
+                        }
                         this.presult = data; this.pstate = 'result';
                     } catch (err) {
                         this.perrorMessage = err.message || 'An error occurred.';
@@ -2575,7 +2736,7 @@
                 },
                 pReset() {
                     this.pstate = 'idle'; this.pfile = null; this.pfileName = '';
-                    this.presult = {}; this.perrorMessage = '';
+                    this.presult = {}; this.perrorMessage = ''; this.puploadProgress = 0;
                 },
             };
         }
@@ -2590,6 +2751,7 @@
                 pdfidpi: 150,
                 pdfiresult: {},
                 pdfierrorMessage: '',
+                pdfiuploadProgress: 0,
                 pdfiHandleFile(e) {
                     const file = (e.target.files || [])[0];
                     if (!file) return;
@@ -2602,18 +2764,47 @@
                 async pdfiConvert() {
                     if (!this.pdfifile) return;
                     this.pdfistate = 'processing';
-                    const fd = new FormData();
-                    fd.append('pdf', this.pdfifile);
-                    fd.append('format', this.pdfiformat);
-                    fd.append('dpi', this.pdfidpi);
+                    this.pdfiuploadProgress = 0;
+                    const csrf = document.querySelector('meta[name="csrf-token"]').content;
                     try {
-                        const res = await fetch(window.__cp.p2i, {
-                            method: 'POST',
-                            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                            body: fd,
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.message || 'Conversion failed.');
+                        let data;
+                        if (this.pdfifile.size <= 2 * 1024 * 1024) {
+                            // Small file: direct POST
+                            const fd = new FormData();
+                            fd.append('pdf', this.pdfifile);
+                            fd.append('format', this.pdfiformat);
+                            fd.append('dpi', this.pdfidpi);
+                            const res = await fetch(window.__cp.p2i, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'Conversion failed.');
+                        } else {
+                            // Large file: chunked upload then finalize
+                            const { uploadId, totalChunks } = await uploadInChunks(
+                                this.pdfifile,
+                                p => { this.pdfiuploadProgress = p; },
+                                window.__cp.t2seg
+                            );
+                            this.pdfiuploadProgress = 85;
+                            const fd = new FormData();
+                            fd.append('upload_id', uploadId);
+                            fd.append('total_chunks', totalChunks);
+                            fd.append('original_name', this.pdfifile.name);
+                            fd.append('action', 'pdf_to_img');
+                            fd.append('format', this.pdfiformat);
+                            fd.append('dpi', this.pdfidpi);
+                            const res = await fetch(window.__cp.t2don, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf },
+                                body: fd,
+                            });
+                            data = await res.json();
+                            if (!res.ok) throw new Error(data.message || 'Conversion failed.');
+                            this.pdfiuploadProgress = 100;
+                        }
                         this.pdfiresult = data; this.pdfistate = 'result';
                     } catch (err) {
                         this.pdfierrorMessage = err.message || 'An error occurred.';
@@ -2622,7 +2813,7 @@
                 },
                 pdfiReset() {
                     this.pdfistate = 'idle'; this.pdfifile = null; this.pdfifileName = '';
-                    this.pdfiresult = {}; this.pdfierrorMessage = '';
+                    this.pdfiresult = {}; this.pdfierrorMessage = ''; this.pdfiuploadProgress = 0;
                 },
             };
         }

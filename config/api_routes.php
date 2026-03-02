@@ -21,4 +21,7 @@ return [
     'img_to_pdf'  => env('API_SLUG_IMG_TO_PDF',  'e2d3c4b5a6f7e8d9'),
     'pdf_to_img'  => env('API_SLUG_PDF_TO_IMG',  'd9c8b7a6f5e4d3c2'),
     'watermark'   => env('API_SLUG_WATERMARK',   'c2b1a0f9e8d7c6b5'),
+    't2_chunk'      => env('API_SLUG_T2_CHUNK',      '9d8c7b6a5f4e3d2c'),
+    't2_finalize'   => env('API_SLUG_T2_FINALIZE',   '1a2b3c4d5e6f7a8b'),
+    'batch_finalize'=> env('API_SLUG_BATCH_FINALIZE','3e4f5a6b7c8d9e0f'),
 ];

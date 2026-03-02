@@ -48,6 +48,151 @@ class T2Controller extends Controller
     ];
 
     // ─────────────────────────────────────────────────────────────────
+    // Chunked Upload (shared by resize / watermark / img_to_pdf / pdf_to_img)
+    // ─────────────────────────────────────────────────────────────────
+
+    /**
+     * Receive one chunk of a large file upload.
+     * Mirrors ImageController::uploadChunk — keeps the same temp-uploads layout.
+     */
+    public function uploadChunk(Request $request): JsonResponse
+    {
+        $request->validate([
+            'chunk'        => 'required|file',
+            'upload_id'    => 'required|string|max:64',
+            'chunk_index'  => 'required|integer|min:0',
+            'total_chunks' => 'required|integer|min:1|max:200',
+        ]);
+
+        $uploadId = preg_replace('/[^a-zA-Z0-9\-]/', '', $request->input('upload_id'));
+        if (empty($uploadId)) {
+            return response()->json(['success' => false, 'message' => 'Invalid upload ID.'], 422);
+        }
+
+        $chunkDir = storage_path("app/temp-uploads/{$uploadId}");
+        if (!is_dir($chunkDir)) {
+            mkdir($chunkDir, 0755, true);
+        }
+
+        $request->file('chunk')->move($chunkDir, 'chunk_' . (int) $request->input('chunk_index'));
+
+        return response()->json([
+            'success'      => true,
+            'chunk_index'  => (int) $request->input('chunk_index'),
+            'total_chunks' => (int) $request->input('total_chunks'),
+        ]);
+    }
+
+    /**
+     * Assemble uploaded chunks and dispatch to the requested T2 action.
+     * Supported actions: resize | watermark | img_to_pdf | pdf_to_img
+     */
+    public function finalizeChunked(Request $request): JsonResponse
+    {
+        ini_set('memory_limit', '512M');
+
+        $request->validate([
+            'upload_id'     => 'required|string|max:64',
+            'total_chunks'  => 'required|integer|min:1|max:200',
+            'original_name' => 'required|string|max:255',
+            'action'        => 'required|string|in:resize,watermark,img_to_pdf,pdf_to_img',
+            // resize
+            'mode'          => 'nullable|string|in:exact,percentage,max_width,max_height',
+            'width'         => 'nullable|integer|min:1|max:8000',
+            'height'        => 'nullable|integer|min:1|max:8000',
+            'percentage'    => 'nullable|integer|min:1|max:200',
+            // shared
+            'quality'       => 'nullable|integer|min:10|max:100',
+            'format'        => 'nullable|string|in:original,jpg,png,webp',
+            // watermark
+            'text'          => 'nullable|string|max:100',
+            'position'      => 'nullable|string|in:bottom-right,bottom-left,top-right,top-left,center',
+            'opacity'       => 'nullable|integer|min:10|max:100',
+            'size'          => 'nullable|integer|min:10|max:200',
+            'color'         => 'nullable|string|regex:/^#?[0-9a-fA-F]{3,6}$/',
+            // img_to_pdf
+            'page_size'     => 'nullable|string|in:A4,A3,Letter,Legal',
+            'orientation'   => 'nullable|string|in:portrait,landscape',
+            'margin'        => 'nullable|integer|min:0|max:50',
+            // pdf_to_img
+            'dpi'           => 'nullable|integer|min:72|max:300',
+            'page'          => 'nullable|integer|min:0|max:99',
+        ]);
+
+        $uploadId    = preg_replace('/[^a-zA-Z0-9\-]/', '', $request->input('upload_id'));
+        $totalChunks = (int) $request->input('total_chunks');
+        $action      = $request->input('action');
+        $chunkDir    = storage_path("app/temp-uploads/{$uploadId}");
+
+        // Verify all chunks are present
+        for ($i = 0; $i < $totalChunks; $i++) {
+            if (!file_exists("{$chunkDir}/chunk_{$i}")) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Upload incomplete. Missing chunk {$i}.",
+                ], 422);
+            }
+        }
+
+        // Determine extension from original filename
+        $originalName = $request->input('original_name');
+        $ext          = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+        $allowedExts = ($action === 'pdf_to_img')
+            ? ['pdf']
+            : ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+
+        if (!in_array($ext, $allowedExts, true)) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => 'Invalid file type for this action.'], 422);
+        }
+
+        // Assemble chunks into one file
+        $assembledPath = "{$chunkDir}/assembled.{$ext}";
+        $out = fopen($assembledPath, 'wb');
+        for ($i = 0; $i < $totalChunks; $i++) {
+            fwrite($out, file_get_contents("{$chunkDir}/chunk_{$i}"));
+            unlink("{$chunkDir}/chunk_{$i}");
+        }
+        fclose($out);
+
+        // Validate MIME of assembled file
+        $mime          = mime_content_type($assembledPath);
+        $allowedMimes  = ($action === 'pdf_to_img')
+            ? ['application/pdf']
+            : self::ALLOWED_MIMES;
+
+        if (!in_array($mime, $allowedMimes, true)) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => 'Invalid file content detected.'], 422);
+        }
+
+        // Enforce 20 MB cap on assembled file
+        if (filesize($assembledPath) > self::MAX_FILE_SIZE) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => 'File exceeds the 20 MB limit.'], 422);
+        }
+
+        try {
+            $result = match ($action) {
+                'resize'     => $this->processResizeFromPath($assembledPath, $originalName, $mime, $request),
+                'watermark'  => $this->processWatermarkFromPath($assembledPath, $originalName, $mime, $request),
+                'img_to_pdf' => $this->processImgToPdfFromPath($assembledPath, $originalName, $mime, $request),
+                'pdf_to_img' => $this->processPdfToImgFromPath($assembledPath, $originalName, $request),
+            };
+            $this->cleanupChunks($chunkDir);
+            return response()->json($result);
+        } catch (\Throwable $e) {
+            $this->cleanupChunks($chunkDir);
+            report($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'Processing failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────
     // T2-1: Batch Compress
     // ─────────────────────────────────────────────────────────────────
 
@@ -182,6 +327,175 @@ class T2Controller extends Controller
     }
 
     /**
+     * Finalize a chunked batch: each file was already uploaded in chunks via t2.chunk.
+     * Accepts an array of upload manifests (upload_id, total_chunks, original_name)
+     * plus shared quality/format params.  No file data is transmitted here — only IDs.
+     */
+    public function finalizeBatch(Request $request): JsonResponse
+    {
+        ini_set('memory_limit', '512M');
+
+        $key = 'batch_finalize:' . $request->ip();
+        if (RateLimiter::tooManyAttempts($key, 10)) {
+            $seconds = RateLimiter::availableIn($key);
+            return response()->json([
+                'success' => false,
+                'message' => "Too many requests. Try again in {$seconds} seconds.",
+            ], 429);
+        }
+        RateLimiter::hit($key, 60);
+
+        $request->validate([
+            'files'                  => 'required|array|min:1|max:' . self::MAX_BATCH,
+            'files.*.upload_id'      => 'required|string|max:64',
+            'files.*.total_chunks'   => 'required|integer|min:1|max:200',
+            'files.*.original_name'  => 'required|string|max:255',
+            'quality'                => 'nullable|integer|min:10|max:90',
+            'format'                 => 'nullable|string|in:original,jpg,png,webp',
+        ]);
+
+        $quality      = (int) ($request->input('quality', 50));
+        $outputFormat = $request->input('format', 'original');
+        $batchId      = Str::uuid()->toString();
+        $results      = [];
+
+        foreach ($request->input('files') as $manifest) {
+            $uploadId    = preg_replace('/[^a-zA-Z0-9\-]/', '', $manifest['upload_id'] ?? '');
+            $totalChunks = (int) ($manifest['total_chunks'] ?? 0);
+            $originalName = $manifest['original_name'] ?? '';
+
+            if (empty($uploadId) || $totalChunks < 1 || empty($originalName)) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'Invalid manifest.'];
+                continue;
+            }
+
+            $chunkDir = storage_path("app/temp-uploads/{$uploadId}");
+
+            // Verify all chunks are present
+            $missing = false;
+            for ($i = 0; $i < $totalChunks; $i++) {
+                if (!file_exists("{$chunkDir}/chunk_{$i}")) {
+                    $missing = true;
+                    break;
+                }
+            }
+            if ($missing) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'Upload incomplete.'];
+                $this->cleanupChunks($chunkDir);
+                continue;
+            }
+
+            // Determine extension
+            $ext         = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+            if (!in_array($ext, $allowedExts, true)) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'Invalid file type.'];
+                $this->cleanupChunks($chunkDir);
+                continue;
+            }
+
+            // Assemble chunks
+            $assembledPath = "{$chunkDir}/assembled.{$ext}";
+            $out = fopen($assembledPath, 'wb');
+            for ($i = 0; $i < $totalChunks; $i++) {
+                fwrite($out, file_get_contents("{$chunkDir}/chunk_{$i}"));
+                unlink("{$chunkDir}/chunk_{$i}");
+            }
+            fclose($out);
+
+            // Validate MIME
+            $mime = mime_content_type($assembledPath);
+            if (!in_array($mime, self::ALLOWED_MIMES, true)) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'Invalid file content.'];
+                $this->cleanupChunks($chunkDir);
+                continue;
+            }
+
+            // Enforce 20 MB cap
+            if (filesize($assembledPath) > self::MAX_FILE_SIZE) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'File exceeds 20 MB limit.'];
+                $this->cleanupChunks($chunkDir);
+                continue;
+            }
+
+            try {
+                $originalSize = filesize($assembledPath);
+                $outputExt    = ($outputFormat === 'original')
+                    ? (self::MIME_TO_EXT[$mime] ?? 'jpg')
+                    : $outputFormat;
+
+                $origName   = pathinfo($originalName, PATHINFO_FILENAME);
+                $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
+                $uniqueId   = Str::random(6);
+                $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$outputExt}";
+                $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+
+                $image   = Image::read($assembledPath);
+                $encoder = $this->getEncoder($outputExt, $quality);
+                $encoded = $image->encode($encoder);
+                file_put_contents($outputPath, (string) $encoded);
+                $this->cleanupChunks($chunkDir);
+
+                $compressedSize = filesize($outputPath);
+                $reduction      = $originalSize > 0
+                    ? round((1 - $compressedSize / $originalSize) * 100, 1) : 0;
+                $dimensions     = getimagesize($outputPath);
+
+                try {
+                    CompressionReport::create([
+                        'action'            => 'batch',
+                        'batch_id'          => $batchId,
+                        'referrer'          => Str::limit($request->header('referer', ''), 500),
+                        'original_name'     => $originalName,
+                        'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
+                        'output_format'     => $outputExt,
+                        'original_size'     => $originalSize,
+                        'compressed_size'   => $compressedSize,
+                        'reduction_percent' => $reduction,
+                        'quality'           => $quality,
+                        'width'             => $dimensions[0] ?? null,
+                        'height'            => $dimensions[1] ?? null,
+                        'ip_address'        => $request->ip(),
+                        'user_agent'        => Str::limit($request->userAgent(), 250),
+                    ]);
+                } catch (\Throwable $e) { report($e); }
+
+                $results[] = [
+                    'success'              => true,
+                    'original_name'        => $originalName,
+                    'filename'             => $outputFilename,
+                    'download_url'         => route('image.download', ['filename' => $outputFilename]),
+                    'original_size'        => $originalSize,
+                    'compressed_size'      => $compressedSize,
+                    'reduction'            => $reduction,
+                    'format'               => strtoupper($outputExt),
+                    'width'                => $dimensions[0] ?? null,
+                    'height'               => $dimensions[1] ?? null,
+                    'formatted_original'   => $this->formatBytes($originalSize),
+                    'formatted_compressed' => $this->formatBytes($compressedSize),
+                ];
+            } catch (\Throwable $e) {
+                report($e);
+                $this->cleanupChunks($chunkDir);
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'Processing failed.'];
+            }
+        }
+
+        $successResults = array_filter($results, fn($r) => $r['success'] ?? false);
+        $filenames      = array_column(array_values($successResults), 'filename');
+
+        return response()->json([
+            'success'   => true,
+            'batch_id'  => $batchId,
+            'results'   => $results,
+            'filenames' => $filenames,
+            'total'     => count($results),
+            'succeeded' => count($successResults),
+            'failed'    => count($results) - count($successResults),
+        ]);
+    }
+
+    /**
      * Download a batch of compressed files as a ZIP archive.
      */
     public function downloadBatchZip(Request $request)
@@ -265,92 +579,13 @@ class T2Controller extends Controller
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
 
-            $originalSize = $file->getSize();
-            $mode         = $request->input('mode');
-            $quality      = (int) ($request->input('quality', 85));
-            $outputFormat = $request->input('format', 'original');
-            $outputExt    = ($outputFormat === 'original')
-                ? (self::MIME_TO_EXT[$mime] ?? 'jpg')
-                : $outputFormat;
-
-            $origName   = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
-            $uniqueId   = Str::random(8);
-            $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$outputExt}";
-            $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
-
-            $image = Image::read($file->getRealPath());
-
-            switch ($mode) {
-                case 'exact':
-                    $w = (int) $request->input('width', $image->width());
-                    $h = (int) $request->input('height', $image->height());
-                    $image->resize($w, $h);
-                    break;
-
-                case 'percentage':
-                    $pct  = (int) $request->input('percentage', 50);
-                    $newW = (int) round($image->width() * $pct / 100);
-                    $newH = (int) round($image->height() * $pct / 100);
-                    $image->resize($newW, $newH);
-                    break;
-
-                case 'max_width':
-                    $maxW = (int) $request->input('width', 1920);
-                    if ($image->width() > $maxW) {
-                        $image->scaleDown($maxW, null);
-                    }
-                    break;
-
-                case 'max_height':
-                    $maxH = (int) $request->input('height', 1080);
-                    if ($image->height() > $maxH) {
-                        $image->scaleDown(null, $maxH);
-                    }
-                    break;
-            }
-
-            $encoder = $this->getEncoder($outputExt, $quality);
-            $encoded = $image->encode($encoder);
-            file_put_contents($outputPath, (string) $encoded);
-
-            $compressedSize = filesize($outputPath);
-            $reduction      = $originalSize > 0
-                ? round((1 - $compressedSize / $originalSize) * 100, 1) : 0;
-            $dimensions     = getimagesize($outputPath);
-
-            try {
-                CompressionReport::create([
-                    'action'            => 'resize',
-                    'referrer'          => Str::limit($request->header('referer', ''), 500),
-                    'original_name'     => $file->getClientOriginalName(),
-                    'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
-                    'output_format'     => $outputExt,
-                    'original_size'     => $originalSize,
-                    'compressed_size'   => $compressedSize,
-                    'reduction_percent' => $reduction,
-                    'quality'           => $quality,
-                    'width'             => $dimensions[0] ?? null,
-                    'height'            => $dimensions[1] ?? null,
-                    'ip_address'        => $request->ip(),
-                    'user_agent'        => Str::limit($request->userAgent(), 250),
-                ]);
-            } catch (\Throwable $e) { report($e); }
-
-            return response()->json([
-                'success'              => true,
-                'original_name'        => $file->getClientOriginalName(),
-                'filename'             => $outputFilename,
-                'download_url'         => route('image.download', ['filename' => $outputFilename]),
-                'original_size'        => $originalSize,
-                'resized_size'         => $compressedSize,
-                'reduction'            => $reduction,
-                'format'               => strtoupper($outputExt),
-                'width'                => $dimensions[0] ?? null,
-                'height'               => $dimensions[1] ?? null,
-                'formatted_original'   => $this->formatBytes($originalSize),
-                'formatted_resized'    => $this->formatBytes($compressedSize),
-            ]);
+            $result = $this->processResizeFromPath(
+                $file->getRealPath(),
+                $file->getClientOriginalName(),
+                $mime,
+                $request
+            );
+            return response()->json($result);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -391,86 +626,18 @@ class T2Controller extends Controller
         try {
             $file        = $request->file('image');
             $mime        = $file->getMimeType();
-            $pageSize    = $request->input('page_size', 'A4');
-            $orientation = $request->input('orientation', 'portrait');
-            $margin      = (int) $request->input('margin', 10);
 
             if (!in_array($mime, self::ALLOWED_MIMES, true)) {
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
 
-            // Convert image to PNG for reliable embedding in DomPDF
-            $imgObj = Image::read($file->getRealPath());
-            $pngData = base64_encode((string) $imgObj->encode(new PngEncoder()));
-            $imgW    = $imgObj->width();
-            $imgH    = $imgObj->height();
-
-            // Calculate page dimensions
-            $pageDims = [
-                'A4'     => ['portrait' => [210, 297], 'landscape' => [297, 210]],
-                'A3'     => ['portrait' => [297, 420], 'landscape' => [420, 297]],
-                'Letter' => ['portrait' => [216, 279], 'landscape' => [279, 216]],
-                'Legal'  => ['portrait' => [216, 356], 'landscape' => [356, 216]],
-            ];
-            [$pW, $pH] = $pageDims[$pageSize][$orientation];
-
-            // Max image area (mm minus margins)
-            $availW = $pW - ($margin * 2);
-            $availH = $pH - ($margin * 2);
-            $ratio  = $imgH / max($imgW, 1);
-
-            // Scale to fit available area while preserving aspect ratio
-            if ($imgW / $imgH > $availW / $availH) {
-                $dispW = $availW;
-                $dispH = round($availW * $ratio);
-            } else {
-                $dispH = $availH;
-                $dispW = round($availH / $ratio);
-            }
-
-            $html = '<!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8">
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:#fff; }
-  .page { width:100%; padding:' . $margin . 'mm; display:flex; align-items:center; justify-content:center; min-height:' . ($pH - $margin * 2) . 'mm; }
-  img { max-width:' . $dispW . 'mm; max-height:' . $dispH . 'mm; display:block; }
-</style>
-</head><body>
-<div class="page"><img src="data:image/png;base64,' . $pngData . '"></div>
-</body></html>';
-
-            $pdf = Pdf::loadHTML($html)
-                ->setPaper(strtolower($pageSize), $orientation)
-                ->setOptions([
-                    'isPhpEnabled'     => false,
-                    'isRemoteEnabled'  => false,
-                    'isFontSubsettingEnabled' => true,
-                    'defaultFont'      => 'sans-serif',
-                    'dpi'              => 150,
-                ]);
-
-            $origName   = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
-            $uniqueId   = Str::random(8);
-            $pdfFilename = "compresslypro-{$safeName}-{$uniqueId}.pdf";
-            $pdfPath     = storage_path("app/public/uploads/{$pdfFilename}");
-
-            file_put_contents($pdfPath, $pdf->output());
-            $pdfSize = filesize($pdfPath);
-
-            return response()->json([
-                'success'       => true,
-                'filename'      => $pdfFilename,
-                'download_url'  => route('pdf.download', ['filename' => $pdfFilename]),
-                'original_name' => $file->getClientOriginalName(),
-                'size'          => $pdfSize,
-                'pdf_size'      => $pdfSize,
-                'formatted_size'=> $this->formatBytes($pdfSize),
-                'page_size'     => $pageSize,
-                'orientation'   => $orientation,
-            ]);
+            $result = $this->processImgToPdfFromPath(
+                $file->getRealPath(),
+                $file->getClientOriginalName(),
+                $mime,
+                $request
+            );
+            return response()->json($result);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -531,56 +698,13 @@ class T2Controller extends Controller
         }
 
         try {
-            $file      = $request->file('pdf');
-            $format    = $request->input('format', 'jpg');
-            $dpi       = (int) $request->input('dpi', 150);
-            $page      = (int) $request->input('page', 0);
-
-            $origName    = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeName    = Str::slug(Str::limit($origName, 40, '')) ?: 'document';
-            $uniqueId    = Str::random(8);
-
-            $imagick = new \Imagick();
-            $imagick->setResolution($dpi, $dpi);
-            $imagick->readImage($file->getRealPath() . '[' . $page . ']');
-            $imagick->setImageFormat($format === 'jpg' ? 'jpeg' : $format);
-            $imagick->setImageCompressionQuality(85);
-            $imagick->flattenImages();
-            $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
-            // Set white background for JPEG
-            if ($format === 'jpg') {
-                $canvas = new \Imagick();
-                $canvas->newImage($imagick->getImageWidth(), $imagick->getImageHeight(), new \ImagickPixel('white'));
-                $canvas->compositeImage($imagick, \Imagick::COMPOSITE_OVER, 0, 0);
-                $canvas->setImageFormat('jpeg');
-                $canvas->setImageCompressionQuality(85);
-                $imgData = $canvas->getImageBlob();
-                $canvas->destroy();
-            } else {
-                $imgData = $imagick->getImageBlob();
-            }
-            $imagick->destroy();
-
-            $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$format}";
-            $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
-            file_put_contents($outputPath, $imgData);
-
-            $outputSize = filesize($outputPath);
-            $dimensions = getimagesize($outputPath);
-
-            return response()->json([
-                'success'         => true,
-                'filename'        => $outputFilename,
-                'download_url'    => route('image.download', ['filename' => $outputFilename]),
-                'original_name'   => $file->getClientOriginalName(),
-                'output_size'     => $outputSize,
-                'formatted_size'  => $this->formatBytes($outputSize),
-                'format'          => strtoupper($format),
-                'width'           => $dimensions[0] ?? null,
-                'height'          => $dimensions[1] ?? null,
-                'page'            => $page,
-                'dpi'             => $dpi,
-            ]);
+            $file = $request->file('pdf');
+            $result = $this->processPdfToImgFromPath(
+                $file->getRealPath(),
+                $file->getClientOriginalName(),
+                $request
+            );
+            return response()->json($result);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -623,131 +747,20 @@ class T2Controller extends Controller
         ]);
 
         try {
-            $file     = $request->file('image');
-            $mime     = $file->getMimeType();
+            $file = $request->file('image');
+            $mime = $file->getMimeType();
 
             if (!in_array($mime, self::ALLOWED_MIMES, true)) {
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
 
-            $text     = $request->input('text');
-            $position = $request->input('position', 'bottom-right');
-            $opacity  = (int) $request->input('opacity', 60);
-            $fontSize = (int) $request->input('size', 24);
-            $colorHex = ltrim($request->input('color', 'ffffff'), '#');
-            $quality  = (int) $request->input('quality', 80);
-            $outputFormat = $request->input('format', 'original');
-
-            $outputExt = ($outputFormat === 'original')
-                ? (self::MIME_TO_EXT[$mime] ?? 'jpg')
-                : $outputFormat;
-
-            $origName   = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
-            $uniqueId   = Str::random(8);
-            $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$outputExt}";
-            $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
-            $originalSize   = $file->getSize();
-
-            // Use Imagick for watermark text rendering
-            if (extension_loaded('imagick')) {
-                try {
-                    $imagick = new \Imagick($file->getRealPath());
-                    // Flatten for JPEG
-                    if ($outputExt === 'jpg') {
-                        $bg = new \Imagick();
-                        $bg->newImage($imagick->getImageWidth(), $imagick->getImageHeight(), new \ImagickPixel('white'));
-                        $bg->compositeImage($imagick, \Imagick::COMPOSITE_OVER, 0, 0);
-                        $imagick->destroy();
-                        $imagick = $bg;
-                    }
-
-                    $imgW = $imagick->getImageWidth();
-                    $imgH = $imagick->getImageHeight();
-
-                    $draw = new \ImagickDraw();
-                    $draw->setFontSize($fontSize);
-                    $draw->setFillOpacity($opacity / 100);
-                    $draw->setFillColor(new \ImagickPixel('#' . $colorHex));
-
-                    // Try to detect a system font
-                    $systemFonts = $imagick->queryFonts('*');
-                    if (!empty($systemFonts)) {
-                        $draw->setFont($systemFonts[0]);
-                    }
-
-                    // Calculate padding
-                    $pad = (int) ($fontSize * 0.5);
-                    try {
-                        $metrics = $imagick->queryFontMetrics($draw, $text);
-                        $tw = (int) ($metrics['textWidth'] ?? $fontSize * strlen($text) * 0.6);
-                        $th = (int) ($metrics['textHeight'] ?? $fontSize);
-                    } catch (\Throwable $me) {
-                        $tw = (int) ($fontSize * strlen($text) * 0.6);
-                        $th = $fontSize;
-                    }
-
-                    [$x, $y] = match ($position) {
-                        'bottom-right' => [$imgW - $tw - $pad, $imgH - $pad],
-                        'bottom-left'  => [$pad, $imgH - $pad],
-                        'top-right'    => [$imgW - $tw - $pad, $th + $pad],
-                        'top-left'     => [$pad, $th + $pad],
-                        'center'       => [(int)(($imgW - $tw) / 2), (int)(($imgH + $th) / 2)],
-                        default        => [$imgW - $tw - $pad, $imgH - $pad],
-                    };
-
-                    $imagick->annotateImage($draw, $x, $y, 0, $text);
-
-                    $imagick->setImageFormat($outputExt === 'jpg' ? 'jpeg' : $outputExt);
-                    $imagick->setImageCompressionQuality($quality);
-                    file_put_contents($outputPath, $imagick->getImageBlob());
-                    $imagick->destroy();
-                } catch (\Throwable $imagickErr) {
-                    // Imagick failed (e.g. no fonts) — fall through to GD
-                    $this->applyWatermarkWithGd($file->getRealPath(), $outputPath, $outputExt, $text, $position, $opacity, $quality);
-                }
-            } else {
-                $this->applyWatermarkWithGd($file->getRealPath(), $outputPath, $outputExt, $text, $position, $opacity, $quality);
-            }
-
-            $compressedSize = filesize($outputPath);
-            $dimensions     = getimagesize($outputPath);
-            $reduction      = $originalSize > 0
-                ? round((1 - $compressedSize / $originalSize) * 100, 1) : 0;
-
-            try {
-                CompressionReport::create([
-                    'action'            => 'watermark',
-                    'referrer'          => Str::limit($request->header('referer', ''), 500),
-                    'original_name'     => $file->getClientOriginalName(),
-                    'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
-                    'output_format'     => $outputExt,
-                    'original_size'     => $originalSize,
-                    'compressed_size'   => $compressedSize,
-                    'reduction_percent' => $reduction,
-                    'quality'           => $quality,
-                    'width'             => $dimensions[0] ?? null,
-                    'height'            => $dimensions[1] ?? null,
-                    'ip_address'        => $request->ip(),
-                    'user_agent'        => Str::limit($request->userAgent(), 250),
-                ]);
-            } catch (\Throwable $e) { report($e); }
-
-            return response()->json([
-                'success'              => true,
-                'original_name'        => $file->getClientOriginalName(),
-                'filename'             => $outputFilename,
-                'download_url'         => route('image.download', ['filename' => $outputFilename]),
-                'original_size'        => $originalSize,
-                'size'                 => $compressedSize,
-                'output_size'          => $compressedSize,
-                'format'               => strtoupper($outputExt),
-                'width'                => $dimensions[0] ?? null,
-                'height'               => $dimensions[1] ?? null,
-                'formatted_original'   => $this->formatBytes($originalSize),
-                'formatted_output'     => $this->formatBytes($compressedSize),
-                'formatted_size'       => $this->formatBytes($compressedSize),
-            ]);
+            $result = $this->processWatermarkFromPath(
+                $file->getRealPath(),
+                $file->getClientOriginalName(),
+                $mime,
+                $request
+            );
+            return response()->json($result);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -908,6 +921,376 @@ class T2Controller extends Controller
     // ─────────────────────────────────────────────────────────────────
     // Helpers
     // ─────────────────────────────────────────────────────────────────
+
+    /**
+     * Remove all files in a temp chunk directory and delete the directory.
+     */
+    private function cleanupChunks(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+        foreach (glob("{$dir}/*") ?: [] as $f) {
+            @unlink($f);
+        }
+        @rmdir($dir);
+    }
+
+    /**
+     * Core resize logic operating on a file path (used by both resize() and finalizeChunked()).
+     */
+    private function processResizeFromPath(
+        string $filePath,
+        string $originalName,
+        string $mime,
+        Request $request
+    ): array {
+        $mode         = $request->input('mode', 'max_width');
+        $quality      = (int) ($request->input('quality', 85));
+        $outputFormat = $request->input('format', 'original');
+        $outputExt    = ($outputFormat === 'original')
+            ? (self::MIME_TO_EXT[$mime] ?? 'jpg')
+            : $outputFormat;
+
+        $origName   = pathinfo($originalName, PATHINFO_FILENAME);
+        $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
+        $uniqueId   = Str::random(8);
+        $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$outputExt}";
+        $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+        $originalSize   = filesize($filePath);
+
+        $image = Image::read($filePath);
+
+        switch ($mode) {
+            case 'exact':
+                $w = (int) $request->input('width', $image->width());
+                $h = (int) $request->input('height', $image->height());
+                $image->resize($w, $h);
+                break;
+            case 'percentage':
+                $pct  = (int) $request->input('percentage', 50);
+                $newW = (int) round($image->width() * $pct / 100);
+                $newH = (int) round($image->height() * $pct / 100);
+                $image->resize($newW, $newH);
+                break;
+            case 'max_width':
+                $maxW = (int) $request->input('width', 1920);
+                if ($image->width() > $maxW) {
+                    $image->scaleDown($maxW, null);
+                }
+                break;
+            case 'max_height':
+                $maxH = (int) $request->input('height', 1080);
+                if ($image->height() > $maxH) {
+                    $image->scaleDown(null, $maxH);
+                }
+                break;
+        }
+
+        $encoder = $this->getEncoder($outputExt, $quality);
+        $encoded = $image->encode($encoder);
+        file_put_contents($outputPath, (string) $encoded);
+
+        $compressedSize = filesize($outputPath);
+        $reduction      = $originalSize > 0
+            ? round((1 - $compressedSize / $originalSize) * 100, 1) : 0;
+        $dimensions     = getimagesize($outputPath);
+
+        try {
+            CompressionReport::create([
+                'action'            => 'resize',
+                'referrer'          => Str::limit(request()->header('referer', ''), 500),
+                'original_name'     => $originalName,
+                'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
+                'output_format'     => $outputExt,
+                'original_size'     => $originalSize,
+                'compressed_size'   => $compressedSize,
+                'reduction_percent' => $reduction,
+                'quality'           => $quality,
+                'width'             => $dimensions[0] ?? null,
+                'height'            => $dimensions[1] ?? null,
+                'ip_address'        => request()->ip(),
+                'user_agent'        => Str::limit(request()->userAgent(), 250),
+            ]);
+        } catch (\Throwable $e) { report($e); }
+
+        return [
+            'success'              => true,
+            'original_name'        => $originalName,
+            'filename'             => $outputFilename,
+            'download_url'         => route('image.download', ['filename' => $outputFilename]),
+            'original_size'        => $originalSize,
+            'resized_size'         => $compressedSize,
+            'reduction'            => $reduction,
+            'format'               => strtoupper($outputExt),
+            'width'                => $dimensions[0] ?? null,
+            'height'               => $dimensions[1] ?? null,
+            'formatted_original'   => $this->formatBytes($originalSize),
+            'formatted_resized'    => $this->formatBytes($compressedSize),
+        ];
+    }
+
+    /**
+     * Core watermark logic operating on a file path.
+     */
+    private function processWatermarkFromPath(
+        string $filePath,
+        string $originalName,
+        string $mime,
+        Request $request
+    ): array {
+        $text         = $request->input('text', 'Watermark');
+        $position     = $request->input('position', 'bottom-right');
+        $opacity      = (int) $request->input('opacity', 60);
+        $fontSize     = (int) $request->input('size', 24);
+        $colorHex     = ltrim($request->input('color', 'ffffff'), '#');
+        $quality      = (int) $request->input('quality', 80);
+        $outputFormat = $request->input('format', 'original');
+        $outputExt    = ($outputFormat === 'original')
+            ? (self::MIME_TO_EXT[$mime] ?? 'jpg')
+            : $outputFormat;
+
+        $origName   = pathinfo($originalName, PATHINFO_FILENAME);
+        $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
+        $uniqueId   = Str::random(8);
+        $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$outputExt}";
+        $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+        $originalSize   = filesize($filePath);
+
+        if (extension_loaded('imagick')) {
+            try {
+                $imagick = new \Imagick($filePath);
+                if ($outputExt === 'jpg') {
+                    $bg = new \Imagick();
+                    $bg->newImage($imagick->getImageWidth(), $imagick->getImageHeight(), new \ImagickPixel('white'));
+                    $bg->compositeImage($imagick, \Imagick::COMPOSITE_OVER, 0, 0);
+                    $imagick->destroy();
+                    $imagick = $bg;
+                }
+                $imgW = $imagick->getImageWidth();
+                $imgH = $imagick->getImageHeight();
+                $draw = new \ImagickDraw();
+                $draw->setFontSize($fontSize);
+                $draw->setFillOpacity($opacity / 100);
+                $draw->setFillColor(new \ImagickPixel('#' . $colorHex));
+                $systemFonts = $imagick->queryFonts('*');
+                if (!empty($systemFonts)) {
+                    $draw->setFont($systemFonts[0]);
+                }
+                $pad = (int) ($fontSize * 0.5);
+                try {
+                    $metrics = $imagick->queryFontMetrics($draw, $text);
+                    $tw = (int) ($metrics['textWidth'] ?? $fontSize * strlen($text) * 0.6);
+                    $th = (int) ($metrics['textHeight'] ?? $fontSize);
+                } catch (\Throwable $me) {
+                    $tw = (int) ($fontSize * strlen($text) * 0.6);
+                    $th = $fontSize;
+                }
+                [$x, $y] = match ($position) {
+                    'bottom-right' => [$imgW - $tw - $pad, $imgH - $pad],
+                    'bottom-left'  => [$pad, $imgH - $pad],
+                    'top-right'    => [$imgW - $tw - $pad, $th + $pad],
+                    'top-left'     => [$pad, $th + $pad],
+                    'center'       => [(int)(($imgW - $tw) / 2), (int)(($imgH + $th) / 2)],
+                    default        => [$imgW - $tw - $pad, $imgH - $pad],
+                };
+                $imagick->annotateImage($draw, $x, $y, 0, $text);
+                $imagick->setImageFormat($outputExt === 'jpg' ? 'jpeg' : $outputExt);
+                $imagick->setImageCompressionQuality($quality);
+                file_put_contents($outputPath, $imagick->getImageBlob());
+                $imagick->destroy();
+            } catch (\Throwable $imagickErr) {
+                $this->applyWatermarkWithGd($filePath, $outputPath, $outputExt, $text, $position, $opacity, $quality);
+            }
+        } else {
+            $this->applyWatermarkWithGd($filePath, $outputPath, $outputExt, $text, $position, $opacity, $quality);
+        }
+
+        $compressedSize = filesize($outputPath);
+        $dimensions     = getimagesize($outputPath);
+        $reduction      = $originalSize > 0
+            ? round((1 - $compressedSize / $originalSize) * 100, 1) : 0;
+
+        try {
+            CompressionReport::create([
+                'action'            => 'watermark',
+                'referrer'          => Str::limit(request()->header('referer', ''), 500),
+                'original_name'     => $originalName,
+                'original_format'   => self::MIME_TO_EXT[$mime] ?? 'unknown',
+                'output_format'     => $outputExt,
+                'original_size'     => $originalSize,
+                'compressed_size'   => $compressedSize,
+                'reduction_percent' => $reduction,
+                'quality'           => $quality,
+                'width'             => $dimensions[0] ?? null,
+                'height'            => $dimensions[1] ?? null,
+                'ip_address'        => request()->ip(),
+                'user_agent'        => Str::limit(request()->userAgent(), 250),
+            ]);
+        } catch (\Throwable $e) { report($e); }
+
+        return [
+            'success'              => true,
+            'original_name'        => $originalName,
+            'filename'             => $outputFilename,
+            'download_url'         => route('image.download', ['filename' => $outputFilename]),
+            'original_size'        => $originalSize,
+            'size'                 => $compressedSize,
+            'output_size'          => $compressedSize,
+            'format'               => strtoupper($outputExt),
+            'width'                => $dimensions[0] ?? null,
+            'height'               => $dimensions[1] ?? null,
+            'formatted_original'   => $this->formatBytes($originalSize),
+            'formatted_output'     => $this->formatBytes($compressedSize),
+            'formatted_size'       => $this->formatBytes($compressedSize),
+        ];
+    }
+
+    /**
+     * Core image→PDF logic operating on a file path.
+     */
+    private function processImgToPdfFromPath(
+        string $filePath,
+        string $originalName,
+        string $mime,
+        Request $request
+    ): array {
+        $pageSize    = $request->input('page_size', 'A4');
+        $orientation = $request->input('orientation', 'portrait');
+        $margin      = (int) $request->input('margin', 10);
+
+        $imgObj  = Image::read($filePath);
+        $pngData = base64_encode((string) $imgObj->encode(new PngEncoder()));
+        $imgW    = $imgObj->width();
+        $imgH    = $imgObj->height();
+
+        $pageDims = [
+            'A4'     => ['portrait' => [210, 297], 'landscape' => [297, 210]],
+            'A3'     => ['portrait' => [297, 420], 'landscape' => [420, 297]],
+            'Letter' => ['portrait' => [216, 279], 'landscape' => [279, 216]],
+            'Legal'  => ['portrait' => [216, 356], 'landscape' => [356, 216]],
+        ];
+        [$pW, $pH] = $pageDims[$pageSize][$orientation];
+
+        $availW = $pW - ($margin * 2);
+        $availH = $pH - ($margin * 2);
+        $ratio  = $imgH / max($imgW, 1);
+
+        if ($imgW / $imgH > $availW / $availH) {
+            $dispW = $availW;
+            $dispH = round($availW * $ratio);
+        } else {
+            $dispH = $availH;
+            $dispW = round($availH / $ratio);
+        }
+
+        $html = '<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#fff; }
+  .page { width:100%; padding:' . $margin . 'mm; display:flex; align-items:center; justify-content:center; min-height:' . ($pH - $margin * 2) . 'mm; }
+  img { max-width:' . $dispW . 'mm; max-height:' . $dispH . 'mm; display:block; }
+</style>
+</head><body>
+<div class="page"><img src="data:image/png;base64,' . $pngData . '"></div>
+</body></html>';
+
+        $pdf = Pdf::loadHTML($html)
+            ->setPaper(strtolower($pageSize), $orientation)
+            ->setOptions([
+                'isPhpEnabled'            => false,
+                'isRemoteEnabled'         => false,
+                'isFontSubsettingEnabled' => true,
+                'defaultFont'             => 'sans-serif',
+                'dpi'                     => 150,
+            ]);
+
+        $origName   = pathinfo($originalName, PATHINFO_FILENAME);
+        $safeName   = Str::slug(Str::limit($origName, 40, '')) ?: 'image';
+        $uniqueId   = Str::random(8);
+        $pdfFilename = "compresslypro-{$safeName}-{$uniqueId}.pdf";
+        $pdfPath     = storage_path("app/public/uploads/{$pdfFilename}");
+
+        file_put_contents($pdfPath, $pdf->output());
+        $pdfSize = filesize($pdfPath);
+
+        return [
+            'success'        => true,
+            'filename'       => $pdfFilename,
+            'download_url'   => route('pdf.download', ['filename' => $pdfFilename]),
+            'original_name'  => $originalName,
+            'size'           => $pdfSize,
+            'pdf_size'       => $pdfSize,
+            'formatted_size' => $this->formatBytes($pdfSize),
+            'page_size'      => $pageSize,
+            'orientation'    => $orientation,
+        ];
+    }
+
+    /**
+     * Core PDF→image logic operating on a file path.
+     */
+    private function processPdfToImgFromPath(
+        string $filePath,
+        string $originalName,
+        Request $request
+    ): array {
+        if (!extension_loaded('imagick')) {
+            throw new \RuntimeException('PDF conversion requires the Imagick extension.');
+        }
+
+        $format   = $request->input('format', 'jpg');
+        $dpi      = (int) $request->input('dpi', 150);
+        $page     = (int) $request->input('page', 0);
+
+        $origName = pathinfo($originalName, PATHINFO_FILENAME);
+        $safeName = Str::slug(Str::limit($origName, 40, '')) ?: 'document';
+        $uniqueId = Str::random(8);
+
+        $imagick = new \Imagick();
+        $imagick->setResolution($dpi, $dpi);
+        $imagick->readImage($filePath . '[' . $page . ']');
+        $imagick->setImageFormat($format === 'jpg' ? 'jpeg' : $format);
+        $imagick->setImageCompressionQuality(85);
+        $imagick->flattenImages();
+        $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+
+        if ($format === 'jpg') {
+            $canvas = new \Imagick();
+            $canvas->newImage($imagick->getImageWidth(), $imagick->getImageHeight(), new \ImagickPixel('white'));
+            $canvas->compositeImage($imagick, \Imagick::COMPOSITE_OVER, 0, 0);
+            $canvas->setImageFormat('jpeg');
+            $canvas->setImageCompressionQuality(85);
+            $imgData = $canvas->getImageBlob();
+            $canvas->destroy();
+        } else {
+            $imgData = $imagick->getImageBlob();
+        }
+        $imagick->destroy();
+
+        $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$format}";
+        $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+        file_put_contents($outputPath, $imgData);
+
+        $outputSize = filesize($outputPath);
+        $dimensions = getimagesize($outputPath);
+
+        return [
+            'success'        => true,
+            'filename'       => $outputFilename,
+            'download_url'   => route('image.download', ['filename' => $outputFilename]),
+            'original_name'  => $originalName,
+            'output_size'    => $outputSize,
+            'formatted_size' => $this->formatBytes($outputSize),
+            'format'         => strtoupper($format),
+            'width'          => $dimensions[0] ?? null,
+            'height'         => $dimensions[1] ?? null,
+            'page'           => $page,
+            'dpi'            => $dpi,
+        ];
+    }
 
     /**
      * SSRF: return true if IP is private/loopback/reserved.

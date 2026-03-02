@@ -60,6 +60,19 @@ Route::post('/api/' . config('api_routes.url_press'), [T2Controller::class, 'com
     ->name('url.compress')
     ->middleware('throttle:15,1');
 
+// T2 Chunked upload routes (shared chunk receiver + per-action finalize)
+Route::post('/api/' . config('api_routes.t2_chunk'), [T2Controller::class, 'uploadChunk'])
+    ->name('t2.chunk')
+    ->middleware('throttle:120,1');
+
+Route::post('/api/' . config('api_routes.t2_finalize'), [T2Controller::class, 'finalizeChunked'])
+    ->name('t2.finalize')
+    ->middleware('throttle:30,1');
+
+Route::post('/api/' . config('api_routes.batch_finalize'), [T2Controller::class, 'finalizeBatch'])
+    ->name('batch.finalize')
+    ->middleware('throttle:10,1');
+
 // Download routes
 Route::get('/dl/{filename}', [ImageController::class, 'download'])
     ->name('image.download');
