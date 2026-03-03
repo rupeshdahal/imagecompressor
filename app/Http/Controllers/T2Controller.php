@@ -11,6 +11,7 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use App\Models\CompressionReport;
+use App\Http\Controllers\Concerns\ImageSafetyGuard;
 use ZipArchive;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -25,6 +26,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
  */
 class T2Controller extends Controller
 {
+    use ImageSafetyGuard;
     /** Max file size: 20 MB */
     private const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
@@ -88,7 +90,6 @@ class T2Controller extends Controller
      */
     public function finalizeChunked(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'upload_id'     => 'required|string|max:64',
@@ -146,14 +147,14 @@ class T2Controller extends Controller
             return response()->json(['success' => false, 'message' => 'Invalid file type for this action.'], 422);
         }
 
-        // Assemble chunks into one file
+        // Stream-assemble chunks into one file (no per-chunk RAM spike)
         $assembledPath = "{$chunkDir}/assembled.{$ext}";
-        $out = fopen($assembledPath, 'wb');
-        for ($i = 0; $i < $totalChunks; $i++) {
-            fwrite($out, file_get_contents("{$chunkDir}/chunk_{$i}"));
-            unlink("{$chunkDir}/chunk_{$i}");
+        try {
+            $this->streamAssembleChunks($chunkDir, $assembledPath, $totalChunks);
+        } catch (\RuntimeException $e) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
-        fclose($out);
 
         // Validate MIME of assembled file
         $mime          = mime_content_type($assembledPath);
@@ -170,6 +171,16 @@ class T2Controller extends Controller
         if (filesize($assembledPath) > self::MAX_FILE_SIZE) {
             $this->cleanupChunks($chunkDir);
             return response()->json(['success' => false, 'message' => 'File exceeds the 20 MB limit.'], 422);
+        }
+
+        // Guard pixel dimensions (images only) before loading into memory
+        if ($action !== 'pdf_to_img') {
+            try {
+                $this->guardDimensions($assembledPath);
+            } catch (\RuntimeException $e) {
+                $this->cleanupChunks($chunkDir);
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+            }
         }
 
         try {
@@ -208,7 +219,6 @@ class T2Controller extends Controller
      */
     public function compressBatch(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'images'   => 'required|array|min:1|max:' . self::MAX_BATCH,
@@ -254,6 +264,17 @@ class T2Controller extends Controller
 
                 $outputFilename = "compresslypro-{$safeName}-{$uniqueId}.{$outputExt}";
                 $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
+
+                try {
+                    $this->guardDimensions($file->getRealPath());
+                } catch (\RuntimeException $e) {
+                    $results[] = [
+                        'success'       => false,
+                        'original_name' => $file->getClientOriginalName(),
+                        'message'       => $e->getMessage(),
+                    ];
+                    continue;
+                }
 
                 $image   = Image::read($file->getRealPath());
                 $encoder = $this->getEncoder($outputExt, $quality);
@@ -329,7 +350,6 @@ class T2Controller extends Controller
      */
     public function finalizeBatch(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'files'                  => 'required|array|min:1|max:' . self::MAX_BATCH,
@@ -380,14 +400,15 @@ class T2Controller extends Controller
                 continue;
             }
 
-            // Assemble chunks
+            // Stream-assemble chunks (no per-chunk RAM spike)
             $assembledPath = "{$chunkDir}/assembled.{$ext}";
-            $out = fopen($assembledPath, 'wb');
-            for ($i = 0; $i < $totalChunks; $i++) {
-                fwrite($out, file_get_contents("{$chunkDir}/chunk_{$i}"));
-                unlink("{$chunkDir}/chunk_{$i}");
+            try {
+                $this->streamAssembleChunks($chunkDir, $assembledPath, $totalChunks);
+            } catch (\RuntimeException $e) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => $e->getMessage()];
+                $this->cleanupChunks($chunkDir);
+                continue;
             }
-            fclose($out);
 
             // Validate MIME
             $mime = mime_content_type($assembledPath);
@@ -400,6 +421,15 @@ class T2Controller extends Controller
             // Enforce 20 MB cap
             if (filesize($assembledPath) > self::MAX_FILE_SIZE) {
                 $results[] = ['success' => false, 'original_name' => $originalName, 'message' => 'File exceeds 20 MB limit.'];
+                $this->cleanupChunks($chunkDir);
+                continue;
+            }
+
+            // Guard pixel dimensions before loading into memory
+            try {
+                $this->guardDimensions($assembledPath);
+            } catch (\RuntimeException $e) {
+                $results[] = ['success' => false, 'original_name' => $originalName, 'message' => $e->getMessage()];
                 $this->cleanupChunks($chunkDir);
                 continue;
             }
@@ -535,7 +565,6 @@ class T2Controller extends Controller
      */
     public function resize(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'image'      => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -555,6 +584,8 @@ class T2Controller extends Controller
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
 
+            $this->guardDimensions($file->getRealPath());
+
             $result = $this->processResizeFromPath(
                 $file->getRealPath(),
                 $file->getClientOriginalName(),
@@ -562,6 +593,8 @@ class T2Controller extends Controller
                 $request
             );
             return response()->json($result);
+        } catch (\RuntimeException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -580,7 +613,6 @@ class T2Controller extends Controller
      */
     public function imageToPdf(Request $request)
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'image'       => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -597,6 +629,8 @@ class T2Controller extends Controller
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
 
+            $this->guardDimensions($file->getRealPath());
+
             $result = $this->processImgToPdfFromPath(
                 $file->getRealPath(),
                 $file->getClientOriginalName(),
@@ -604,6 +638,8 @@ class T2Controller extends Controller
                 $request
             );
             return response()->json($result);
+        } catch (\RuntimeException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -637,7 +673,6 @@ class T2Controller extends Controller
      */
     public function pdfToImage(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'pdf'        => 'required|file|mimes:pdf|max:20480',
@@ -694,7 +729,6 @@ class T2Controller extends Controller
      */
     public function watermark(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'image'     => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -715,6 +749,8 @@ class T2Controller extends Controller
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
 
+            $this->guardDimensions($file->getRealPath());
+
             $result = $this->processWatermarkFromPath(
                 $file->getRealPath(),
                 $file->getClientOriginalName(),
@@ -722,6 +758,8 @@ class T2Controller extends Controller
                 $request
             );
             return response()->json($result);
+        } catch (\RuntimeException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -741,7 +779,6 @@ class T2Controller extends Controller
      */
     public function compressFromUrl(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'url'     => ['required', 'string', 'max:2048', 'url', 'regex:/^https?:\/\//i'],
@@ -771,34 +808,11 @@ class T2Controller extends Controller
         }
 
         try {
-            // Fetch the remote image (max 20MB, 10s timeout)
-            $context = stream_context_create([
-                'http' => [
-                    'timeout'          => 10,
-                    'follow_location'  => true,
-                    'max_redirects'    => 3,
-                    'user_agent'       => 'CompresslyPro/1.0 Image Downloader',
-                ],
-                'https' => [
-                    'timeout'          => 10,
-                    'follow_location'  => true,
-                    'max_redirects'    => 3,
-                    'user_agent'       => 'CompresslyPro/1.0 Image Downloader',
-                ],
-            ]);
-
-            $imageData = @file_get_contents($url, false, $context, 0, self::MAX_FILE_SIZE + 1);
-            if ($imageData === false) {
-                return response()->json(['success' => false, 'message' => 'Failed to download image from URL.'], 422);
-            }
-
-            if (strlen($imageData) > self::MAX_FILE_SIZE) {
-                return response()->json(['success' => false, 'message' => 'Remote image exceeds the 20MB limit.'], 422);
-            }
+            // Stream the remote image directly to a temp file — never held in PHP memory
+            $tmpPath     = $this->streamUrlToTemp($url, self::MAX_FILE_SIZE);
+            $originalSize = filesize($tmpPath);
 
             // Validate MIME type of fetched data
-            $tmpPath = tempnam(sys_get_temp_dir(), 'cp_url_');
-            file_put_contents($tmpPath, $imageData);
             $mime = mime_content_type($tmpPath);
 
             if (!in_array($mime, self::ALLOWED_MIMES, true)) {
@@ -806,8 +820,15 @@ class T2Controller extends Controller
                 return response()->json(['success' => false, 'message' => 'URL does not point to a valid image.'], 422);
             }
 
-            $originalSize = strlen($imageData);
-            $outputExt    = ($outputFormat === 'original')
+            // Guard pixel dimensions before loading into memory
+            try {
+                $this->guardDimensions($tmpPath);
+            } catch (\RuntimeException $e) {
+                @unlink($tmpPath);
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+            }
+
+            $outputExt = ($outputFormat === 'original')
                 ? (self::MIME_TO_EXT[$mime] ?? 'jpg')
                 : $outputFormat;
 
@@ -819,8 +840,10 @@ class T2Controller extends Controller
 
             $image   = Image::read($tmpPath);
             $encoder = $this->getEncoder($outputExt, $quality);
-            $encoded = $image->encode($encoder);
-            file_put_contents($outputPath, (string) $encoded);
+            $encoded = (string) $image->encode($encoder);
+            unset($image); // free decoded pixels from memory
+            file_put_contents($outputPath, $encoded);
+            unset($encoded);
             @unlink($tmpPath);
 
             $compressedSize = filesize($outputPath);

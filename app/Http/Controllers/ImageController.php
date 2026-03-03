@@ -12,9 +12,11 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use App\Models\CompressionReport;
+use App\Http\Controllers\Concerns\ImageSafetyGuard;
 
 class ImageController extends Controller
 {
+    use ImageSafetyGuard;
     /**
      * Maximum file size in bytes (20MB).
      */
@@ -92,7 +94,6 @@ class ImageController extends Controller
      */
     public function finalizeUpload(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $request->validate([
             'upload_id'    => 'required|string|max:64',
@@ -127,13 +128,12 @@ class ImageController extends Controller
         }
 
         $assembledPath = storage_path("app/temp-uploads/{$uploadId}/assembled.{$ext}");
-        $out = fopen($assembledPath, 'wb');
-        for ($i = 0; $i < $totalChunks; $i++) {
-            $chunkData = file_get_contents("{$chunkDir}/chunk_{$i}");
-            fwrite($out, $chunkData);
-            unlink("{$chunkDir}/chunk_{$i}");
+        try {
+            $this->streamAssembleChunks($chunkDir, $assembledPath, $totalChunks);
+        } catch (\RuntimeException $e) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
-        fclose($out);
 
         // Security: validate MIME of assembled file
         $mime = mime_content_type($assembledPath);
@@ -147,6 +147,14 @@ class ImageController extends Controller
         if ($originalSize > self::MAX_FILE_SIZE) {
             $this->cleanupChunks($chunkDir);
             return response()->json(['success' => false, 'message' => 'File exceeds the 20MB limit.'], 422);
+        }
+
+        // Guard pixel dimensions before loading into memory
+        try {
+            $this->guardDimensions($assembledPath);
+        } catch (\RuntimeException $e) {
+            $this->cleanupChunks($chunkDir);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
 
         $safeName   = Str::slug(Str::limit(pathinfo($originalName, PATHINFO_FILENAME), 50, '')) ?: 'image';
@@ -273,7 +281,6 @@ class ImageController extends Controller
      */
     public function convert(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         $validated = $request->validate([
             'image'  => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
@@ -287,6 +294,9 @@ class ImageController extends Controller
             if (!in_array($mime, self::ALLOWED_MIMES, true)) {
                 return response()->json(['success' => false, 'message' => 'Invalid file type.'], 422);
             }
+
+            // Guard pixel dimensions before loading into memory
+            $this->guardDimensions($file->getRealPath());
 
             $originalSize  = $file->getSize();
             $outputExt     = $validated['format'];
@@ -335,6 +345,8 @@ class ImageController extends Controller
                 'formatted_original' => $this->formatBytes($originalSize),
                 'formatted_converted'=> $this->formatBytes($convertedSize),
             ]);
+        } catch (\RuntimeException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
@@ -349,7 +361,6 @@ class ImageController extends Controller
      */
     public function compress(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '512M');
 
         // Validate request
         $validated = $request->validate([
@@ -377,6 +388,9 @@ class ImageController extends Controller
                     'message' => 'File size exceeds the 10MB limit.',
                 ], 422);
             }
+
+            // Guard pixel dimensions before loading into memory
+            $this->guardDimensions($file->getRealPath());
 
             $originalSize = $file->getSize();
             $quality = (int) $validated['quality'];
@@ -449,6 +463,8 @@ class ImageController extends Controller
                 'formatted_original'   => $this->formatBytes($originalSize),
                 'formatted_compressed' => $this->formatBytes($compressedSize),
             ]);
+        } catch (\RuntimeException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (\Throwable $e) {
             report($e);
 

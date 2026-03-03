@@ -15,63 +15,67 @@ use App\Http\Controllers\T2Controller;
 // Public routes
 Route::get('/', [ImageController::class, 'index'])->name('home');
 
-Route::post('/api/' . config('api_routes.compress'), [ImageController::class, 'compress'])
-    ->name('image.compress')
-    ->middleware('throttle:30,1');
+// ── All image-processing routes get the MemoryGuard middleware ──────────────
+Route::middleware('memory.guard')->group(function () {
 
-Route::post('/api/' . config('api_routes.convert'), [ImageController::class, 'convert'])
-    ->name('image.convert')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.compress'), [ImageController::class, 'compress'])
+        ->name('image.compress')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.chunk'), [ImageController::class, 'uploadChunk'])
-    ->name('upload.chunk')
-    ->middleware('throttle:300,1');
+    Route::post('/api/' . config('api_routes.convert'), [ImageController::class, 'convert'])
+        ->name('image.convert')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.finalize'), [ImageController::class, 'finalizeUpload'])
-    ->name('upload.finalize')
-    ->middleware('throttle:60,1');
+    Route::post('/api/' . config('api_routes.chunk'), [ImageController::class, 'uploadChunk'])
+        ->name('upload.chunk')
+        ->middleware('throttle:300,1');
 
-// T2 Routes
-Route::post('/api/' . config('api_routes.batch'), [T2Controller::class, 'compressBatch'])
-    ->name('batch.compress')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.finalize'), [ImageController::class, 'finalizeUpload'])
+        ->name('upload.finalize')
+        ->middleware('throttle:60,1');
 
-Route::post('/api/' . config('api_routes.batch_zip'), [T2Controller::class, 'downloadBatchZip'])
-    ->name('batch.zip')
-    ->middleware('throttle:30,1');
+    // T2 Routes
+    Route::post('/api/' . config('api_routes.batch'), [T2Controller::class, 'compressBatch'])
+        ->name('batch.compress')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.resize'), [T2Controller::class, 'resize'])
-    ->name('image.resize')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.batch_zip'), [T2Controller::class, 'downloadBatchZip'])
+        ->name('batch.zip')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.img_to_pdf'), [T2Controller::class, 'imageToPdf'])
-    ->name('image.to.pdf')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.resize'), [T2Controller::class, 'resize'])
+        ->name('image.resize')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.pdf_to_img'), [T2Controller::class, 'pdfToImage'])
-    ->name('pdf.to.image')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.img_to_pdf'), [T2Controller::class, 'imageToPdf'])
+        ->name('image.to.pdf')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.watermark'), [T2Controller::class, 'watermark'])
-    ->name('image.watermark')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.pdf_to_img'), [T2Controller::class, 'pdfToImage'])
+        ->name('pdf.to.image')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.url_press'), [T2Controller::class, 'compressFromUrl'])
-    ->name('url.compress')
-    ->middleware('throttle:30,1');
+    Route::post('/api/' . config('api_routes.watermark'), [T2Controller::class, 'watermark'])
+        ->name('image.watermark')
+        ->middleware('throttle:30,1');
 
-// T2 Chunked upload routes (shared chunk receiver + per-action finalize)
-Route::post('/api/' . config('api_routes.t2_chunk'), [T2Controller::class, 'uploadChunk'])
-    ->name('t2.chunk')
-    ->middleware('throttle:300,1');
+    Route::post('/api/' . config('api_routes.url_press'), [T2Controller::class, 'compressFromUrl'])
+        ->name('url.compress')
+        ->middleware('throttle:30,1');
 
-Route::post('/api/' . config('api_routes.t2_finalize'), [T2Controller::class, 'finalizeChunked'])
-    ->name('t2.finalize')
-    ->middleware('throttle:60,1');
+    // T2 Chunked upload routes
+    Route::post('/api/' . config('api_routes.t2_chunk'), [T2Controller::class, 'uploadChunk'])
+        ->name('t2.chunk')
+        ->middleware('throttle:300,1');
 
-Route::post('/api/' . config('api_routes.batch_finalize'), [T2Controller::class, 'finalizeBatch'])
-    ->name('batch.finalize')
-    ->middleware('throttle:60,1');
+    Route::post('/api/' . config('api_routes.t2_finalize'), [T2Controller::class, 'finalizeChunked'])
+        ->name('t2.finalize')
+        ->middleware('throttle:60,1');
+
+    Route::post('/api/' . config('api_routes.batch_finalize'), [T2Controller::class, 'finalizeBatch'])
+        ->name('batch.finalize')
+        ->middleware('throttle:60,1');
+});
 
 // Download routes
 Route::get('/dl/{filename}', [ImageController::class, 'download'])

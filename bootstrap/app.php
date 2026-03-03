@@ -14,10 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SecurityHeaders::class,
         ]);
-        
-        // Register admin authentication middleware
+
+        // Register named middleware aliases
         $middleware->alias([
-            'admin.auth' => \App\Http\Middleware\AdminAuth::class,
+            'admin.auth'   => \App\Http\Middleware\AdminAuth::class,
+            'memory.guard' => \App\Http\Middleware\MemoryGuard::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
