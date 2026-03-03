@@ -181,6 +181,13 @@ class T2Controller extends Controller
             };
             $this->cleanupChunks($chunkDir);
             return response()->json($result);
+        } catch (\RuntimeException $e) {
+            // Known, user-facing errors (e.g. missing Ghostscript, invalid PDF)
+            $this->cleanupChunks($chunkDir);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 422);
         } catch (\Throwable $e) {
             $this->cleanupChunks($chunkDir);
             report($e);
@@ -646,6 +653,15 @@ class T2Controller extends Controller
             ], 500);
         }
 
+        // Pre-flight: check Ghostscript is available before accepting the upload.
+        if ($this->ghostscriptBinary() === null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'PDF to Image requires Ghostscript, which is not installed on this server. '
+                           . 'Run: brew install ghostscript',
+            ], 503);
+        }
+
         try {
             $file = $request->file('pdf');
             $result = $this->processPdfToImgFromPath(
@@ -654,11 +670,17 @@ class T2Controller extends Controller
                 $request
             );
             return response()->json($result);
+        } catch (\RuntimeException $e) {
+            // Surface known errors (missing gs, bad PDF) as 422 with a clear message
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 422);
         } catch (\Throwable $e) {
             report($e);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to convert PDF to image. Ensure the PDF is valid.',
+                'message' => 'Failed to convert PDF to image. Ensure the PDF is valid and try again.',
             ], 500);
         }
     }
@@ -1161,6 +1183,29 @@ class T2Controller extends Controller
     /**
      * Core PDF→image logic operating on a file path.
      */
+    /**
+     * Locate the Ghostscript binary, checking Homebrew paths first.
+     * Returns the full path or null if not found.
+     */
+    private function ghostscriptBinary(): ?string
+    {
+        $candidates = [
+            '/opt/homebrew/bin/gs',   // Apple Silicon Homebrew
+            '/usr/local/bin/gs',      // Intel Homebrew / manual install
+            '/usr/bin/gs',            // Linux / system package
+            '/usr/local/ghostscript/bin/gs',
+        ];
+        foreach ($candidates as $path) {
+            if (is_executable($path)) {
+                return $path;
+            }
+        }
+        // Last resort: PATH lookup (avoids the `gs` shell alias for git-status)
+        $found = shell_exec('command -v gs 2>/dev/null');
+        $found = $found ? trim($found) : null;
+        return ($found && is_executable($found)) ? $found : null;
+    }
+
     private function processPdfToImgFromPath(
         string $filePath,
         string $originalName,
@@ -1168,6 +1213,15 @@ class T2Controller extends Controller
     ): array {
         if (!extension_loaded('imagick')) {
             throw new \RuntimeException('PDF conversion requires the Imagick extension.');
+        }
+
+        // Ghostscript is required by Imagick to render PDFs.
+        $gsPath = $this->ghostscriptBinary();
+        if ($gsPath === null) {
+            throw new \RuntimeException(
+                'Ghostscript (gs) is not installed on this server. ' .
+                'Please install it: brew install ghostscript'
+            );
         }
 
         $format   = $request->input('format', 'jpg');
@@ -1178,9 +1232,26 @@ class T2Controller extends Controller
         $safeName = Str::slug(Str::limit($origName, 40, '')) ?: 'document';
         $uniqueId = Str::random(8);
 
+        // Tell Imagick exactly where gs lives so it doesn't fall back to PATH
+        putenv("PATH=" . dirname($gsPath) . ':' . getenv('PATH'));
+
         $imagick = new \Imagick();
         $imagick->setResolution($dpi, $dpi);
-        $imagick->readImage($filePath . '[' . $page . ']');
+
+        try {
+            $imagick->readImage($filePath . '[' . $page . ']');
+        } catch (\ImagickException $e) {
+            $imagick->destroy();
+            $msg = $e->getMessage();
+            if (stripos($msg, 'FailedToExecuteCommand') !== false || stripos($msg, 'ghostscript') !== false) {
+                throw new \RuntimeException(
+                    'Ghostscript failed to render the PDF. ' .
+                    'Make sure Ghostscript is installed correctly: brew install ghostscript'
+                );
+            }
+            throw $e;
+        }
+
         $imagick->setImageFormat($format === 'jpg' ? 'jpeg' : $format);
         $imagick->setImageCompressionQuality(85);
         $imagick->flattenImages();

@@ -46,11 +46,11 @@ Route::post('/api/' . config('api_routes.resize'), [T2Controller::class, 'resize
 
 Route::post('/api/' . config('api_routes.img_to_pdf'), [T2Controller::class, 'imageToPdf'])
     ->name('image.to.pdf')
-    ->middleware('throttle:15,1');
+    ->middleware('throttle:30,1');
 
 Route::post('/api/' . config('api_routes.pdf_to_img'), [T2Controller::class, 'pdfToImage'])
     ->name('pdf.to.image')
-    ->middleware('throttle:10,1');
+    ->middleware('throttle:30,1');
 
 Route::post('/api/' . config('api_routes.watermark'), [T2Controller::class, 'watermark'])
     ->name('image.watermark')
@@ -58,7 +58,7 @@ Route::post('/api/' . config('api_routes.watermark'), [T2Controller::class, 'wat
 
 Route::post('/api/' . config('api_routes.url_press'), [T2Controller::class, 'compressFromUrl'])
     ->name('url.compress')
-    ->middleware('throttle:15,1');
+    ->middleware('throttle:30,1');
 
 // T2 Chunked upload routes (shared chunk receiver + per-action finalize)
 Route::post('/api/' . config('api_routes.t2_chunk'), [T2Controller::class, 'uploadChunk'])

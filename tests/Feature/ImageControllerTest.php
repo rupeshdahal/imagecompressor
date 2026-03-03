@@ -63,6 +63,11 @@ class ImageControllerTest extends TestCase
         $dir = storage_path('app/public/uploads');
         @mkdir($dir, 0755, true);
 
+        // Remove any leftover files from other tests so the count is predictable
+        foreach (glob($dir . '/compresslypro-*') as $leftover) {
+            @unlink($leftover);
+        }
+
         // Write a file and backdate its mtime by 35 minutes
         $oldFile = $dir . '/compresslypro-old-test.jpg';
         file_put_contents($oldFile, 'fake content');
