@@ -105,11 +105,15 @@ class T2Controller extends Controller
             'quality'       => 'nullable|integer|min:10|max:100',
             'format'        => 'nullable|string|in:original,jpg,png,webp',
             // watermark
-            'text'          => 'nullable|string|max:100',
-            'position'      => 'nullable|string|in:bottom-right,bottom-left,top-right,top-left,center',
-            'opacity'       => 'nullable|integer|min:10|max:100',
-            'size'          => 'nullable|integer|min:10|max:200',
-            'color'         => 'nullable|string|regex:/^#?[0-9a-fA-F]{3,6}$/',
+            'text'          => 'nullable|string|max:200',
+            'position'      => 'nullable|string|in:top-left,top-center,top-right,middle-left,center,middle-right,bottom-left,bottom-center,bottom-right',
+            'opacity'       => 'nullable|integer|min:5|max:100',
+            'size'          => 'nullable|integer|min:8|max:200',
+            'color'         => 'nullable|string|regex:/^#[0-9a-fA-F]{6}$/',
+            'font_family'   => 'nullable|string|in:arial,georgia,impact,courier,verdana',
+            'rotation'      => 'nullable|integer|in:0,-30,-45,-60,30,45,60',
+            'wm_mode'       => 'nullable|string|in:single,tile',
+            'tile_spacing'  => 'nullable|integer|min:20|max:500',
             // img_to_pdf
             'page_size'     => 'nullable|string|in:A4,A3,Letter,Legal',
             'orientation'   => 'nullable|string|in:portrait,landscape',
@@ -731,14 +735,18 @@ class T2Controller extends Controller
     {
 
         $request->validate([
-            'image'     => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
-            'text'      => 'required|string|min:1|max:100',
-            'position'  => 'nullable|string|in:bottom-right,bottom-left,top-right,top-left,center',
-            'opacity'   => 'nullable|integer|min:10|max:100',
-            'size'      => 'nullable|integer|min:10|max:200',
-            'color'     => 'nullable|string|regex:/^#?[0-9a-fA-F]{3,6}$/',
-            'quality'   => 'nullable|integer|min:10|max:90',
-            'format'    => 'nullable|string|in:original,jpg,png,webp',
+            'image'        => 'required|file|mimes:jpeg,jpg,png,webp,gif|max:20480',
+            'text'         => 'required|string|min:1|max:200',
+            'position'     => 'nullable|string|in:top-left,top-center,top-right,middle-left,center,middle-right,bottom-left,bottom-center,bottom-right',
+            'opacity'      => 'nullable|integer|min:5|max:100',
+            'size'         => 'nullable|integer|min:8|max:200',
+            'color'        => 'nullable|string|regex:/^#[0-9a-fA-F]{6}$/',
+            'font_family'  => 'nullable|string|in:arial,georgia,impact,courier,verdana',
+            'rotation'     => 'nullable|integer|in:0,-30,-45,-60,30,45,60',
+            'wm_mode'      => 'nullable|string|in:single,tile',
+            'tile_spacing' => 'nullable|integer|min:20|max:500',
+            'quality'      => 'nullable|integer|min:10|max:90',
+            'format'       => 'nullable|string|in:original,jpg,png,webp',
         ]);
 
         try {
@@ -1007,6 +1015,71 @@ class T2Controller extends Controller
     /**
      * Core watermark logic operating on a file path.
      */
+    // Font family → TTF file path mapping (macOS + Linux paths)
+    private const FONT_MAP = [
+        'arial'   => [
+            '/System/Library/Fonts/Supplemental/Arial.ttf',
+            '/usr/share/fonts/truetype/msttcorefonts/Arial.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+        ],
+        'georgia' => [
+            '/System/Library/Fonts/Supplemental/Georgia.ttf',
+            '/usr/share/fonts/truetype/msttcorefonts/Georgia.ttf',
+        ],
+        'impact'  => [
+            '/System/Library/Fonts/Supplemental/Impact.ttf',
+            '/usr/share/fonts/truetype/msttcorefonts/Impact.ttf',
+        ],
+        'courier' => [
+            '/System/Library/Fonts/Supplemental/Courier New.ttf',
+            '/usr/share/fonts/truetype/msttcorefonts/Courier_New.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf',
+        ],
+        'verdana' => [
+            '/System/Library/Fonts/Supplemental/Verdana.ttf',
+            '/usr/share/fonts/truetype/msttcorefonts/Verdana.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        ],
+    ];
+
+    /**
+     * Resolve a font family name to a readable TTF path, or null if none found.
+     */
+    private function resolveFontPath(string $family): ?string
+    {
+        $paths = self::FONT_MAP[$family] ?? self::FONT_MAP['arial'];
+        foreach ($paths as $p) {
+            if (file_exists($p) && is_readable($p)) return $p;
+        }
+        // Try any Arial/sans-serif fallback
+        foreach (self::FONT_MAP as $fallbackPaths) {
+            foreach ($fallbackPaths as $p) {
+                if (file_exists($p) && is_readable($p)) return $p;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Calculate (x, y) for annotating text at a named grid position.
+     * Returns [x, y] where y is the text baseline.
+     */
+    private function calcPosition(string $position, int $imgW, int $imgH, int $tw, int $th, int $pad): array
+    {
+        return match ($position) {
+            'top-left'       => [$pad, $th + $pad],
+            'top-center'     => [(int)(($imgW - $tw) / 2), $th + $pad],
+            'top-right'      => [$imgW - $tw - $pad, $th + $pad],
+            'middle-left'    => [$pad, (int)(($imgH + $th) / 2)],
+            'center'         => [(int)(($imgW - $tw) / 2), (int)(($imgH + $th) / 2)],
+            'middle-right'   => [$imgW - $tw - $pad, (int)(($imgH + $th) / 2)],
+            'bottom-left'    => [$pad, $imgH - $pad],
+            'bottom-center'  => [(int)(($imgW - $tw) / 2), $imgH - $pad],
+            'bottom-right'   => [$imgW - $tw - $pad, $imgH - $pad],
+            default          => [$imgW - $tw - $pad, $imgH - $pad],
+        };
+    }
+
     private function processWatermarkFromPath(
         string $filePath,
         string $originalName,
@@ -1016,8 +1089,12 @@ class T2Controller extends Controller
         $text         = $request->input('text', 'Watermark');
         $position     = $request->input('position', 'bottom-right');
         $opacity      = (int) $request->input('opacity', 60);
-        $fontSize     = (int) $request->input('size', 24);
+        $fontSize     = (int) $request->input('size', 36);
         $colorHex     = ltrim($request->input('color', 'ffffff'), '#');
+        $fontFamily   = $request->input('font_family', 'arial');
+        $rotation     = (int) $request->input('rotation', 0);
+        $mode         = $request->input('wm_mode', 'single'); // single | tile
+        $tileSpacing  = max(60, (int) $request->input('tile_spacing', 150));
         $quality      = (int) $request->input('quality', 80);
         $outputFormat = $request->input('format', 'original');
         $outputExt    = ($outputFormat === 'original')
@@ -1031,6 +1108,8 @@ class T2Controller extends Controller
         $outputPath     = storage_path("app/public/uploads/{$outputFilename}");
         $originalSize   = filesize($filePath);
 
+        $fontPath = $this->resolveFontPath($fontFamily);
+
         if (extension_loaded('imagick')) {
             try {
                 $imagick = new \Imagick($filePath);
@@ -1043,15 +1122,18 @@ class T2Controller extends Controller
                 }
                 $imgW = $imagick->getImageWidth();
                 $imgH = $imagick->getImageHeight();
+
+                // Build the base draw object
                 $draw = new \ImagickDraw();
                 $draw->setFontSize($fontSize);
                 $draw->setFillOpacity($opacity / 100);
                 $draw->setFillColor(new \ImagickPixel('#' . $colorHex));
-                $systemFonts = $imagick->queryFonts('*');
-                if (!empty($systemFonts)) {
-                    $draw->setFont($systemFonts[0]);
+                if ($fontPath) {
+                    $draw->setFont($fontPath);
                 }
-                $pad = (int) ($fontSize * 0.5);
+                $pad = (int) max(10, $fontSize * 0.5);
+
+                // Measure text
                 try {
                     $metrics = $imagick->queryFontMetrics($draw, $text);
                     $tw = (int) ($metrics['textWidth'] ?? $fontSize * strlen($text) * 0.6);
@@ -1060,24 +1142,33 @@ class T2Controller extends Controller
                     $tw = (int) ($fontSize * strlen($text) * 0.6);
                     $th = $fontSize;
                 }
-                [$x, $y] = match ($position) {
-                    'bottom-right' => [$imgW - $tw - $pad, $imgH - $pad],
-                    'bottom-left'  => [$pad, $imgH - $pad],
-                    'top-right'    => [$imgW - $tw - $pad, $th + $pad],
-                    'top-left'     => [$pad, $th + $pad],
-                    'center'       => [(int)(($imgW - $tw) / 2), (int)(($imgH + $th) / 2)],
-                    default        => [$imgW - $tw - $pad, $imgH - $pad],
-                };
-                $imagick->annotateImage($draw, $x, $y, 0, $text);
+
+                if ($mode === 'tile') {
+                    // Tile mode: stamp watermark in a diagonal/rotated grid
+                    $stepX = $tw + $tileSpacing;
+                    $stepY = $th + $tileSpacing;
+                    $angle = $rotation !== 0 ? (float) $rotation : -30.0;
+                    $startX = -(int)($imgW * 0.2);
+                    $startY = -(int)($imgH * 0.2);
+                    for ($cy = $startY; $cy < $imgH + $stepY; $cy += $stepY) {
+                        for ($cx = $startX; $cx < $imgW + $stepX; $cx += $stepX) {
+                            $imagick->annotateImage($draw, $cx, $cy, $angle, $text);
+                        }
+                    }
+                } else {
+                    [$x, $y] = $this->calcPosition($position, $imgW, $imgH, $tw, $th, $pad);
+                    $imagick->annotateImage($draw, $x, $y, (float) $rotation, $text);
+                }
+
                 $imagick->setImageFormat($outputExt === 'jpg' ? 'jpeg' : $outputExt);
                 $imagick->setImageCompressionQuality($quality);
                 file_put_contents($outputPath, $imagick->getImageBlob());
                 $imagick->destroy();
             } catch (\Throwable $imagickErr) {
-                $this->applyWatermarkWithGd($filePath, $outputPath, $outputExt, $text, $position, $opacity, $quality);
+                $this->applyWatermarkWithGd($filePath, $outputPath, $outputExt, $text, $position, $opacity, $quality, $fontSize, $colorHex, $fontPath, $rotation, $mode, $tileSpacing);
             }
         } else {
-            $this->applyWatermarkWithGd($filePath, $outputPath, $outputExt, $text, $position, $opacity, $quality);
+            $this->applyWatermarkWithGd($filePath, $outputPath, $outputExt, $text, $position, $opacity, $quality, $fontSize, $colorHex, $fontPath, $rotation, $mode, $tileSpacing);
         }
 
         $compressedSize = filesize($outputPath);
@@ -1347,8 +1438,9 @@ class T2Controller extends Controller
         return round($size, $precision) . ' ' . $units[$index];
     }
 
+
     /**
-     * GD-based watermark fallback (no TTF font needed).
+     * GD-based watermark fallback (uses TTF if available, otherwise built-in font).
      */
     private function applyWatermarkWithGd(
         string $sourcePath,
@@ -1357,31 +1449,65 @@ class T2Controller extends Controller
         string $text,
         string $position,
         int $opacity,
-        int $quality
+        int $quality,
+        int $fontSize = 36,
+        string $colorHex = 'ffffff',
+        ?string $fontPath = null,
+        int $rotation = 0,
+        string $mode = 'single',
+        int $tileSpacing = 150
     ): void {
-        $src  = imagecreatefromstring((string) file_get_contents($sourcePath));
+        $src = imagecreatefromstring((string) file_get_contents($sourcePath));
         if ($src === false) {
             throw new \RuntimeException('GD could not read image.');
         }
         $imgW  = imagesx($src);
         $imgH  = imagesy($src);
-        $alpha = (int) ((100 - $opacity) * 1.27);
-        $color = imagecolorallocatealpha($src, 255, 255, 255, max(0, min(127, $alpha)));
-        $charW = 6;
-        $charH = 12;
-        $pad   = 10;
-        $tw    = $charW * strlen($text);
+        $alpha = max(0, min(127, (int)((100 - $opacity) * 1.27)));
+        $r = hexdec(str_pad(substr($colorHex, 0, 2), 2, 'f'));
+        $g = hexdec(str_pad(substr($colorHex, 2, 2), 2, 'f'));
+        $b = hexdec(str_pad(substr($colorHex, 4, 2), 2, 'f'));
+        $color = imagecolorallocatealpha($src, (int)$r, (int)$g, (int)$b, $alpha);
 
-        [$x, $y] = match ($position) {
-            'bottom-right' => [$imgW - $tw - $pad, $imgH - $charH - $pad],
-            'bottom-left'  => [$pad, $imgH - $charH - $pad],
-            'top-right'    => [$imgW - $tw - $pad, $pad],
-            'top-left'     => [$pad, $pad],
-            'center'       => [(int) (($imgW - $tw) / 2), (int) (($imgH - $charH) / 2)],
-            default        => [$imgW - $tw - $pad, $imgH - $charH - $pad],
-        };
+        if ($fontPath && function_exists('imagettftext')) {
+            $gdFontSize = max(8, $fontSize);
+            try { $bbox = imagettfbbox($gdFontSize, 0, $fontPath, $text); } catch (\Throwable $e) { $bbox = false; }
+            $tw  = $bbox ? abs($bbox[4] - $bbox[0]) : (int)($gdFontSize * strlen($text) * 0.6);
+            $th  = $bbox ? abs($bbox[5] - $bbox[1]) : $gdFontSize;
+            $pad = max(10, (int)($gdFontSize * 0.5));
 
-        imagestring($src, 3, $x, $y, $text, $color);
+            if ($mode === 'tile') {
+                $stepX = max(1, $tw + $tileSpacing);
+                $stepY = max(1, $th + $tileSpacing);
+                $angle = $rotation !== 0 ? (float)$rotation : -30.0;
+                for ($cy = -(int)($imgH * 0.2); $cy < $imgH * 1.2; $cy += $stepY) {
+                    for ($cx = -(int)($imgW * 0.2); $cx < $imgW * 1.2; $cx += $stepX) {
+                        imagettftext($src, $gdFontSize, -$angle, $cx, $cy + $th, $color, $fontPath, $text);
+                    }
+                }
+            } else {
+                [$x, $y] = $this->calcPositionGd($position, $imgW, $imgH, $tw, $th, $pad);
+                imagettftext($src, $gdFontSize, -$rotation, $x, $y, $color, $fontPath, $text);
+            }
+        } else {
+            $gdFont = 3;
+            $charW  = imagefontwidth($gdFont);
+            $charH  = imagefontheight($gdFont);
+            $tw     = $charW * strlen($text);
+            $pad    = 10;
+            if ($mode === 'tile') {
+                $stepX = max(1, $tw + $tileSpacing);
+                $stepY = max(1, $charH + $tileSpacing);
+                for ($cy = 0; $cy < $imgH; $cy += $stepY) {
+                    for ($cx = 0; $cx < $imgW; $cx += $stepX) {
+                        imagestring($src, $gdFont, $cx, $cy, $text, $color);
+                    }
+                }
+            } else {
+                [$x, $y] = $this->calcPositionGd($position, $imgW, $imgH, $tw, $charH, $pad);
+                imagestring($src, $gdFont, $x, $y - $charH, $text, $color);
+            }
+        }
 
         if ($outputExt === 'jpg') {
             imagejpeg($src, $outputPath, $quality);
@@ -1391,5 +1517,24 @@ class T2Controller extends Controller
             imagewebp($src, $outputPath, $quality);
         }
         imagedestroy($src);
+    }
+
+    /**
+     * Calculate (x, y) baseline position for GD text drawing.
+     */
+    private function calcPositionGd(string $position, int $imgW, int $imgH, int $tw, int $th, int $pad): array
+    {
+        return match ($position) {
+            'top-left'       => [$pad, $th + $pad],
+            'top-center'     => [(int)(($imgW - $tw) / 2), $th + $pad],
+            'top-right'      => [$imgW - $tw - $pad, $th + $pad],
+            'middle-left'    => [$pad, (int)(($imgH + $th) / 2)],
+            'center'         => [(int)(($imgW - $tw) / 2), (int)(($imgH + $th) / 2)],
+            'middle-right'   => [$imgW - $tw - $pad, (int)(($imgH + $th) / 2)],
+            'bottom-left'    => [$pad, $imgH - $pad],
+            'bottom-center'  => [(int)(($imgW - $tw) / 2), $imgH - $pad],
+            'bottom-right'   => [$imgW - $tw - $pad, $imgH - $pad],
+            default          => [$imgW - $tw - $pad, $imgH - $pad],
+        };
     }
 }
