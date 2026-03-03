@@ -13,9 +13,9 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     {{-- SEO Meta --}}
-    <title>Free Online Image Compressor - Compress JPG, PNG & WebP Images | Reduce File Size up to 90%</title>
-    <meta name="description" content="Compress images online for FREE! Reduce JPG, PNG, WebP file sizes by up to 90% without quality loss. Fast, secure, no signup. Convert formats. 20MB max. Start compressing now!">
-    <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer, image converter, reduce file size, compress photo, online image tool, lossy compression, lossless compression">
+    <title>Free Online Image Tools — Compress, Convert, Resize, Watermark & PDF | CompresslyPro</title>
+    <meta name="description" content="Free online image tools: compress JPG, PNG & WebP up to 90% smaller, convert formats, resize images, add watermarks, batch compress, convert images to PDF and PDF to images. No signup. Privacy-first. Up to 20MB.">
+    <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer, image converter, resize image online, image to PDF, PDF to image, add watermark to image, batch image compressor, reduce file size, compress photo, online image tool, lossy compression, lossless compression, free image tools">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ url('/') }}">
@@ -39,22 +39,22 @@
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
-    <meta property="og:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size by up to 90% without quality loss. No signup required. Fast, secure, and easy to use.">
+    <meta property="og:title" content="Free Online Image Tools — Compress, Resize, Convert & More | CompresslyPro">
+    <meta property="og:description" content="Compress JPG, PNG & WebP up to 90% smaller, convert formats, resize images, batch compress, add watermarks, and convert to/from PDF. Free, no signup.">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="CompresslyPro - Free Online Image Compression Tool">
+    <meta property="og:site_name" content="CompresslyPro - Free Online Image Tools">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="{{ asset('og-image.png') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Free Online Image Compressor Tool">
+    <meta property="og:image:alt" content="CompresslyPro — Free Online Image Tools">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Image Compressor - Reduce File Size up to 90%">
-    <meta name="twitter:description" content="Compress JPG, PNG, WebP images online for free. Reduce file size without quality loss. No signup required.">
+    <meta name="twitter:title" content="Free Online Image Tools — Compress, Resize, Convert & More | CompresslyPro">
+    <meta name="twitter:description" content="Compress, convert, resize, watermark & PDF tools — all free, no signup required.">
     <meta name="twitter:image" content="{{ asset('og-image.png') }}">
-    <meta name="twitter:image:alt" content="Free Online Image Compressor Tool">
+    <meta name="twitter:image:alt" content="CompresslyPro — Free Online Image Tools">
     <meta name="twitter:creator" content="@compresslypro">
     <meta name="twitter:site" content="@compresslypro">
 
@@ -69,14 +69,14 @@
     {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Free Online Image Compressor",
+        "name": "CompresslyPro — Free Online Image Tools",
         "alternateName": "CompresslyPro",
-        "description": "Compress JPG, PNG, WebP images online for free. Reduce image file size by up to 90% without losing quality. Fast, secure, no signup required.",
+        "description": "Free online image tools: compress JPG, PNG, WebP up to 90% smaller, convert formats, resize images, add watermarks, batch compress, and convert images to/from PDF. No signup required.",
         "url": "https://compresslypro.com",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
-        "softwareVersion": "1.0",
+        "softwareVersion": "2.0",
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -92,17 +92,25 @@
             "Compress JPG/JPEG images online",
             "Compress PNG images online",
             "Compress WebP images online",
+            "Compress GIF images online",
             "Convert image formats (JPG, PNG, WebP)",
+            "Resize images — percentage, max width, max height, exact dimensions",
+            "Batch compress up to 20 images and download as ZIP",
+            "Add text watermark to images with custom position and opacity",
+            "Compress images from URL",
+            "Convert images to PDF (A4, A3, Letter, Legal)",
+            "Convert PDF to image (JPG, PNG, WebP)",
             "Adjustable quality control (10-90%)",
+            "Before/after visual comparison slider",
+            "Copy compressed image to clipboard",
             "No signup or registration required",
             "Free unlimited compressions",
             "Fast processing under 5 seconds",
-            "Secure - files auto-deleted",
+            "Secure — files auto-deleted after 30 minutes",
             "Drag and drop upload",
             "Paste from clipboard support",
             "Up to 20MB file size support",
-            "Batch processing ready",
-            "Download compressed images instantly"
+            "Mobile-friendly and fully responsive"
         ],
         "potentialAction": {
             "@type": "UseAction",
@@ -140,36 +148,36 @@
     {
         "@context": "https://schema.org",
         "@type": "HowTo",
-        "name": "How to Compress Images Online",
-        "description": "Step-by-step guide to compress your images using our free online tool",
+        "name": "How to Use CompresslyPro Image Tools",
+        "description": "Step-by-step guide to compress, convert, resize or process your images using our free online tools",
         "totalTime": "PT2M",
         "step": [
             {
                 "@type": "HowToStep",
                 "position": 1,
-                "name": "Upload Image",
-                "text": "Drag and drop your image, click to browse, or paste from clipboard (Ctrl+V/Cmd+V)",
+                "name": "Choose a Tool",
+                "text": "Select the tool you need — Compress, Convert, Batch, Resize, Watermark, Image-to-PDF, or PDF-to-Image — from the tabs at the top.",
                 "image": "https://compresslypro.com/og-image.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 2,
-                "name": "Adjust Settings",
-                "text": "Choose output format (JPG, PNG, or WebP) and set quality level (10-90%). Higher quality = larger file.",
+                "name": "Upload Your Image",
+                "text": "Drag and drop your image, click to browse files, or paste from clipboard (Ctrl+V / Cmd+V). Supports JPG, PNG, WebP, GIF up to 20MB.",
                 "image": "https://compresslypro.com/og-image.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 3,
-                "name": "Compress",
-                "text": "Click 'Compress Image' button and wait 2-5 seconds for processing",
+                "name": "Adjust Settings",
+                "text": "Choose compression quality (10–90%), target format, resize dimensions, watermark text, PDF page size, or other tool-specific options.",
                 "image": "https://compresslypro.com/og-image.png"
             },
             {
                 "@type": "HowToStep",
                 "position": 4,
-                "name": "Download",
-                "text": "Click 'Download' button to save your compressed image. View statistics showing original vs compressed size.",
+                "name": "Download Result",
+                "text": "Click the Download button to save your processed image. For batch jobs, download all files as a single ZIP archive.",
                 "image": "https://compresslypro.com/og-image.png"
             }
         ]
@@ -182,10 +190,10 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Is this image compressor free?",
+                "name": "Is CompresslyPro free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, our image compressor is 100% free to use with no signup required."
+                    "text": "Yes, all tools on CompresslyPro are 100% free with no signup required. No watermarks, no hidden fees."
                 }
             },
             {
@@ -193,7 +201,7 @@
                 "name": "What image formats are supported?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "We support JPG/JPEG, PNG, WEBP, and GIF image formats."
+                    "text": "We support JPG/JPEG, PNG, WebP, and GIF for compression, conversion and resizing. PDF is supported for image-to-PDF and PDF-to-image conversion."
                 }
             },
             {
@@ -201,7 +209,7 @@
                 "name": "What is the maximum file size?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "You can upload images up to 20MB in size."
+                    "text": "You can upload images up to 20MB in size. For batch compression, each individual file can be up to 20MB."
                 }
             },
             {
@@ -217,7 +225,7 @@
                 "name": "Are my images stored on the server?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Uploaded images are automatically deleted within 30 minutes. We do not store your images permanently."
+                    "text": "Uploaded images are automatically deleted within 30 minutes. We never store, share, or analyze your images."
                 }
             },
             {
@@ -225,7 +233,39 @@
                 "name": "Can I convert image formats?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, you can convert between JPG, PNG, and WEBP formats during compression."
+                    "text": "Yes, use the Convert tab to convert between JPG, PNG, and WebP formats at high quality."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I resize images online for free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Use the Resize tab to resize images by percentage, max width, max height, or exact dimensions. Aspect ratio is preserved automatically."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I compress multiple images at once?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use the Batch tab to upload up to 20 images at once. They are all compressed in parallel and you can download them all as a single ZIP file."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I convert an image to PDF?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Go to the More Tools tab and use the Image → PDF tool. You can choose page size (A4, A3, Letter, Legal) and orientation (portrait or landscape)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I add a watermark to an image?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use the Watermark tool in the More Tools tab. Enter your watermark text, choose position (center, corners) and adjust opacity, then download the result."
                 }
             }
         ]
@@ -238,7 +278,7 @@
         "name": "CompresslyPro",
         "url": "https://compresslypro.com",
         "logo": "https://compresslypro.com/logo.png",
-        "description": "Free online image compression and conversion tool. Compress JPG, PNG, WebP, GIF images up to 90% smaller.",
+        "description": "Free online image tools — compress, convert, resize, watermark, batch compress, and convert between image and PDF formats.",
         "sameAs": []
     }
     </script>
@@ -248,7 +288,7 @@
         "@type": "WebSite",
         "name": "CompresslyPro",
         "url": "https://compresslypro.com",
-        "description": "Free online image compressor and converter. Compress JPG, PNG, WebP up to 90% smaller.",
+        "description": "Free online image tools — compress JPG/PNG/WebP up to 90% smaller, convert formats, resize, watermark, batch compress, image to PDF and PDF to image.",
         "potentialAction": {
             "@type": "SearchAction",
             "target": "https://compresslypro.com/?q={search_term_string}",
@@ -387,7 +427,7 @@
                     <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-10 sm:h-12 w-auto transition-all flex-shrink-0">
                     <div class="flex flex-col leading-tight">
                         <span class="text-white font-bold text-base sm:text-lg tracking-tight group-hover:text-indigo-200 transition-colors">CompresslyPro</span>
-                        <span class="text-indigo-300/70 text-[10px] sm:text-xs font-medium hidden sm:block tracking-wide">Free Image Compressor</span>
+                        <span class="text-indigo-300/70 text-[10px] sm:text-xs font-medium hidden sm:block tracking-wide">Free Image Tools</span>
                     </div>
                 </a>
             </div>
@@ -406,15 +446,25 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-slide-down">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                100% Free · No Signup · Compress & Convert
+                100% Free · No Signup · 7 Powerful Tools
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5">
-                Free Online Image
-                <span class="gradient-text">Compressor & Converter</span>
+                Free Online
+                <span class="gradient-text">Image Tools</span>
             </h1>
-            <p class="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                Compress JPG, PNG & WebP images up to <strong class="text-gray-700">90% smaller</strong> — or convert between formats instantly. No signup. Privacy-first.
+            <p class="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed mb-6">
+                Compress JPG, PNG &amp; WebP up to <strong class="text-gray-700">90% smaller</strong> · Convert formats · Resize · Add Watermark · Batch compress · Image ↔ PDF. All free, no signup.
             </p>
+            {{-- Quick tool pills --}}
+            <div class="flex flex-wrap justify-center gap-2 text-xs font-semibold">
+                <span class="bg-brand-100 text-brand-700 px-3 py-1.5 rounded-full">🗜️ Compress</span>
+                <span class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full">🔄 Convert</span>
+                <span class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full">📦 Batch ZIP</span>
+                <span class="bg-orange-100 text-orange-700 px-3 py-1.5 rounded-full">↔ Resize</span>
+                <span class="bg-pink-100 text-pink-700 px-3 py-1.5 rounded-full">🖊️ Watermark</span>
+                <span class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full">📄 Image→PDF</span>
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full">🖼️ PDF→Image</span>
+            </div>
         </div>
     </header>
 
@@ -1587,8 +1637,8 @@
                     <p class="text-sm text-gray-500 mt-1 font-medium">Max file size</p>
                 </div>
                 <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">4</p>
-                    <p class="text-sm text-gray-500 mt-1 font-medium">Formats supported</p>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">7</p>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">Powerful tools</p>
                 </div>
                 <div>
                     <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">100%</p>
@@ -1608,7 +1658,7 @@
     {{-- How It Works Section --}}
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="how-it-works-title">
         <div class="text-center mb-12">
-            <h2 id="how-it-works-title" class="text-3xl sm:text-4xl font-extrabold mb-4">How to Compress Images Online</h2>
+            <h2 id="how-it-works-title" class="text-3xl sm:text-4xl font-extrabold mb-4">How to Use Our Image Tools</h2>
             <p class="text-gray-500 max-w-xl mx-auto">Three simple steps — done in under 10 seconds</p>
         </div>
         <div class="grid sm:grid-cols-3 gap-6 relative">
@@ -1621,18 +1671,18 @@
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
                 </div>
                 <span class="inline-block bg-brand-100 text-brand-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 1</span>
-                <h3 class="font-bold text-lg mb-2">Upload Your Image</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Drag & drop, click to browse, or paste from clipboard with <kbd class="text-xs bg-gray-100 border border-gray-200 rounded px-1.5 py-0.5">Ctrl+V</kbd></p>
+                <h3 class="font-bold text-lg mb-2">Choose a Tool &amp; Upload</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Select Compress, Convert, Resize, Batch, Watermark, or PDF from the tabs. Drag &amp; drop, browse, or paste with <kbd class="text-xs bg-gray-100 border border-gray-200 rounded px-1.5 py-0.5">Ctrl+V</kbd>.</p>
             </div>
 
             {{-- Step 2 --}}
             <div class="relative z-10 bg-white rounded-2xl border border-gray-200/60 p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
                 <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/30">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0h9.75"/></svg>
                 </div>
                 <span class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 2</span>
-                <h3 class="font-bold text-lg mb-2">Choose Settings</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Set quality level (10–90%) for compression, or pick your target format for conversion.</p>
+                <h3 class="font-bold text-lg mb-2">Adjust Settings</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Set quality (10–90%), target format, resize dimensions, watermark text, PDF page size, or other tool-specific options.</p>
             </div>
 
             {{-- Step 3 --}}
@@ -1642,7 +1692,7 @@
                 </div>
                 <span class="inline-block bg-accent-100 text-accent-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 3</span>
                 <h3 class="font-bold text-lg mb-2">Download Result</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Click Download to save your optimised image. See original vs compressed size comparison instantly.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">Click Download to save your processed image. For batch jobs, download all results as a single ZIP. See stats instantly.</p>
             </div>
         </div>
     </section>
@@ -1650,57 +1700,69 @@
     {{-- Features Section --}}
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="features-title">
         <div class="text-center mb-12">
-            <h2 id="features-title" class="text-3xl sm:text-4xl font-extrabold mb-4">Why Choose Our Compressor?</h2>
-            <p class="text-gray-500 max-w-xl mx-auto">Trusted by thousands of creators, developers, and businesses worldwide</p>
+            <h2 id="features-title" class="text-3xl sm:text-4xl font-extrabold mb-4">All-in-One Image Toolkit</h2>
+            <p class="text-gray-500 max-w-xl mx-auto">7 professional-grade tools, completely free — no account needed</p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {{-- Feature 1 --}}
+            {{-- Tool 1 — Compress --}}
             <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
                 <div class="w-12 h-12 bg-brand-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                 </div>
-                <h3 class="font-bold text-lg mb-2">Lightning Fast</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Server-side compression in milliseconds. No waiting, no queues.</p>
+                <h3 class="font-bold text-lg mb-2">Image Compressor</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Reduce JPG, PNG &amp; WebP file sizes up to 90% with adjustable quality. Includes before/after comparison slider.</p>
             </div>
-            {{-- Feature 2 --}}
-            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-accent-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                </div>
-                <h3 class="font-bold text-lg mb-2">100% Secure</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Files auto-delete in 30 minutes. We never store or analyze your data.</p>
-            </div>
-            {{-- Feature 3 --}}
+            {{-- Tool 2 — Convert --}}
             <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
                 <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
                 </div>
-                <h3 class="font-bold text-lg mb-2">Format Conversion</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Convert between JPG, PNG, and WEBP while compressing.</p>
+                <h3 class="font-bold text-lg mb-2">Format Converter</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Convert between JPG, PNG, and WebP at high quality. Ideal for switching to modern web formats.</p>
             </div>
-            {{-- Feature 4 --}}
+            {{-- Tool 3 — Batch --}}
             <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
                 </div>
-                <h3 class="font-bold text-lg mb-2">Mobile Friendly</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Fully responsive. Compress images from any device, anywhere.</p>
+                <h3 class="font-bold text-lg mb-2">Batch Compressor</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Upload up to 20 images at once. Compress all in parallel and download a single ZIP with one click.</p>
             </div>
-            {{-- Feature 5 --}}
+            {{-- Tool 4 — Resize --}}
             <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                <div class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
                 </div>
-                <h3 class="font-bold text-lg mb-2">Quality Control</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">Fine-tune compression with a precise quality slider (10–90%).</p>
+                <h3 class="font-bold text-lg mb-2">Image Resizer</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Resize by percentage, max width, max height, or exact dimensions. Aspect ratio preserved automatically.</p>
             </div>
-            {{-- Feature 6 --}}
+            {{-- Tool 5 — Watermark --}}
             <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
-                <div class="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="w-12 h-12 bg-pink-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
                 </div>
-                <h3 class="font-bold text-lg mb-2">Totally Free</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">No signup, no watermarks, no limits. Compress as many images as you need.</p>
+                <h3 class="font-bold text-lg mb-2">Watermark Tool</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Add custom text watermarks with adjustable position, opacity, and font size. Protect your images instantly.</p>
+            </div>
+            {{-- Tool 6 — PDF --}}
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group">
+                <div class="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Image ↔ PDF</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Convert images to PDF (A4, A3, Letter) or extract PDF pages as JPG, PNG, or WebP images. All in seconds.</p>
+            </div>
+            {{-- Tool 7 — URL Compress --}}
+            <div class="bg-white rounded-2xl border border-gray-200/60 p-6 hover:shadow-lg transition-shadow group sm:col-span-2 lg:col-span-3">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">URL Image Compressor</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Paste any public image URL to compress it instantly — no upload needed. Great for optimising images hosted on the web.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1708,14 +1770,14 @@
     {{-- Why Compress / Formats Section --}}
     <section class="bg-white border-y border-gray-200/60 py-16" aria-labelledby="why-compress-title">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 id="why-compress-title" class="text-3xl font-extrabold mb-6">Why Compress Images?</h2>
+            <h2 id="why-compress-title" class="text-3xl font-extrabold mb-6">Why Optimise Your Images?</h2>
             <p class="text-gray-600 mb-6 leading-relaxed">
-                Image compression is essential for modern web development and digital content. Large files slow down websites, waste bandwidth, and hurt user experience.
+                Image optimisation is essential for modern web development and digital content. Large files slow down websites, waste bandwidth, and hurt user experience.
             </p>
             <div class="grid sm:grid-cols-2 gap-4 mb-10">
                 <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Faster websites</strong> — Compressed images load instantly, improving Core Web Vitals.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Better SEO</strong> — Google uses page speed as a ranking factor.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Save storage</strong> — Reduce sizes by up to 80% without quality loss.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Better SEO</strong> — Google uses page speed as a ranking factor. Smaller images = better scores.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Save storage</strong> — Reduce sizes by up to 90% without noticeable quality loss.</p></div>
                 <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Lower costs</strong> — Less bandwidth = lower hosting and CDN bills.</p></div>
             </div>
 
@@ -1723,19 +1785,27 @@
             <div class="grid sm:grid-cols-2 gap-4">
                 <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">📸</span><h3 class="font-bold">JPEG / JPG</h3></div>
-                    <p class="text-sm text-gray-500">Best for photographs. Lossy compression with adjustable quality.</p>
+                    <p class="text-sm text-gray-500">Best for photographs. Lossy compression with adjustable quality. Smallest file sizes.</p>
                 </div>
                 <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">🎨</span><h3 class="font-bold">PNG</h3></div>
-                    <p class="text-sm text-gray-500">Ideal for graphics with transparency. Lossless compression.</p>
+                    <p class="text-sm text-gray-500">Ideal for graphics with transparency. Lossless compression preserves every pixel.</p>
                 </div>
                 <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">🌐</span><h3 class="font-bold">WEBP</h3></div>
-                    <p class="text-sm text-gray-500">Modern format, 30% smaller than JPEG at equivalent quality.</p>
+                    <p class="text-sm text-gray-500">Modern web format — 30% smaller than JPEG at equivalent quality. Widely supported.</p>
                 </div>
                 <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
                     <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">🎞️</span><h3 class="font-bold">GIF</h3></div>
-                    <p class="text-sm text-gray-500">Animated images and simple graphics with limited colors.</p>
+                    <p class="text-sm text-gray-500">Animated images and simple graphics. Compress GIFs while preserving animations.</p>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
+                    <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">📄</span><h3 class="font-bold">PDF</h3></div>
+                    <p class="text-sm text-gray-500">Convert any JPG/PNG/WebP image to a PDF document, or extract PDF pages as images.</p>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200/60">
+                    <div class="flex items-center gap-2 mb-2"><span class="text-lg font-bold">📦</span><h3 class="font-bold">ZIP Archives</h3></div>
+                    <p class="text-sm text-gray-500">Batch compress up to 20 images and download all results in a single ZIP archive.</p>
                 </div>
             </div>
         </div>
@@ -1750,13 +1820,18 @@
         <div class="space-y-3">
             @php
                 $faqs = [
-                    ['Is this image compressor free?', 'Yes, our image compressor is 100% free. No hidden charges, no signup required, and no watermarks.'],
-                    ['What image formats are supported?', 'We support JPG/JPEG, PNG, WEBP, and GIF. You can also convert between formats during compression.'],
-                    ['What is the maximum file size?', 'You can upload images up to 20MB. For most web images, this is more than sufficient.'],
-                    ['How can I upload images?', 'You can drag & drop files, click to browse, or simply press Ctrl+V (Cmd+V on Mac) to paste images directly from your clipboard!'],
-                    ['Are my images stored on the server?', 'Your privacy is our priority. Images are automatically deleted within 30 minutes. We never store, share, or analyze them.'],
-                    ['Can I convert image formats?', 'Yes! Convert between JPG, PNG, and WEBP while compressing. Select the desired format before compressing.'],
-                    ['Does compression reduce image quality?', 'Our smart algorithm minimizes quality loss. At balanced settings (50%), the difference is virtually imperceptible. Adjust the slider to find your perfect balance.'],
+                    ['Is CompresslyPro free?', 'Yes, all 7 tools on CompresslyPro are 100% free. No hidden charges, no signup required, and no watermarks on your images.'],
+                    ['What image formats are supported?', 'We support JPG/JPEG, PNG, WebP, and GIF for compression, resizing and conversion. PDF is supported for image-to-PDF and PDF-to-image conversions.'],
+                    ['What is the maximum file size?', 'You can upload files up to 20MB. For batch compression, each individual file can also be up to 20MB.'],
+                    ['How can I upload images?', 'You can drag & drop files onto the tool, click to browse, or press Ctrl+V (Cmd+V on Mac) to paste images directly from your clipboard!'],
+                    ['Are my images stored on the server?', 'Your privacy is our priority. All uploaded files are automatically deleted within 30 minutes. We never store, share, or analyse your images.'],
+                    ['Can I convert between image formats?', 'Yes! Use the Convert tab to convert between JPG, PNG, and WebP at high quality, while keeping the original resolution.'],
+                    ['Does compression reduce image quality?', 'Our smart algorithm minimises quality loss. At balanced settings (50%), the difference is virtually imperceptible. Use the before/after slider to compare.'],
+                    ['Can I resize images online?', 'Yes! Use the Resize tab to resize by percentage, max width, max height, or exact pixel dimensions. Aspect ratio is preserved by default.'],
+                    ['How do I compress multiple images at once?', 'Use the Batch tab to upload up to 20 images at once. They are all compressed in parallel and you can download a single ZIP file with all results.'],
+                    ['Can I convert an image to PDF?', 'Yes! In the More Tools tab, use Image → PDF. Choose your page size (A4, A3, Letter, Legal) and orientation (portrait or landscape).'],
+                    ['How do I add a watermark?', 'Use the Watermark tool in the More Tools tab. Enter your watermark text, choose the position (center or a corner) and set the opacity level.'],
+                    ['Can I compress an image from a URL?', 'Yes! Use the "Compress from URL" tool in More Tools. Paste any public image URL and it will be fetched and compressed on our servers.'],
                 ];
             @endphp
 
@@ -1788,11 +1863,11 @@
                         <img src="{{ asset('logo.png') }}" alt="CompresslyPro logo" class="h-9 w-auto flex-shrink-0">
                         <div class="flex flex-col leading-tight">
                             <span class="text-white font-bold text-sm tracking-tight">CompresslyPro</span>
-                            <span class="text-indigo-300/70 text-[10px] font-medium">Free Image Compressor</span>
+                            <span class="text-indigo-300/70 text-[10px] font-medium">Free Image Tools</span>
                         </div>
                     </a>
                     <p class="text-indigo-300/60 text-xs leading-relaxed max-w-xs">
-                        Compress & convert JPG, PNG, WebP and GIF images online for free. No signup, no watermarks, privacy-first.
+                        Free online image tools: compress, convert, resize, watermark, batch compress, image-to-PDF and PDF-to-image. No signup, no watermarks, privacy-first.
                     </p>
                 </div>
 
@@ -1802,9 +1877,11 @@
                     <nav aria-label="Footer tools" class="space-y-2">
                         <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Compressor</a>
                         <a href="/#convert" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Converter</a>
-                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">JPG Compressor</a>
-                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PNG Compressor</a>
-                        <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">WebP Compressor</a>
+                        <a href="/#batch" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Batch Compressor</a>
+                        <a href="/#resize" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Resizer</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Add Watermark</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image to PDF</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PDF to Image</a>
                     </nav>
                 </div>
 
@@ -1835,9 +1912,9 @@
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-indigo-300/50">
                 <span>&copy; {{ date('Y') }} CompresslyPro. All rights reserved.</span>
                 <div class="flex items-center gap-3 flex-wrap justify-center">
-                    <span>Supported: JPG · PNG · WEBP · GIF</span>
+                    <span>Compress · Convert · Resize · Watermark · PDF</span>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
-                    <span>Max 20MB per image</span>
+                    <span>Max 20MB per file</span>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
                     <a href="/sitemap.xml" class="hover:text-white transition-colors" rel="nofollow">Sitemap</a>
                 </div>
