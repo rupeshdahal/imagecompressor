@@ -84,6 +84,12 @@ Route::get('/dl/{filename}', [ImageController::class, 'download'])
 Route::get('/pdf/{filename}', [T2Controller::class, 'downloadPdf'])
     ->name('pdf.download');
 
+// Graceful GET fallback for POST-only API routes (prevents MethodNotAllowedHttpException)
+Route::get('/api/' . config('api_routes.batch_zip'), fn () => response()->json([
+    'success' => false,
+    'message' => 'This endpoint only accepts POST requests.',
+], 405))->name('batch.zip.get');
+
 // Admin authentication routes (using /authorize instead of /login)
 Route::get('/authorize', [AdminController::class, 'showLogin'])->name('admin.login');
 Route::post('/authorize', [AdminController::class, 'login'])->name('admin.login.submit');

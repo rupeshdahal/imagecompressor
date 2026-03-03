@@ -696,11 +696,11 @@
 
                     {{-- Action buttons --}}
                     <div class="flex flex-col sm:flex-row gap-3 mb-6">
-                        <a :href="result.download_url" download
+                        <button x-on:click="downloadFromUrl(result.download_url, result.filename)"
                            class="flex-1 bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-base shadow-xl shadow-accent-500/25 hover:scale-[1.02] active:scale-[0.98]">
                             <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             Download
-                        </a>
+                        </button>
 
                         {{-- Copy to Clipboard --}}
                         <button x-on:click="copyToClipboard()"
@@ -909,11 +909,11 @@
                 </div>
                 <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200/60 p-6 sm:p-8">
                     <div class="flex flex-col sm:flex-row gap-3 mb-6">
-                        <a :href="cresult.download_url" download
+                        <button x-on:click="downloadFromUrl(cresult.download_url, cresult.filename)"
                            class="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98]">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             Download Converted
-                        </a>
+                        </button>
                         <button x-on:click="creset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             New Image
@@ -1077,9 +1077,9 @@
                                 <template x-if="r.success">
                                     <div class="flex items-center gap-2 flex-shrink-0">
                                         <span class="text-xs text-green-600 font-semibold" x-text="'-' + r.reduction + '%'"></span>
-                                        <a :href="r.download_url" download class="px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold rounded-lg transition-all">
+                                        <button x-on:click="downloadFromUrl(r.download_url, r.filename)" class="px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold rounded-lg transition-all">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
-                                        </a>
+                                        </button>
                                     </div>
                                 </template>
                                 <template x-if="!r.success">
@@ -1267,11 +1267,11 @@
                 </div>
                 <div class="bg-white rounded-3xl shadow-xl border border-gray-200/60 p-6">
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <a :href="rresult.download_url" download
+                        <button x-on:click="downloadFromUrl(rresult.download_url, rresult.filename)"
                            class="flex-1 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2.5 text-lg shadow-xl shadow-orange-500/25 hover:scale-[1.02]">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             Download Resized
-                        </a>
+                        </button>
                         <button x-on:click="rReset()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-5 rounded-2xl flex items-center justify-center gap-2 text-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             New Image
@@ -1346,11 +1346,11 @@
                                 <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                 <span class="text-sm font-semibold text-green-700">Watermark applied!</span>
                             </div>
-                            <a :href="wresult.download_url" download
+                            <button x-on:click="downloadFromUrl(wresult.download_url, wresult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-sm transition-all">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download
-                            </a>
+                            </button>
                             <button x-on:click="wReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Apply another</button>
                         </div>
 
@@ -1408,11 +1408,11 @@
                                     <p class="text-xs font-bold text-green-600" x-text="uresult.reduction + '%'"></p>
                                 </div>
                             </div>
-                            <a :href="uresult.download_url" download
+                            <button x-on:click="downloadFromUrl(uresult.download_url, uresult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-sm transition-all">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download
-                            </a>
+                            </button>
                             <button x-on:click="uReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Compress another</button>
                         </div>
                     </div>
@@ -1477,11 +1477,11 @@
                                 <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                 <span class="text-sm text-green-700 font-semibold">PDF ready! <span class="font-normal" x-text="'(' + presult.formatted_size + ')'"></span></span>
                             </div>
-                            <a :href="presult.download_url" download
+                            <button x-on:click="downloadFromUrl(presult.download_url, presult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm transition-all">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download PDF
-                            </a>
+                            </button>
                             <button x-on:click="pReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Convert another</button>
                         </div>
 
@@ -1557,11 +1557,11 @@
                                     <p class="text-xs font-bold text-indigo-600" x-text="(pdfiresult.width||'—') + '×' + (pdfiresult.height||'—')"></p>
                                 </div>
                             </div>
-                            <a :href="pdfiresult.download_url" download
+                            <button x-on:click="downloadFromUrl(pdfiresult.download_url, pdfiresult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition-all">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download Image
-                            </a>
+                            </button>
                             <button x-on:click="pdfiReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Convert another</button>
                         </div>
 
@@ -1912,6 +1912,28 @@
                 onProgress(Math.round(((i + 1) / totalChunks) * 80));
             }
             return { uploadId, totalChunks };
+        }
+
+        /* ─── Shared download helper ─────────────────────────────────── */
+        async function downloadFromUrl(url, filename) {
+            if (!url) return;
+            try {
+                const res = await fetch(url, { headers: { 'Accept': '*/*' } });
+                if (!res.ok) throw new Error('Download failed (' + res.status + ')');
+                const blob = await res.blob();
+                const objectUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = objectUrl;
+                a.download = filename || url.split('/').pop() || 'download';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+            } catch (err) {
+                console.error('Download error:', err);
+                // Fallback: open in new tab
+                window.open(url, '_blank');
+            }
         }
 
         /* ─── COMPRESS component ─────────────────────────────────────── */
