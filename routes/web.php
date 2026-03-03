@@ -14,6 +14,8 @@ use App\Http\Controllers\T2Controller;
 
 // Public routes
 Route::get('/', [ImageController::class, 'index'])->name('home');
+Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
+Route::get('/terms', fn () => view('legal.terms'))->name('terms');
 
 // ── All image-processing routes get the MemoryGuard middleware ──────────────
 Route::middleware('memory.guard')->group(function () {

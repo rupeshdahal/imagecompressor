@@ -2061,6 +2061,8 @@
                 <div>
                     <h3 class="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Information</h3>
                     <nav aria-label="Footer info links" class="space-y-2">
+                        <a href="/privacy-policy" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                        <a href="/terms" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Terms of Service</a>
                         <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors" rel="nofollow">Sitemap</a>
                     </nav>
                     <div class="mt-4 space-y-1.5 text-xs text-indigo-300/50">
@@ -2084,7 +2086,9 @@
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-indigo-300/50">
                 <span>&copy; {{ date('Y') }} CompresslyPro. All rights reserved.</span>
                 <div class="flex items-center gap-3 flex-wrap justify-center">
-                    <span>Compress · Convert · Resize · Watermark · PDF</span>
+                    <a href="/privacy-policy" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
+                    <a href="/terms" class="hover:text-white transition-colors">Terms of Service</a>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
                     <span>Max 20MB per file</span>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
