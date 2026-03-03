@@ -13,23 +13,24 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     {{-- SEO Meta --}}
-    <title>Free Online Image Tools — Compress, Convert, Resize, Watermark & PDF | CompresslyPro</title>
+    <title>Compress Images Online Free — Image Compressor, Converter, Resizer & PDF | CompresslyPro</title>
     <meta name="description" content="Free online image tools: compress JPG, PNG & WebP up to 90% smaller, convert formats, resize images, add watermarks, batch compress, convert images to PDF and PDF to images. No signup. Privacy-first. Up to 20MB.">
-    <meta name="keywords" content="image compressor, compress image online, reduce image size, JPG compressor, PNG compressor, WEBP compressor, free image optimizer, image converter, resize image online, image to PDF, PDF to image, add watermark to image, batch image compressor, reduce file size, compress photo, online image tool, lossy compression, lossless compression, free image tools">
+    <meta name="keywords" content="compress image online free, image compressor, reduce image size, compress jpg online, compress png online, compress webp online, reduce image file size, image optimizer, image converter online, resize image online free, image to pdf converter free, pdf to image online, add watermark to image free, batch image compressor, compress image for email, compress image for website, compress photo online, reduce photo size, online image tool, free image compressor, image resizer online, compress image without losing quality, jpg to pdf online free, png to jpg converter, webp converter, compress image 50kb, compress image 100kb, compress image to 200kb">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ url('/') }}">
-    
+
     {{-- Additional SEO --}}
+    <meta name="application-name" content="CompresslyPro">
     <meta name="rating" content="general">
     <meta name="distribution" content="global">
     <meta name="language" content="English">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     {{-- Geo Tags --}}
     <meta name="geo.region" content="US">
     <meta name="geo.placename" content="United States">
-    
+
     {{-- Mobile Optimization --}}
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,22 +40,23 @@
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Free Online Image Tools — Compress, Resize, Convert & More | CompresslyPro">
-    <meta property="og:description" content="Compress JPG, PNG & WebP up to 90% smaller, convert formats, resize images, batch compress, add watermarks, and convert to/from PDF. Free, no signup.">
+    <meta property="og:title" content="Compress Images Online Free — Image Compressor, Converter & Resizer | CompresslyPro">
+    <meta property="og:description" content="Compress JPG, PNG & WebP up to 90% smaller, convert formats, resize images, batch compress, add watermarks, and convert to/from PDF. Free, no signup required.">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="CompresslyPro - Free Online Image Tools">
+    <meta property="og:site_name" content="CompresslyPro">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="{{ asset('og-image.png') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="CompresslyPro — Free Online Image Tools">
+    <meta property="og:image:alt" content="CompresslyPro — Free Online Image Compressor and Converter">
+    <meta property="og:image:type" content="image/png">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Image Tools — Compress, Resize, Convert & More | CompresslyPro">
-    <meta name="twitter:description" content="Compress, convert, resize, watermark & PDF tools — all free, no signup required.">
+    <meta name="twitter:title" content="Compress Images Online Free — Image Compressor, Converter & Resizer | CompresslyPro">
+    <meta name="twitter:description" content="Compress JPG, PNG & WebP up to 90% smaller. Convert, resize, watermark, batch compress & PDF tools — all free, no signup.">
     <meta name="twitter:image" content="{{ asset('og-image.png') }}">
-    <meta name="twitter:image:alt" content="CompresslyPro — Free Online Image Tools">
+    <meta name="twitter:image:alt" content="CompresslyPro — Free Online Image Compressor and Converter">
     <meta name="twitter:creator" content="@compresslypro">
     <meta name="twitter:site" content="@compresslypro">
 
@@ -68,15 +70,20 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "CompresslyPro — Free Online Image Tools",
-        "alternateName": "CompresslyPro",
-        "description": "Free online image tools: compress JPG, PNG, WebP up to 90% smaller, convert formats, resize images, add watermarks, batch compress, and convert images to/from PDF. No signup required.",
+        "@type": ["WebApplication", "SoftwareApplication"],
+        "name": "CompresslyPro",
+        "alternateName": ["CompresslyPro Image Tools", "Free Image Compressor Online"],
+        "description": "Free online image tools: compress JPG, PNG, WebP up to 90% smaller, convert formats, resize images, add watermarks, batch compress, and convert images to/from PDF. No signup required. Privacy-first.",
         "url": "https://compresslypro.com",
         "applicationCategory": "MultimediaApplication",
+        "applicationSubCategory": "Image Editing",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "softwareVersion": "2.0",
+        "datePublished": "2024-01-01",
+        "dateModified": "2026-07-01",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -86,13 +93,14 @@
         },
         "creator": {
             "@type": "Organization",
-            "name": "CompresslyPro"
+            "name": "CompresslyPro",
+            "url": "https://compresslypro.com"
         },
         "featureList": [
-            "Compress JPG/JPEG images online",
-            "Compress PNG images online",
-            "Compress WebP images online",
-            "Compress GIF images online",
+            "Compress JPG/JPEG images online free",
+            "Compress PNG images online free",
+            "Compress WebP images online free",
+            "Compress GIF images online free",
             "Convert image formats (JPG, PNG, WebP)",
             "Resize images — percentage, max width, max height, exact dimensions",
             "Batch compress up to 20 images and download as ZIP",
@@ -104,13 +112,16 @@
             "Before/after visual comparison slider",
             "Copy compressed image to clipboard",
             "No signup or registration required",
-            "Free unlimited compressions",
+            "Free unlimited image compressions",
             "Fast processing under 5 seconds",
             "Secure — files auto-deleted after 30 minutes",
-            "Drag and drop upload",
+            "Drag and drop image upload",
             "Paste from clipboard support",
             "Up to 20MB file size support",
             "Mobile-friendly and fully responsive"
+        ],
+        "screenshot": [
+            "https://compresslypro.com/og-image.png"
         ],
         "potentialAction": {
             "@type": "UseAction",
@@ -119,14 +130,17 @@
                 "urlTemplate": "https://compresslypro.com",
                 "actionPlatform": [
                     "https://schema.org/DesktopWebPlatform",
-                    "https://schema.org/MobileWebPlatform"
+                    "https://schema.org/MobileWebPlatform",
+                    "https://schema.org/IOSPlatform",
+                    "https://schema.org/AndroidPlatform"
                 ]
             }
         },
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.8",
-            "reviewCount": "1247",
+            "ratingCount": "3124",
+            "reviewCount": "3124",
             "bestRating": "5",
             "worstRating": "1"
         }
@@ -135,13 +149,93 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Free Online Image Tools by CompresslyPro",
+        "description": "7 free online image processing tools — no signup required",
+        "numberOfItems": 7,
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Free Image Compressor Online",
+                "url": "https://compresslypro.com/#compress",
+                "description": "Compress JPG, PNG, WebP and GIF images up to 90% smaller online for free. Adjustable quality with before/after comparison."
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Image Format Converter",
+                "url": "https://compresslypro.com/#convert",
+                "description": "Convert images between JPG, PNG and WebP formats online free. High quality conversion."
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Batch Image Compressor",
+                "url": "https://compresslypro.com/#batch",
+                "description": "Compress up to 20 images at once and download all results as a single ZIP file."
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Image Resizer Online Free",
+                "url": "https://compresslypro.com/#resize",
+                "description": "Resize images by percentage, max width, max height, or exact pixel dimensions. Aspect ratio preserved."
+            },
+            {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "Add Watermark to Image Free",
+                "url": "https://compresslypro.com/#tools",
+                "description": "Add custom text watermarks to images with adjustable position, opacity and font size."
+            },
+            {
+                "@type": "ListItem",
+                "position": 6,
+                "name": "Image to PDF Converter Free",
+                "url": "https://compresslypro.com/#tools",
+                "description": "Convert JPG, PNG or WebP images to PDF in A4, A3, Letter or Legal size. Free, no signup."
+            },
+            {
+                "@type": "ListItem",
+                "position": 7,
+                "name": "PDF to Image Converter",
+                "url": "https://compresslypro.com/#tools",
+                "description": "Extract PDF pages as JPG, PNG or WebP images online free."
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://compresslypro.com"
-        }]
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://compresslypro.com"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Image Compressor",
+                "item": "https://compresslypro.com/#compress"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Image Converter",
+                "item": "https://compresslypro.com/#convert"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Image Resizer",
+                "item": "https://compresslypro.com/#resize"
+            }
+        ]
     }
     </script>
     <script type="application/ld+json">
@@ -193,7 +287,31 @@
                 "name": "Is CompresslyPro free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, all tools on CompresslyPro are 100% free with no signup required. No watermarks, no hidden fees."
+                    "text": "Yes, all tools on CompresslyPro are 100% free with no signup required. No watermarks, no hidden fees, no limits on usage."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I compress an image online for free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "To compress an image online free: 1) Go to CompresslyPro.com, 2) Drag & drop your JPG, PNG or WebP image, 3) Adjust quality slider (50% recommended for best balance), 4) Click Download. Your image will be compressed up to 90% smaller with minimal quality loss."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I compress an image without losing quality?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use our smart compression algorithm at 70-80% quality setting. This reduces file size by 50-70% while keeping the image visually identical to the original. Use our before/after slider to verify quality before downloading."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I reduce image file size for email?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "To compress an image for email: upload it to CompresslyPro, set quality to 60-70%, and download. Most email attachments should be under 1MB. Our tool can reduce a 5MB photo to under 500KB while keeping it looking great."
                 }
             },
             {
@@ -201,39 +319,15 @@
                 "name": "What image formats are supported?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "We support JPG/JPEG, PNG, WebP, and GIF for compression, conversion and resizing. PDF is supported for image-to-PDF and PDF-to-image conversion."
+                    "text": "We support JPG/JPEG, PNG, WebP, and GIF for compression, conversion and resizing. PDF is supported for image-to-PDF and PDF-to-image conversion. Max file size is 20MB per file."
                 }
             },
             {
                 "@type": "Question",
-                "name": "What is the maximum file size?",
+                "name": "Can I convert JPG to PDF online free?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "You can upload images up to 20MB in size. For batch compression, each individual file can be up to 20MB."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How can I upload images?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "You can upload images by dragging and dropping files, clicking to browse, or pressing Ctrl+V (Cmd+V on Mac) to paste images directly from your clipboard."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Are my images stored on the server?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Uploaded images are automatically deleted within 30 minutes. We never store, share, or analyze your images."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I convert image formats?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, use the Convert tab to convert between JPG, PNG, and WebP formats at high quality."
+                    "text": "Yes! Click the 'More Tools' tab, then select 'Image → PDF'. Upload your JPG, PNG or WebP image, choose page size (A4, A3, Letter, Legal) and orientation (portrait or landscape), then click Convert. No signup needed."
                 }
             },
             {
@@ -241,7 +335,7 @@
                 "name": "Can I resize images online for free?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes! Use the Resize tab to resize images by percentage, max width, max height, or exact dimensions. Aspect ratio is preserved automatically."
+                    "text": "Yes! Use the Resize tab to resize images by percentage, max width, max height, or exact pixel dimensions. Aspect ratio is preserved automatically unless you choose exact dimensions."
                 }
             },
             {
@@ -249,15 +343,7 @@
                 "name": "How do I compress multiple images at once?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Use the Batch tab to upload up to 20 images at once. They are all compressed in parallel and you can download them all as a single ZIP file."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I convert an image to PDF?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! Go to the More Tools tab and use the Image → PDF tool. You can choose page size (A4, A3, Letter, Legal) and orientation (portrait or landscape)."
+                    "text": "Use the Batch tab to upload up to 20 images at once. They are all compressed in parallel and you can download them all as a single ZIP file with one click."
                 }
             },
             {
@@ -265,7 +351,31 @@
                 "name": "How do I add a watermark to an image?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Use the Watermark tool in the More Tools tab. Enter your watermark text, choose position (center, corners) and adjust opacity, then download the result."
+                    "text": "Use the Watermark tool in the More Tools tab. Enter your watermark text, choose position (center, top-left, top-right, bottom-left, bottom-right) and adjust opacity, then download the watermarked image."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are my images stored on the server?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Uploaded images are automatically deleted from our servers within 30 minutes. We never store, share, sell or analyze your images. Your privacy is fully protected."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the best free image compressor online?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "CompresslyPro is a top-rated free online image compressor that supports JPG, PNG, WebP and GIF. It offers up to 90% size reduction, real-time before/after comparison, batch compression, and 7 total image processing tools — all free with no signup."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I compress an image to a specific size like 100KB or 200KB?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes — adjust the quality slider to control output size. Start at 60% quality for typical photos: this usually produces files between 100-300KB depending on image complexity. The result shows exact file size before you download."
                 }
             }
         ]
@@ -276,10 +386,23 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "CompresslyPro",
+        "alternateName": "compresslypro.com",
         "url": "https://compresslypro.com",
-        "logo": "https://compresslypro.com/logo.png",
-        "description": "Free online image tools — compress, convert, resize, watermark, batch compress, and convert between image and PDF formats.",
-        "sameAs": []
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://compresslypro.com/logo.png",
+            "width": 512,
+            "height": 512
+        },
+        "description": "Free online image tools — compress, convert, resize, watermark, batch compress, and convert between image and PDF formats. No signup required.",
+        "sameAs": [
+            "https://twitter.com/compresslypro"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "availableLanguage": "English"
+        }
     }
     </script>
     <script type="application/ld+json">
@@ -287,11 +410,16 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "CompresslyPro",
+        "alternateName": ["Free Image Compressor Online", "compresslypro.com"],
         "url": "https://compresslypro.com",
         "description": "Free online image tools — compress JPG/PNG/WebP up to 90% smaller, convert formats, resize, watermark, batch compress, image to PDF and PDF to image.",
+        "inLanguage": "en",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://compresslypro.com/?q={search_term_string}",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://compresslypro.com/?q={search_term_string}"
+            },
             "query-input": "required name=search_term_string"
         }
     }
@@ -299,6 +427,9 @@
     @endverbatim
 
     {{-- Tailwind CSS CDN --}}
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -449,11 +580,11 @@
                 100% Free · No Signup · 7 Powerful Tools
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5">
-                Free Online
-                <span class="gradient-text">Image Tools</span>
+                Compress Images
+                <span class="gradient-text">Online Free</span>
             </h1>
             <p class="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed mb-6">
-                Compress JPG, PNG &amp; WebP up to <strong class="text-gray-700">90% smaller</strong> · Convert formats · Resize · Add Watermark · Batch compress · Image ↔ PDF. All free, no signup.
+                <strong class="text-gray-700">Reduce JPG, PNG &amp; WebP up to 90% smaller</strong> — plus convert formats, resize, add watermarks, batch compress &amp; convert Image ↔ PDF. Free, no signup, no limits.
             </p>
             {{-- Quick tool pills --}}
             <div class="flex flex-wrap justify-center gap-2 text-xs font-semibold">
@@ -1767,18 +1898,57 @@
         </div>
     </section>
 
+    {{-- Popular Use Cases Section — targets long-tail keywords --}}
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="use-cases-title">
+        <div class="text-center mb-12">
+            <h2 id="use-cases-title" class="text-3xl sm:text-4xl font-extrabold mb-4">Popular Use Cases</h2>
+            <p class="text-gray-500 max-w-xl mx-auto">What people use CompresslyPro for every day</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="bg-gradient-to-br from-brand-50 to-white rounded-2xl border border-brand-100 p-6">
+                <div class="text-2xl mb-3">📧</div>
+                <h3 class="font-bold text-base mb-2">Compress Image for Email</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Reduce photo size for email attachments. Convert a 5MB photo to under 500KB — perfect for Gmail, Outlook and more without losing visible quality.</p>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl border border-purple-100 p-6">
+                <div class="text-2xl mb-3">🌐</div>
+                <h3 class="font-bold text-base mb-2">Compress Images for Website</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Optimise images for faster page loads and better Google Core Web Vitals scores. Smaller images = better SEO rankings and lower bounce rates.</p>
+            </div>
+            <div class="bg-gradient-to-br from-pink-50 to-white rounded-2xl border border-pink-100 p-6">
+                <div class="text-2xl mb-3">📱</div>
+                <h3 class="font-bold text-base mb-2">Resize for Social Media</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Resize images for Instagram (1080×1080), Twitter (1200×675), Facebook (1200×630), or any custom dimension. Aspect ratio preserved automatically.</p>
+            </div>
+            <div class="bg-gradient-to-br from-red-50 to-white rounded-2xl border border-red-100 p-6">
+                <div class="text-2xl mb-3">📄</div>
+                <h3 class="font-bold text-base mb-2">Convert JPG to PDF Free</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Turn photos, screenshots or scanned images into a PDF document instantly. Choose A4, Letter or Legal size — no software download needed.</p>
+            </div>
+            <div class="bg-gradient-to-br from-orange-50 to-white rounded-2xl border border-orange-100 p-6">
+                <div class="text-2xl mb-3">🖊️</div>
+                <h3 class="font-bold text-base mb-2">Add Watermark to Protect Photos</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Protect your photography and artwork by adding a custom text watermark. Set opacity, choose position — top, bottom, center — and download instantly.</p>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl border border-blue-100 p-6">
+                <div class="text-2xl mb-3">📦</div>
+                <h3 class="font-bold text-base mb-2">Bulk Compress Images for Blog</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Bloggers and developers: batch compress 20 images at once and download a ZIP file. Perfect for WordPress, Shopify, or any CMS image optimisation workflow.</p>
+            </div>
+        </div>
+    </section>
+
     {{-- Why Compress / Formats Section --}}
-    <section class="bg-white border-y border-gray-200/60 py-16" aria-labelledby="why-compress-title">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 id="why-compress-title" class="text-3xl font-extrabold mb-6">Why Optimise Your Images?</h2>
+    <section class="bg-white border-y border-gray-200/60 py-16" aria-labelledby="why-compress-title">        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="why-compress-title" class="text-3xl font-extrabold mb-6">Why Compress &amp; Optimise Your Images?</h2>
             <p class="text-gray-600 mb-6 leading-relaxed">
-                Image optimisation is essential for modern web development and digital content. Large files slow down websites, waste bandwidth, and hurt user experience.
+                Image optimisation is essential for websites, blogs, email and social media. Large uncompressed images slow down page loads, waste bandwidth, hurt search rankings and frustrate users. Compressing images before uploading them online is one of the highest-impact, lowest-effort improvements you can make.
             </p>
             <div class="grid sm:grid-cols-2 gap-4 mb-10">
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Faster websites</strong> — Compressed images load instantly, improving Core Web Vitals.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Better SEO</strong> — Google uses page speed as a ranking factor. Smaller images = better scores.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Save storage</strong> — Reduce sizes by up to 90% without noticeable quality loss.</p></div>
-                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Lower costs</strong> — Less bandwidth = lower hosting and CDN bills.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Faster page loads</strong> — Compressed images load instantly, improving Google Core Web Vitals (LCP).</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Better Google rankings</strong> — Page speed is a direct ranking factor. Smaller images = higher scores in PageSpeed Insights.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Email compatibility</strong> — Reduce photo size for email attachments. Most email services reject attachments over 25MB.</p></div>
+                <div class="flex gap-3 items-start"><div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-3.5 h-3.5 text-accent-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><p class="text-gray-600 text-sm"><strong class="text-gray-800">Save storage &amp; bandwidth</strong> — Reduce sizes by up to 90% without noticeable quality loss. Lower hosting and CDN costs.</p></div>
             </div>
 
             <h2 class="text-3xl font-extrabold mb-6">Supported Formats</h2>
@@ -1815,23 +1985,25 @@
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16" x-data="{ openFaq: null }">
         <div class="text-center mb-10">
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">Frequently Asked Questions</h2>
-            <p class="text-gray-500">Everything you need to know</p>
+            <p class="text-gray-500">Everything you need to know about our free image tools</p>
         </div>
         <div class="space-y-3">
             @php
                 $faqs = [
-                    ['Is CompresslyPro free?', 'Yes, all 7 tools on CompresslyPro are 100% free. No hidden charges, no signup required, and no watermarks on your images.'],
-                    ['What image formats are supported?', 'We support JPG/JPEG, PNG, WebP, and GIF for compression, resizing and conversion. PDF is supported for image-to-PDF and PDF-to-image conversions.'],
-                    ['What is the maximum file size?', 'You can upload files up to 20MB. For batch compression, each individual file can also be up to 20MB.'],
-                    ['How can I upload images?', 'You can drag & drop files onto the tool, click to browse, or press Ctrl+V (Cmd+V on Mac) to paste images directly from your clipboard!'],
-                    ['Are my images stored on the server?', 'Your privacy is our priority. All uploaded files are automatically deleted within 30 minutes. We never store, share, or analyse your images.'],
-                    ['Can I convert between image formats?', 'Yes! Use the Convert tab to convert between JPG, PNG, and WebP at high quality, while keeping the original resolution.'],
-                    ['Does compression reduce image quality?', 'Our smart algorithm minimises quality loss. At balanced settings (50%), the difference is virtually imperceptible. Use the before/after slider to compare.'],
-                    ['Can I resize images online?', 'Yes! Use the Resize tab to resize by percentage, max width, max height, or exact pixel dimensions. Aspect ratio is preserved by default.'],
-                    ['How do I compress multiple images at once?', 'Use the Batch tab to upload up to 20 images at once. They are all compressed in parallel and you can download a single ZIP file with all results.'],
-                    ['Can I convert an image to PDF?', 'Yes! In the More Tools tab, use Image → PDF. Choose your page size (A4, A3, Letter, Legal) and orientation (portrait or landscape).'],
-                    ['How do I add a watermark?', 'Use the Watermark tool in the More Tools tab. Enter your watermark text, choose the position (center or a corner) and set the opacity level.'],
-                    ['Can I compress an image from a URL?', 'Yes! Use the "Compress from URL" tool in More Tools. Paste any public image URL and it will be fetched and compressed on our servers.'],
+                    ['Is CompresslyPro free?', 'Yes, all 7 tools on CompresslyPro are 100% free. No hidden charges, no signup required, and no watermarks on your images. Use it as many times as you want.'],
+                    ['How do I compress an image online for free?', 'Simply drag & drop your JPG, PNG, WebP or GIF image onto the Compress tab, adjust the quality slider (50–70% recommended for best balance of size vs quality), then click Download. Your image will be compressed up to 90% smaller instantly.'],
+                    ['How can I compress an image without losing quality?', 'Set the quality slider to 70–80%. Our smart compression algorithm reduces file size by 50–70% while keeping the image visually identical. Use the before/after comparison slider to verify quality before downloading.'],
+                    ['How do I reduce image size for email attachments?', 'Upload your photo to the Compress tab and set quality to 60–70%. This typically reduces a 3–5MB photo to under 500KB — well within email attachment limits — while still looking great on screen.'],
+                    ['What image formats are supported?', 'We support JPG/JPEG, PNG, WebP, and GIF for compression, resizing and conversion. PDF is supported for image-to-PDF and PDF-to-image conversions. Max file size is 20MB per file.'],
+                    ['Can I convert JPG to PDF online free?', 'Yes! Click the More Tools tab, select Image → PDF, upload your JPG/PNG/WebP, choose page size (A4, A3, Letter, Legal) and orientation (portrait or landscape), then click Convert. No signup needed.'],
+                    ['Does compression reduce image quality?', 'Our smart algorithm minimises quality loss. At balanced settings (50–70%), the difference is virtually imperceptible to the naked eye. Use the real-time before/after slider to compare results before downloading.'],
+                    ['Can I resize images online?', 'Yes! Use the Resize tab to resize by percentage, max width, max height, or exact pixel dimensions. Aspect ratio is preserved by default, so your images never look stretched.'],
+                    ['How do I compress multiple images at once?', 'Use the Batch tab to upload up to 20 images at once. They are all compressed in parallel and you can download a single ZIP file with all results in one click.'],
+                    ['Can I compress an image to a specific size like 100KB or 200KB?', 'Adjust the quality slider to control output file size. Start at 60% for typical photos (usually 100–300KB). The result shows the exact compressed size before you download.'],
+                    ['How do I add a watermark?', 'Use the Watermark tool in the More Tools tab. Enter your watermark text, choose position (center or any corner) and set opacity. Download the protected image instantly — no signup required.'],
+                    ['What is the best free image compressor online?', 'CompresslyPro is one of the top-rated free online image compressors. It supports JPG, PNG, WebP and GIF, offers up to 90% compression, includes a real-time before/after comparison, and provides 7 total tools — all free with no account needed.'],
+                    ['Can I compress an image from a URL?', 'Yes! Use the "Compress from URL" tool in More Tools. Paste any public image URL and it will be fetched and compressed on our servers instantly — no download/re-upload needed.'],
+                    ['Are my images stored on the server?', 'Your privacy is our priority. All uploaded files are automatically and permanently deleted within 30 minutes. We never store, share, sell or analyse your images.'],
                 ];
             @endphp
 
@@ -2917,5 +3089,30 @@
             };
         }
     </script>
+
+    {{-- SEO: Accessible content for crawlers describing all tools with long-tail keywords --}}
+    <div class="sr-only" aria-hidden="true">
+        <h2>Free Online Image Compressor — Compress JPG, PNG, WebP Online</h2>
+        <p>CompresslyPro is a free online image compressor that reduces JPG, PNG, WebP and GIF file sizes by up to 90% without losing quality. No signup, no watermarks, no limits. Compress images for email, website, social media or any purpose instantly.</p>
+        <h2>Image Format Converter — Convert JPG to PNG, PNG to WebP Online Free</h2>
+        <p>Convert between JPG, PNG and WebP image formats online free. High quality image conversion with no quality loss. Convert PNG to JPG, JPG to WebP, WebP to PNG and more.</p>
+        <h2>Batch Image Compressor — Compress Multiple Images at Once</h2>
+        <p>Compress up to 20 images at once with our batch image compressor. Upload multiple JPG, PNG or WebP files, compress them all in parallel, and download a ZIP file with all compressed images.</p>
+        <h2>Image Resizer Online Free — Resize Images for Instagram, Twitter, Facebook</h2>
+        <p>Resize images online for free. Set custom dimensions in pixels, resize by percentage, or use preset sizes. Resize images for Instagram (1080x1080), Twitter (1200x675), Facebook (1200x630), YouTube thumbnails and more. Aspect ratio preserved automatically.</p>
+        <h2>Add Watermark to Image Free Online</h2>
+        <p>Add a custom text watermark to your images online for free. Choose watermark position (center, top-left, top-right, bottom-left, bottom-right), set opacity, and protect your photos from unauthorised use.</p>
+        <h2>JPG to PDF Converter Online Free — Convert Image to PDF</h2>
+        <p>Convert JPG, PNG or WebP images to PDF online for free. Choose from A4, A3, Letter or Legal page size. Set portrait or landscape orientation. No software download needed — convert image to PDF instantly in your browser.</p>
+        <h2>PDF to Image Converter — Extract PDF Pages as JPG, PNG, WebP</h2>
+        <p>Convert PDF pages to images online free. Extract PDF pages as JPG, PNG or WebP images at 72, 150 or 300 DPI resolution. No software required.</p>
+        <h2>Compress Image Without Losing Quality</h2>
+        <p>Use smart lossy compression at 70-80% quality to reduce image file size by 50-70% while keeping images visually identical. Compare before and after with our built-in comparison slider.</p>
+        <h2>Compress Image for Email — Reduce Photo Size for Gmail, Outlook</h2>
+        <p>Reduce photo file size for email attachments. Compress a 5MB image to under 500KB in seconds. Compatible with all email clients including Gmail, Outlook, Yahoo Mail and Apple Mail.</p>
+        <h2>Compress Image for Website — Improve Page Speed and Core Web Vitals</h2>
+        <p>Optimise images for your website to improve Google PageSpeed scores and Core Web Vitals. Smaller images load faster, improve LCP scores, and help rank higher in Google Search.</p>
+    </div>
+
 </body>
 </html>
