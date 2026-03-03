@@ -1646,7 +1646,8 @@
                                 x-on:keydown.enter="uCompress()">
                             <div class="flex items-center gap-2">
                                 <label class="text-xs text-gray-500 flex-shrink-0">Quality</label>
-                                <input type="range" min="10" max="90" step="5" x-model.number="uquality" class="flex-1">
+                                <input type="range" min="10" max="90" step="5" x-model.number="uquality" class="flex-1"
+                                    :style="'background: linear-gradient(to right, #0d9488 ' + ((uquality-10)/80*100) + '%, #e5e7eb ' + ((uquality-10)/80*100) + '%)'">
                                 <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2 py-1 rounded-lg flex-shrink-0" x-text="uquality + '%'"></span>
                             </div>
                             <button x-on:click="uCompress()" :disabled="!uurl.trim()"
