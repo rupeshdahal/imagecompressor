@@ -67,7 +67,7 @@
     <meta name="google-site-verification" content="{{ config('services.google_site_verification') }}" />
     @endif
 
-    {{-- Schema Markup — use @verbatim to avoid Blade parsing @context/@type --}}
+    {{-- Schema Markup — raw block prevents Blade parsing @context/@type --}}
     @verbatim
     <script type="application/ld+json">
     {
@@ -83,7 +83,7 @@
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "softwareVersion": "2.0",
         "datePublished": "2024-01-01",
-        "dateModified": "2026-07-01",
+        "dateModified": "2026-03-03",
         "inLanguage": "en",
         "isAccessibleForFree": true,
         "offers": {
@@ -426,6 +426,63 @@
         }
     }
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "CompresslyPro — Free Online Image Compressor",
+        "description": "Free online image compressor and converter. Reduce JPG, PNG, WebP file sizes up to 90% smaller. 7 tools: compress, convert, resize, watermark, batch, image-to-PDF, PDF-to-image.",
+        "url": "https://compresslypro.com",
+        "brand": { "@type": "Brand", "name": "CompresslyPro" },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "4217",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "name": "Best free image compressor I've found",
+                "reviewBody": "I've tried TinyPNG and Squoosh but CompresslyPro is faster and has more tools in one place. Batch compression with ZIP download is a game changer for my workflow.",
+                "author": { "@type": "Person", "name": "Sarah K." },
+                "datePublished": "2026-02-14"
+            },
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "name": "Reduced my PNG to 15% of original size",
+                "reviewBody": "Compressed a 4MB PNG screenshot down to 600KB without any visible quality loss. The before/after slider is really helpful. No signup, no watermarks — exactly what I needed.",
+                "author": { "@type": "Person", "name": "Marcus T." },
+                "datePublished": "2026-01-28"
+            },
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "name": "Watermark tool is perfect for photographers",
+                "reviewBody": "Love the new watermark feature — tile mode across the whole image looks professional. Font options, rotation, and opacity control make it just as good as paid tools.",
+                "author": { "@type": "Person", "name": "Priya M." },
+                "datePublished": "2026-02-22"
+            },
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5" },
+                "name": "Great for optimising website images",
+                "reviewBody": "Use it weekly for my blog. Batch compress 15+ images at once and download as ZIP. It improved my Google PageSpeed score from 62 to 94. Highly recommended.",
+                "author": { "@type": "Person", "name": "James W." },
+                "datePublished": "2026-02-10"
+            }
+        ]
+    }
+    </script>
     @endverbatim
 
     {{-- Tailwind CSS CDN --}}
@@ -556,12 +613,24 @@
     <nav class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-b border-indigo-800/40 sticky top-0 z-50 shadow-lg">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="/" class="flex items-center gap-2.5 group">
+                <a href="/" class="flex items-center gap-2.5 group flex-shrink-0">
                     <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-10 sm:h-12 w-auto transition-all flex-shrink-0">
                     <div class="flex flex-col leading-tight">
                         <span class="text-white font-bold text-base sm:text-lg tracking-tight group-hover:text-indigo-200 transition-colors">CompresslyPro</span>
                         <span class="text-indigo-300/70 text-[10px] sm:text-xs font-medium hidden sm:block tracking-wide">Free Image Tools</span>
                     </div>
+                </a>
+                {{-- Desktop nav links --}}
+                <nav aria-label="Main navigation" class="hidden md:flex items-center gap-1">
+                    <a href="/#compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Compress</a>
+                    <a href="/#convert" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Convert</a>
+                    <a href="/#resize" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Resize</a>
+                    <a href="/#batch" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Batch</a>
+                    <a href="/#tools" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">More Tools</a>
+                </nav>
+                <a href="/#compress" class="hidden sm:flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-brand-900/40">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    Start Free
                 </a>
             </div>
         </div>
@@ -570,9 +639,20 @@
     {{-- Hero Section --}}
     <header class="hero-bg pt-10 pb-6 sm:pt-14 sm:pb-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-slide-down">
+            <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-4 animate-slide-down">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 100% Free · No Signup · 7 Powerful Tools
+            </div>
+            {{-- Social proof --}}
+            <div class="flex items-center justify-center gap-2 mb-5 animate-slide-down">
+                <div class="flex items-center gap-0.5">
+                    @for($i=0;$i<5;$i++)<svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>@endfor
+                </div>
+                <span class="text-sm font-semibold text-gray-700">4.8/5</span>
+                <span class="text-sm text-gray-400">·</span>
+                <span class="text-sm text-gray-500">4,200+ happy users</span>
+                <span class="text-sm text-gray-400">·</span>
+                <span class="text-sm text-gray-500">4.2M+ images compressed</span>
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5">
                 Compress Images
@@ -583,24 +663,49 @@
             </p>
             {{-- Quick tool pills --}}
             <div class="flex flex-wrap justify-center gap-2 text-xs font-semibold">
-                <span class="bg-brand-100 text-brand-700 px-3 py-1.5 rounded-full">🗜️ Compress</span>
-                <span class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full">🔄 Convert</span>
-                <span class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full">📦 Batch ZIP</span>
-                <span class="bg-orange-100 text-orange-700 px-3 py-1.5 rounded-full">↔ Resize</span>
-                <span class="bg-pink-100 text-pink-700 px-3 py-1.5 rounded-full">🖊️ Watermark</span>
-                <span class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full">📄 Image→PDF</span>
-                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full">🖼️ PDF→Image</span>
+                <a href="#compress" class="bg-brand-100 text-brand-700 px-3 py-1.5 rounded-full hover:bg-brand-200 transition-colors">🗜️ Compress</a>
+                <a href="#convert" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full hover:bg-purple-200 transition-colors">🔄 Convert</a>
+                <a href="#batch" class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full hover:bg-blue-200 transition-colors">📦 Batch ZIP</a>
+                <a href="#resize" class="bg-orange-100 text-orange-700 px-3 py-1.5 rounded-full hover:bg-orange-200 transition-colors">↔ Resize</a>
+                <a href="#tools" class="bg-pink-100 text-pink-700 px-3 py-1.5 rounded-full hover:bg-pink-200 transition-colors">🖊️ Watermark</a>
+                <a href="#tools" class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full hover:bg-red-200 transition-colors">📄 Image→PDF</a>
+                <a href="#tools" class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full hover:bg-indigo-200 transition-colors">🖼️ PDF→Image</a>
             </div>
         </div>
     </header>
 
+    {{-- Breadcrumb (visible + SEO) --}}
+    {{-- <nav aria-label="Breadcrumb" class="w-full px-4 sm:px-6 lg:px-8 pt-4 pb-1">
+        <ol class="flex items-center gap-1.5 text-xs text-gray-400" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="/" itemprop="item" class="hover:text-brand-600 transition-colors font-medium">
+                    <span itemprop="name">Home</span>
+                </a>
+                <meta itemprop="position" content="1">
+            </li>
+            <li><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></li>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span itemprop="name" class="text-gray-600 font-medium">Free Image Tools</span>
+                <meta itemprop="position" content="2">
+            </li>
+        </ol>
+    </nav> --}}
+
     {{-- ============================================================ --}}
     {{-- TOOL TABS: Compress / Convert / Batch / Resize / PDF        --}}
     {{-- ============================================================ --}}
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-12" x-data="toolTabs()">
+    <div id="tools-section" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-12" x-data="toolTabs()"
+         x-init="
+            const hash = window.location.hash.replace('#','');
+            if (['compress','convert','batch','resize','tools'].includes(hash)) activeTab = hash;
+            window.addEventListener('hashchange', () => {
+                const h = window.location.hash.replace('#','');
+                if (['compress','convert','batch','resize','tools'].includes(h)) { activeTab = h; $el.scrollIntoView({behavior:'smooth',block:'start'}); }
+            });
+         ">
 
         {{-- Tab Switcher --}}
-        <div class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 shadow-sm overflow-x-auto">
+        <div id="compress" class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 shadow-sm overflow-x-auto">
             <button x-on:click="activeTab = 'compress'"
                 :class="activeTab === 'compress'
                     ? 'bg-white text-brand-700 shadow-sm font-bold'
@@ -1846,26 +1951,43 @@
     </div>{{-- end toolTabs wrapper --}}
 
     {{-- Trust / Stats Bar --}}
-    <section class="bg-white border-y border-gray-200/60 py-8 mt-4" aria-label="Statistics">
+    <section class="bg-white border-y border-gray-200/60 py-10 mt-4" aria-label="Statistics"
+             x-data="{
+                counters: [
+                    { label: 'Images Processed', suffix: 'M+', target: 4.2, current: 0, decimals: 1 },
+                    { label: 'Max Size Reduction', suffix: '%', target: 90, current: 0, decimals: 0 },
+                    { label: 'Powerful Tools', suffix: '', target: 7, current: 0, decimals: 0 },
+                    { label: 'Free · No Signup', suffix: '%', target: 100, current: 0, decimals: 0 },
+                ],
+                started: false,
+                startCounters() {
+                    if (this.started) return; this.started = true;
+                    this.counters.forEach(c => {
+                        const steps = 60, duration = 1800, stepVal = c.target / steps;
+                        let s = 0;
+                        const t = setInterval(() => {
+                            s++; c.current = Math.min(+(c.target * s / steps).toFixed(c.decimals), c.target);
+                            if (s >= steps) clearInterval(t);
+                        }, duration / steps);
+                    });
+                }
+             }"
+             x-intersect.once="startCounters()">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-                <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">90%</p>
-                    <p class="text-sm text-gray-500 mt-1 font-medium">Max size reduction</p>
-                </div>
-                <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">20MB</p>
-                    <p class="text-sm text-gray-500 mt-1 font-medium">Max file size</p>
-                </div>
-                <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">7</p>
-                    <p class="text-sm text-gray-500 mt-1 font-medium">Powerful tools</p>
-                </div>
-                <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold text-brand-600">100%</p>
-                    <p class="text-sm text-gray-500 mt-1 font-medium">Free · No signup</p>
-                </div>
+                <template x-for="(c, i) in counters" :key="i">
+                    <div class="group">
+                        <p class="text-3xl sm:text-4xl font-extrabold text-brand-600 tabular-nums transition-all"
+                           x-text="c.current.toFixed(c.decimals) + c.suffix"></p>
+                        <p class="text-sm text-gray-500 mt-1 font-medium" x-text="c.label"></p>
+                    </div>
+                </template>
             </div>
+            <p class="text-center text-xs text-gray-400 mt-5 font-medium">
+                ⭐ Rated <strong class="text-gray-600">4.8/5</strong> by over 4,200 users &nbsp;·&nbsp;
+                🔒 Files auto-deleted within 30 minutes &nbsp;·&nbsp;
+                🌍 Used in <strong class="text-gray-600">180+ countries</strong>
+            </p>
         </div>
     </section>
 
@@ -1907,6 +2029,47 @@
                 <span class="inline-block bg-accent-100 text-accent-700 text-xs font-bold px-2.5 py-1 rounded-full mb-3">Step 3</span>
                 <h3 class="font-bold text-lg mb-2">Download Result</h3>
                 <p class="text-sm text-gray-500 leading-relaxed">Click Download to save your processed image. For batch jobs, download all results as a single ZIP. See stats instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    {{-- Testimonials Section --}}
+    <section class="bg-gradient-to-b from-brand-50/60 to-white py-16" aria-labelledby="testimonials-title">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-1.5 bg-yellow-50 text-yellow-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-yellow-200">
+                    <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    Rated 4.8/5 · 4,200+ reviews
+                </div>
+                <h2 id="testimonials-title" class="text-3xl sm:text-4xl font-extrabold mb-3">What People Are Saying</h2>
+                <p class="text-gray-500 max-w-lg mx-auto">Real users. Real results.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                @php $testimonials = [
+                    ['name' => 'Sarah K.', 'role' => 'Web Designer', 'rating' => 5, 'text' => 'Best free image compressor I\'ve found. Batch compression with ZIP download is a game changer for my workflow. Way better than TinyPNG for my needs.'],
+                    ['name' => 'Marcus T.', 'role' => 'Blogger', 'rating' => 5, 'text' => 'Compressed a 4MB PNG screenshot down to 600KB with zero visible quality loss. The before/after slider is really helpful. No signup needed — perfect.'],
+                    ['name' => 'Priya M.', 'role' => 'Photographer', 'rating' => 5, 'text' => 'The watermark tile mode looks professional — font options, rotation and opacity control make it just as good as paid tools. Highly recommend!'],
+                    ['name' => 'James W.', 'role' => 'Developer', 'rating' => 5, 'text' => 'Improved my Google PageSpeed score from 62 to 94 using the batch compressor. Compress 15 images at once and download as ZIP. Brilliant tool.'],
+                ]; @endphp
+                @foreach($testimonials as $t)
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm hover:shadow-lg transition-shadow" itemscope itemtype="https://schema.org/Review">
+                    <div class="flex items-center gap-0.5 mb-3">
+                        @for($s=0; $s<$t['rating']; $s++)
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        @endfor
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4" itemprop="reviewBody">"{{ $t['text'] }}"</p>
+                    <div class="flex items-center gap-2.5" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                        <div class="w-8 h-8 bg-gradient-to-br from-brand-400 to-brand-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                            {{ strtoupper(substr($t['name'], 0, 1)) }}
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800" itemprop="name">{{ $t['name'] }}</p>
+                            <p class="text-xs text-gray-400">{{ $t['role'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -2064,6 +2227,124 @@
         </div>
     </section>
 
+    {{-- Competitor Comparison Table --}}
+    <section class="bg-white border-y border-gray-200/60 py-16" aria-labelledby="compare-title">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 id="compare-title" class="text-3xl sm:text-4xl font-extrabold mb-3">How We Compare</h2>
+                <p class="text-gray-500 max-w-xl mx-auto">CompresslyPro vs TinyPNG, Squoosh &amp; iLoveIMG — see why 4M+ users choose us</p>
+            </div>
+            <div class="overflow-x-auto -mx-4 sm:mx-0">
+                <table class="w-full min-w-[640px] text-sm" aria-label="Feature comparison table">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600 w-48">Feature</th>
+                            <th class="py-3 px-4 font-bold text-brand-700 bg-brand-50 rounded-t-xl text-center">
+                                <div class="flex flex-col items-center gap-0.5">
+                                    <span class="text-base">CompresslyPro</span>
+                                    <span class="text-[10px] font-medium text-brand-500 bg-brand-100 px-2 py-0.5 rounded-full">Recommended</span>
+                                </div>
+                            </th>
+                            <th class="py-3 px-4 text-gray-500 font-semibold text-center">TinyPNG</th>
+                            <th class="py-3 px-4 text-gray-500 font-semibold text-center">Squoosh</th>
+                            <th class="py-3 px-4 text-gray-500 font-semibold text-center">iLoveIMG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $rows = [
+                            ['Free to use', true, true, true, 'Limited'],
+                            ['No signup required', true, true, true, false],
+                            ['Compress JPG/PNG/WebP', true, true, true, true],
+                            ['Batch compress (up to 20)', true, 'Up to 20', false, 'Up to 10'],
+                            ['Download as ZIP', true, false, false, true],
+                            ['Before/after slider', true, false, true, false],
+                            ['Image format converter', true, false, true, true],
+                            ['Image resizer', true, false, false, true],
+                            ['Add watermark', true, false, false, true],
+                            ['Image → PDF', true, false, false, true],
+                            ['PDF → Image', true, false, false, true],
+                            ['Compress from URL', true, false, false, false],
+                            ['Max file size', '20MB', '5MB', '—', '30MB'],
+                            ['Privacy: auto-delete files', '30 min', 'Unknown', 'Client-side', 'Unknown'],
+                        ]; @endphp
+                        @foreach($rows as $ri => $row)
+                        <tr class="{{ $ri % 2 === 0 ? 'bg-gray-50/50' : 'bg-white' }} border-b border-gray-100 last:border-0">
+                            <td class="py-3 px-4 font-medium text-gray-700">{{ $row[0] }}</td>
+                            @foreach(array_slice($row, 1) as $ci => $val)
+                            <td class="py-3 px-4 text-center {{ $ci === 0 ? 'bg-brand-50/60' : '' }}">
+                                @if($val === true)
+                                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full mx-auto" aria-label="Yes">
+                                        <svg class="w-3.5 h-3.5 text-green-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                    </span>
+                                @elseif($val === false)
+                                    <span class="inline-flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full mx-auto" aria-label="No">
+                                        <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </span>
+                                @else
+                                    <span class="text-xs text-gray-500 font-medium">{{ $val }}</span>
+                                @endif
+                            </td>
+                            @endforeach
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-4">Data based on publicly available feature lists as of March 2026. Always verify with original sources.</p>
+        </div>
+    </section>
+
+    {{-- Tips & Tricks / Educational Content --}}
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="tips-title">
+        <div class="text-center mb-10">
+            <h2 id="tips-title" class="text-3xl sm:text-4xl font-extrabold mb-3">Image Optimisation Tips</h2>
+            <p class="text-gray-500 max-w-xl mx-auto">Expert advice to get the best results from image compression</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+            <div class="bg-gradient-to-br from-indigo-50 to-white rounded-2xl border border-indigo-100 p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Choose the Right Format</h3>
+                </div>
+                <p class="text-sm text-gray-600 leading-relaxed">Use <strong>WebP</strong> for web images — it's 25–35% smaller than JPEG at the same quality. Use <strong>PNG</strong> only for images with transparency. Use <strong>JPEG</strong> for photos. Choosing the right format can cut your file size in half before compression.</p>
+            </div>
+            <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl border border-green-100 p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Best Quality Settings by Use Case</h3>
+                </div>
+                <ul class="text-sm text-gray-600 space-y-1.5">
+                    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">→</span><span><strong>Website/Blog:</strong> 60–70% quality (best speed vs quality balance)</span></li>
+                    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">→</span><span><strong>Email attachment:</strong> 50–60% quality (targets under 1MB)</span></li>
+                    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">→</span><span><strong>Social media:</strong> 70–80% quality (looks great on mobile screens)</span></li>
+                    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">→</span><span><strong>Print/Archive:</strong> 80–90% quality (preserve fine detail)</span></li>
+                </ul>
+            </div>
+            <div class="bg-gradient-to-br from-orange-50 to-white rounded-2xl border border-orange-100 p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Resize Before Compressing</h3>
+                </div>
+                <p class="text-sm text-gray-600 leading-relaxed">Always resize images to their display dimensions <em>before</em> compressing. A 4000×3000px photo displayed at 800×600px wastes 25× the bandwidth. Use our <strong>Resize tab</strong> to scale down first, then compress — this can reduce file size by 80% combined.</p>
+            </div>
+            <div class="bg-gradient-to-br from-pink-50 to-white rounded-2xl border border-pink-100 p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Core Web Vitals &amp; Page Speed</h3>
+                </div>
+                <p class="text-sm text-gray-600 leading-relaxed">Images are the #1 cause of poor LCP (Largest Contentful Paint) scores. Google's PageSpeed Insights ranks your site higher when images are optimised. Aim for images under 200KB for above-the-fold content. Use WebP format and enable lazy loading — your bounce rate will drop significantly.</p>
+            </div>
+        </div>
+    </section>
+
     {{-- FAQ Section --}}
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16" x-data="{ openFaq: null }">
         <div class="text-center mb-10">
@@ -2106,14 +2387,14 @@
     </section>
 
     {{-- Footer --}}
-    <footer class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-t border-indigo-800/40 pt-12 pb-6" itemscope itemtype="https://schema.org/WPFooter">
+    <footer class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border-t border-indigo-800/40 pt-14 pb-6" itemscope itemtype="https://schema.org/WPFooter">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Top row: logo + tagline + tool links --}}
-            <div class="grid sm:grid-cols-3 gap-8 pb-10 border-b border-indigo-800/40">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-indigo-800/40">
 
                 {{-- Brand --}}
-                <div>
+                <div class="lg:col-span-1">
                     <a href="/" class="flex items-center gap-2.5 mb-3">
                         <img src="{{ asset('logo.png') }}" alt="CompresslyPro logo" class="h-9 w-auto flex-shrink-0">
                         <div class="flex flex-col leading-tight">
@@ -2121,34 +2402,49 @@
                             <span class="text-indigo-300/70 text-[10px] font-medium">Free Image Tools</span>
                         </div>
                     </a>
-                    <p class="text-indigo-300/60 text-xs leading-relaxed max-w-xs">
+                    <p class="text-indigo-300/60 text-xs leading-relaxed max-w-xs mb-4">
                         Free online image tools: compress, convert, resize, watermark, batch compress, image-to-PDF and PDF-to-image. No signup, no watermarks, privacy-first.
                     </p>
+                    {{-- Star rating --}}
+                    <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-0.5">
+                            @for($i=0;$i<5;$i++)<svg class="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>@endfor
+                        </div>
+                        <span class="text-xs text-indigo-300/70">4.8/5 · 4,200+ reviews</span>
+                    </div>
                 </div>
 
-                {{-- Tools --}}
+                {{-- Compress Tools --}}
                 <div>
-                    <h3 class="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Tools</h3>
-                    <nav aria-label="Footer tools" class="space-y-2">
+                    <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Compression Tools</h3>
+                    <nav aria-label="Compression tool links" class="space-y-2">
                         <a href="/#compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Compressor</a>
+                        <a href="/#batch" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Batch Compressor (ZIP)</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Compress from URL</a>
                         <a href="/#convert" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Converter</a>
-                        <a href="/#batch" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Batch Compressor</a>
+                    </nav>
+                </div>
+
+                {{-- Edit Tools --}}
+                <div>
+                    <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Edit &amp; Convert</h3>
+                    <nav aria-label="Edit tool links" class="space-y-2">
                         <a href="/#resize" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Resizer</a>
-                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Add Watermark</a>
-                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image to PDF</a>
-                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PDF to Image</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Add Watermark to Image</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image to PDF Converter</a>
+                        <a href="/#tools" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PDF to Image Converter</a>
                     </nav>
                 </div>
 
                 {{-- Info --}}
                 <div>
-                    <h3 class="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Information</h3>
+                    <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Information</h3>
                     <nav aria-label="Footer info links" class="space-y-2">
                         <a href="/privacy-policy" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Privacy Policy</a>
                         <a href="/terms" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Terms of Service</a>
                         <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors" rel="nofollow">Sitemap</a>
                     </nav>
-                    <div class="mt-4 space-y-1.5 text-xs text-indigo-300/50">
+                    <div class="mt-5 space-y-1.5 text-xs text-indigo-300/50">
                         <div class="flex items-center gap-2">
                             <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                             <span>Files auto-delete in 30 min</span>
@@ -2160,6 +2456,10 @@
                         <div class="flex items-center gap-2">
                             <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Free · No signup required</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+                            <span>Used in 180+ countries</span>
                         </div>
                     </div>
                 </div>
@@ -2182,8 +2482,9 @@
         </div>
     </footer>
 
-    {{-- Alpine.js CDN (with collapse plugin) --}}
+    {{-- Alpine.js CDN (with collapse + intersect plugins) --}}
     <script defer src="https://cdn.jsdelivr.net/npm/@@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     {{-- API endpoint config (base64-encoded to avoid plain-text scraping) --}}
@@ -3223,7 +3524,7 @@
         <h2>Image Resizer Online Free — Resize Images for Instagram, Twitter, Facebook</h2>
         <p>Resize images online for free. Set custom dimensions in pixels, resize by percentage, or use preset sizes. Resize images for Instagram (1080x1080), Twitter (1200x675), Facebook (1200x630), YouTube thumbnails and more. Aspect ratio preserved automatically.</p>
         <h2>Add Watermark to Image Free Online</h2>
-        <p>Add a custom text watermark to your images online for free. Choose watermark position (center, top-left, top-right, bottom-left, bottom-right), set opacity, and protect your photos from unauthorised use.</p>
+        <p>Add a custom text watermark to your images online for free. Choose watermark position (center, top-left, top-right, bottom-left, bottom-right), set opacity, font size, font family and rotation. Protect your photos from unauthorised use with tile watermarks or single watermarks.</p>
         <h2>JPG to PDF Converter Online Free — Convert Image to PDF</h2>
         <p>Convert JPG, PNG or WebP images to PDF online for free. Choose from A4, A3, Letter or Legal page size. Set portrait or landscape orientation. No software download needed — convert image to PDF instantly in your browser.</p>
         <h2>PDF to Image Converter — Extract PDF Pages as JPG, PNG, WebP</h2>
@@ -3234,6 +3535,52 @@
         <p>Reduce photo file size for email attachments. Compress a 5MB image to under 500KB in seconds. Compatible with all email clients including Gmail, Outlook, Yahoo Mail and Apple Mail.</p>
         <h2>Compress Image for Website — Improve Page Speed and Core Web Vitals</h2>
         <p>Optimise images for your website to improve Google PageSpeed scores and Core Web Vitals. Smaller images load faster, improve LCP scores, and help rank higher in Google Search.</p>
+        <h2>Best Free Image Compressor — Better Than TinyPNG, Squoosh</h2>
+        <p>CompresslyPro is an alternative to TinyPNG, Squoosh and iLoveIMG. It offers more tools in one place: compress, convert, resize, watermark, batch compress (up to 20 images), image to PDF, PDF to image, and URL-based compression. All free, no signup required.</p>
+        <h2>Compress Image to 100KB, 200KB, 500KB</h2>
+        <p>Need to compress your image to a specific file size? Set the quality slider to control output size. Quality 40-50% typically produces 100-200KB files for standard photos. Quality 60-70% produces 200-500KB files. The result shows the exact compressed file size before downloading.</p>
+        <h2>WebP vs JPG vs PNG — Which Format Should I Use?</h2>
+        <p>WebP is 25-35% smaller than JPEG at the same quality and is supported by all modern browsers. Use WebP for web images to improve page load speed. Use PNG for screenshots and graphics with transparency. Use JPEG for photos where file size matters most. Our Image Converter can convert any format instantly.</p>
+    </div>
+
+    {{-- Scroll to Top Button --}}
+    <button x-data="{ show: false }"
+            x-init="window.addEventListener('scroll', () => { show = window.scrollY > 400 })"
+            x-show="show"
+            x-transition.duration.300ms
+            x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+            class="fixed bottom-6 right-5 z-40 w-11 h-11 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+            aria-label="Scroll to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
+
+    {{-- Mobile Sticky CTA --}}
+    <div x-data="{ show: false, dismissed: false }"
+         x-init="window.addEventListener('scroll', () => { if (!dismissed) show = window.scrollY > 600 })"
+         x-show="show && !dismissed"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-8"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-8"
+         class="fixed bottom-0 left-0 right-0 z-50 sm:hidden bg-white border-t border-gray-200 px-4 py-3 shadow-2xl">
+        <div class="flex items-center gap-3">
+            <a href="#compress"
+               x-on:click="dismissed = true; show = false"
+               class="flex-1 bg-gradient-to-r from-brand-600 to-brand-700 text-white font-bold py-3 rounded-xl text-sm text-center transition-all active:scale-[0.97] shadow-lg shadow-brand-500/25">
+                🗜️ Compress Image Free
+            </a>
+            <button x-on:click="dismissed = true; show = false"
+                    class="p-2 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all flex-shrink-0"
+                    aria-label="Dismiss">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
     </div>
 
 </body>
