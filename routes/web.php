@@ -5,6 +5,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\T2Controller;
+use App\Http\Controllers\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,39 +18,16 @@ Route::get('/', [ImageController::class, 'index'])->name('home');
 Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
 Route::get('/terms', fn () => view('legal.terms'))->name('terms');
 
-// Content pages (AdSense compliance — unique, high-quality content)
-Route::get('/about', fn () => view('pages.about'))->name('about');
-Route::get('/contact', fn () => view('pages.contact'))->name('contact');
+// Content pages (dynamic from DB)
+Route::get('/about', [PageController::class, 'page'])->name('about')->defaults('slug', 'about');
+Route::get('/contact', [PageController::class, 'page'])->name('contact')->defaults('slug', 'contact');
 
-// Individual tool landing pages (SEO — crawlable dedicated pages)
-Route::get('/tools/compress', fn () => view('tools.compress'))->name('tool.compress');
-Route::get('/tools/convert', fn () => view('tools.convert'))->name('tool.convert');
-Route::get('/tools/resize', fn () => view('tools.resize'))->name('tool.resize');
-Route::get('/tools/batch-compress', fn () => view('tools.batch-compress'))->name('tool.batch');
-Route::get('/tools/watermark', fn () => view('tools.watermark'))->name('tool.watermark');
-Route::get('/tools/image-to-pdf', fn () => view('tools.image-to-pdf'))->name('tool.img2pdf');
-Route::get('/tools/pdf-to-image', fn () => view('tools.pdf-to-image'))->name('tool.pdf2img');
+// Individual tool landing pages (dynamic from DB)
+Route::get('/tools/{slug}', [PageController::class, 'tool'])->name('tool.show')->where('slug', '[a-z0-9\-]+');
 
-// Blog
-Route::get('/blog', fn () => view('blog.index'))->name('blog');
-Route::get('/blog/{slug}', function (string $slug) {
-    $allowed = [
-        'how-to-compress-images-for-web',
-        'webp-vs-jpg-vs-png',
-        'image-seo-best-practices',
-        'reduce-image-size-for-email',
-        'core-web-vitals-image-optimization',
-        'batch-image-compression-workflow',
-        'best-image-formats-for-social-media',
-        'how-to-add-watermark-to-photos',
-        'optimize-images-for-wordpress',
-        'convert-images-to-pdf-guide',
-    ];
-    if (! in_array($slug, $allowed)) {
-        abort(404);
-    }
-    return view('blog.' . $slug);
-})->name('blog.show')->where('slug', '[a-z0-9\-]+');
+// Blog (dynamic from DB)
+Route::get('/blog', [PageController::class, 'blogIndex'])->name('blog');
+Route::get('/blog/{slug}', [PageController::class, 'blogShow'])->name('blog.show')->where('slug', '[a-z0-9\-]+');
 
 // ── All image-processing routes get the MemoryGuard middleware ──────────────
 Route::middleware('memory.guard')->group(function () {
@@ -126,15 +104,11 @@ Route::get('/api/' . config('api_routes.batch_zip'), fn () => response()->json([
     'message' => 'This endpoint only accepts POST requests.',
 ], 405))->name('batch.zip.get');
 
-// Admin authentication routes (using /authorize instead of /login)
-Route::get('/authorize', [AdminController::class, 'showLogin'])->name('admin.login');
-Route::post('/authorize', [AdminController::class, 'login'])->name('admin.login.submit');
-Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+// Legacy admin redirect — Filament now handles /admin
+Route::get('/authorize', fn () => redirect('/admin/login'))->name('admin.login');
 
-// Admin protected routes
+// Keep old report API for backward compatibility
 Route::middleware('admin.auth')->group(function () {
-    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports');
     Route::get('/admin/api/reports', [ReportController::class, 'data'])->name('reports.data');
     Route::get('/admin/export', [ReportController::class, 'export'])->name('reports.export');
 });
