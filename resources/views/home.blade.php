@@ -2438,8 +2438,11 @@
 
                 {{-- Info --}}
                 <div>
-                    <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Information</h3>
+                    <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Company</h3>
                     <nav aria-label="Footer info links" class="space-y-2">
+                        <a href="/about" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">About Us</a>
+                        <a href="/contact" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Contact</a>
+                        <a href="/blog" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Blog</a>
                         <a href="/privacy-policy" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Privacy Policy</a>
                         <a href="/terms" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Terms of Service</a>
                         <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors" rel="nofollow">Sitemap</a>
@@ -3512,36 +3515,6 @@
             };
         }
     </script>
-
-    {{-- SEO: Accessible content for crawlers describing all tools with long-tail keywords --}}
-    <div class="sr-only" aria-hidden="true">
-        <h2>Free Online Image Compressor — Compress JPG, PNG, WebP Online</h2>
-        <p>CompresslyPro is a free online image compressor that reduces JPG, PNG, WebP and GIF file sizes by up to 90% without losing quality. No signup, no watermarks, no limits. Compress images for email, website, social media or any purpose instantly.</p>
-        <h2>Image Format Converter — Convert JPG to PNG, PNG to WebP Online Free</h2>
-        <p>Convert between JPG, PNG and WebP image formats online free. High quality image conversion with no quality loss. Convert PNG to JPG, JPG to WebP, WebP to PNG and more.</p>
-        <h2>Batch Image Compressor — Compress Multiple Images at Once</h2>
-        <p>Compress up to 20 images at once with our batch image compressor. Upload multiple JPG, PNG or WebP files, compress them all in parallel, and download a ZIP file with all compressed images.</p>
-        <h2>Image Resizer Online Free — Resize Images for Instagram, Twitter, Facebook</h2>
-        <p>Resize images online for free. Set custom dimensions in pixels, resize by percentage, or use preset sizes. Resize images for Instagram (1080x1080), Twitter (1200x675), Facebook (1200x630), YouTube thumbnails and more. Aspect ratio preserved automatically.</p>
-        <h2>Add Watermark to Image Free Online</h2>
-        <p>Add a custom text watermark to your images online for free. Choose watermark position (center, top-left, top-right, bottom-left, bottom-right), set opacity, font size, font family and rotation. Protect your photos from unauthorised use with tile watermarks or single watermarks.</p>
-        <h2>JPG to PDF Converter Online Free — Convert Image to PDF</h2>
-        <p>Convert JPG, PNG or WebP images to PDF online for free. Choose from A4, A3, Letter or Legal page size. Set portrait or landscape orientation. No software download needed — convert image to PDF instantly in your browser.</p>
-        <h2>PDF to Image Converter — Extract PDF Pages as JPG, PNG, WebP</h2>
-        <p>Convert PDF pages to images online free. Extract PDF pages as JPG, PNG or WebP images at 72, 150 or 300 DPI resolution. No software required.</p>
-        <h2>Compress Image Without Losing Quality</h2>
-        <p>Use smart lossy compression at 70-80% quality to reduce image file size by 50-70% while keeping images visually identical. Compare before and after with our built-in comparison slider.</p>
-        <h2>Compress Image for Email — Reduce Photo Size for Gmail, Outlook</h2>
-        <p>Reduce photo file size for email attachments. Compress a 5MB image to under 500KB in seconds. Compatible with all email clients including Gmail, Outlook, Yahoo Mail and Apple Mail.</p>
-        <h2>Compress Image for Website — Improve Page Speed and Core Web Vitals</h2>
-        <p>Optimise images for your website to improve Google PageSpeed scores and Core Web Vitals. Smaller images load faster, improve LCP scores, and help rank higher in Google Search.</p>
-        <h2>Best Free Image Compressor — Better Than TinyPNG, Squoosh</h2>
-        <p>CompresslyPro is an alternative to TinyPNG, Squoosh and iLoveIMG. It offers more tools in one place: compress, convert, resize, watermark, batch compress (up to 20 images), image to PDF, PDF to image, and URL-based compression. All free, no signup required.</p>
-        <h2>Compress Image to 100KB, 200KB, 500KB</h2>
-        <p>Need to compress your image to a specific file size? Set the quality slider to control output size. Quality 40-50% typically produces 100-200KB files for standard photos. Quality 60-70% produces 200-500KB files. The result shows the exact compressed file size before downloading.</p>
-        <h2>WebP vs JPG vs PNG — Which Format Should I Use?</h2>
-        <p>WebP is 25-35% smaller than JPEG at the same quality and is supported by all modern browsers. Use WebP for web images to improve page load speed. Use PNG for screenshots and graphics with transparency. Use JPEG for photos where file size matters most. Our Image Converter can convert any format instantly.</p>
-    </div>
 
     {{-- Scroll to Top Button --}}
     <button x-data="{ show: false }"

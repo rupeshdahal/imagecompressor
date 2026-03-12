@@ -17,6 +17,25 @@ Route::get('/', [ImageController::class, 'index'])->name('home');
 Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
 Route::get('/terms', fn () => view('legal.terms'))->name('terms');
 
+// Content pages (AdSense compliance — unique, high-quality content)
+Route::get('/about', fn () => view('pages.about'))->name('about');
+Route::get('/contact', fn () => view('pages.contact'))->name('contact');
+Route::get('/blog', fn () => view('blog.index'))->name('blog');
+Route::get('/blog/{slug}', function (string $slug) {
+    $allowed = [
+        'how-to-compress-images-for-web',
+        'webp-vs-jpg-vs-png',
+        'image-seo-best-practices',
+        'reduce-image-size-for-email',
+        'core-web-vitals-image-optimization',
+        'batch-image-compression-workflow',
+    ];
+    if (! in_array($slug, $allowed)) {
+        abort(404);
+    }
+    return view('blog.' . $slug);
+})->name('blog.show')->where('slug', '[a-z0-9\-]+');
+
 // ── All image-processing routes get the MemoryGuard middleware ──────────────
 Route::middleware('memory.guard')->group(function () {
 

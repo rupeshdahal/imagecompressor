@@ -6,7 +6,7 @@
     <!-- Homepage / Image Compressor -->
     <url>
         <loc>https://compresslypro.com/</loc>
-        <lastmod>2026-03-03</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
         <image:image>
@@ -21,44 +21,71 @@
         </image:image>
     </url>
 
-    <!-- Compress tool anchor -->
+    <!-- About Us -->
     <url>
-        <loc>https://compresslypro.com/#compress</loc>
-        <lastmod>2026-03-03</lastmod>
+        <loc>https://compresslypro.com/about</loc>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Contact -->
+    <url>
+        <loc>https://compresslypro.com/contact</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Blog Index -->
+    <url>
+        <loc>https://compresslypro.com/blog</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- Convert tool anchor -->
+    <!-- Blog Articles -->
     <url>
-        <loc>https://compresslypro.com/#convert</loc>
-        <lastmod>2026-03-03</lastmod>
+        <loc>https://compresslypro.com/blog/how-to-compress-images-for-web</loc>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- Batch compressor anchor -->
     <url>
-        <loc>https://compresslypro.com/#batch</loc>
-        <lastmod>2026-03-03</lastmod>
+        <loc>https://compresslypro.com/blog/webp-vs-jpg-vs-png</loc>
+        <lastmod>2026-03-05</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- Resize tool anchor -->
     <url>
-        <loc>https://compresslypro.com/#resize</loc>
-        <lastmod>2026-03-03</lastmod>
+        <loc>https://compresslypro.com/blog/image-seo-best-practices</loc>
+        <lastmod>2026-03-08</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- More Tools (Watermark, Image→PDF, PDF→Image, URL Compress) -->
     <url>
-        <loc>https://compresslypro.com/#tools</loc>
-        <lastmod>2026-03-03</lastmod>
+        <loc>https://compresslypro.com/blog/reduce-image-size-for-email</loc>
+        <lastmod>2026-03-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/core-web-vitals-image-optimization</loc>
+        <lastmod>2026-03-10</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/batch-image-compression-workflow</loc>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
 
     <!-- Legal pages -->
