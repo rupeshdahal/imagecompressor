@@ -20,6 +20,17 @@ Route::get('/terms', fn () => view('legal.terms'))->name('terms');
 // Content pages (AdSense compliance — unique, high-quality content)
 Route::get('/about', fn () => view('pages.about'))->name('about');
 Route::get('/contact', fn () => view('pages.contact'))->name('contact');
+
+// Individual tool landing pages (SEO — crawlable dedicated pages)
+Route::get('/tools/compress', fn () => view('tools.compress'))->name('tool.compress');
+Route::get('/tools/convert', fn () => view('tools.convert'))->name('tool.convert');
+Route::get('/tools/resize', fn () => view('tools.resize'))->name('tool.resize');
+Route::get('/tools/batch-compress', fn () => view('tools.batch-compress'))->name('tool.batch');
+Route::get('/tools/watermark', fn () => view('tools.watermark'))->name('tool.watermark');
+Route::get('/tools/image-to-pdf', fn () => view('tools.image-to-pdf'))->name('tool.img2pdf');
+Route::get('/tools/pdf-to-image', fn () => view('tools.pdf-to-image'))->name('tool.pdf2img');
+
+// Blog
 Route::get('/blog', fn () => view('blog.index'))->name('blog');
 Route::get('/blog/{slug}', function (string $slug) {
     $allowed = [
@@ -29,6 +40,10 @@ Route::get('/blog/{slug}', function (string $slug) {
         'reduce-image-size-for-email',
         'core-web-vitals-image-optimization',
         'batch-image-compression-workflow',
+        'best-image-formats-for-social-media',
+        'how-to-add-watermark-to-photos',
+        'optimize-images-for-wordpress',
+        'convert-images-to-pdf-guide',
     ];
     if (! in_array($slug, $allowed)) {
         abort(404);

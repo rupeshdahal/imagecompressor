@@ -111,6 +111,58 @@
             </div>
         </a>
 
+        {{-- Article 7 --}}
+        <a href="/blog/best-image-formats-for-social-media" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden hover:shadow-lg transition-shadow group">
+            <div class="bg-gradient-to-br from-cyan-100 to-cyan-50 p-6">
+                <span class="text-4xl">📱</span>
+            </div>
+            <div class="p-6">
+                <span class="inline-block bg-cyan-100 text-cyan-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-3">Social Media</span>
+                <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">Best Image Formats for Social Media in 2025 — Complete Size Guide</h3>
+                <p class="text-sm text-gray-500 leading-relaxed mb-3">Exact image dimensions and recommended formats for Facebook, Instagram, Twitter/X, LinkedIn, and Pinterest.</p>
+                <div class="text-xs text-gray-400">📅 March 15, 2025 · 12 min read</div>
+            </div>
+        </a>
+
+        {{-- Article 8 --}}
+        <a href="/blog/how-to-add-watermark-to-photos" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden hover:shadow-lg transition-shadow group">
+            <div class="bg-gradient-to-br from-rose-100 to-rose-50 p-6">
+                <span class="text-4xl">🖊️</span>
+            </div>
+            <div class="p-6">
+                <span class="inline-block bg-rose-100 text-rose-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-3">Protection</span>
+                <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">How to Add a Watermark to Photos — Protect Your Images Online</h3>
+                <p class="text-sm text-gray-500 leading-relaxed mb-3">Step-by-step guide to watermarking your photos. Best practices for placement, opacity, and protection levels.</p>
+                <div class="text-xs text-gray-400">📅 March 18, 2025 · 9 min read</div>
+            </div>
+        </a>
+
+        {{-- Article 9 --}}
+        <a href="/blog/optimize-images-for-wordpress" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden hover:shadow-lg transition-shadow group">
+            <div class="bg-gradient-to-br from-indigo-100 to-indigo-50 p-6">
+                <span class="text-4xl">🌐</span>
+            </div>
+            <div class="p-6">
+                <span class="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-3">WordPress</span>
+                <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">How to Optimise Images for WordPress — Speed Up Your Website</h3>
+                <p class="text-sm text-gray-500 leading-relaxed mb-3">Complete guide to WordPress image optimisation. Reduce load times, improve Core Web Vitals, and boost SEO.</p>
+                <div class="text-xs text-gray-400">📅 March 20, 2025 · 11 min read</div>
+            </div>
+        </a>
+
+        {{-- Article 10 --}}
+        <a href="/blog/convert-images-to-pdf-guide" class="bg-white rounded-2xl border border-gray-200/60 overflow-hidden hover:shadow-lg transition-shadow group">
+            <div class="bg-gradient-to-br from-amber-100 to-amber-50 p-6">
+                <span class="text-4xl">📄</span>
+            </div>
+            <div class="p-6">
+                <span class="inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-3">Conversion</span>
+                <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">How to Convert Images to PDF — Complete Step-by-Step Guide</h3>
+                <p class="text-sm text-gray-500 leading-relaxed mb-3">Convert JPG, PNG, and WebP images to PDF documents. Merge multiple images with custom page settings.</p>
+                <div class="text-xs text-gray-400">📅 March 22, 2025 · 8 min read</div>
+            </div>
+        </a>
+
     </div>
 </div>
 @endsection
