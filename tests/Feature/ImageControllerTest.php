@@ -19,6 +19,7 @@ use Carbon\Carbon;
  */
 class ImageControllerTest extends TestCase
 {
+    use \Illuminate\Foundation\Testing\RefreshDatabase;
     // ── Route slugs (must match config/api_routes.php defaults) ─────────────
     private string $compressSlug  = '8f3879ade1c2e843';
     private string $convertSlug   = '42a601706437881a';

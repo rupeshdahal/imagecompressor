@@ -18,38 +18,15 @@ Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
 Route::get('/terms', fn () => view('legal.terms'))->name('terms');
 
 // Content pages (AdSense compliance — unique, high-quality content)
-Route::get('/about', fn () => view('pages.about'))->name('about');
-Route::get('/contact', fn () => view('pages.contact'))->name('contact');
+Route::get('/about', [App\Http\Controllers\PageController::class, 'page'])->defaults('slug', 'about')->name('about');
+Route::get('/contact', [App\Http\Controllers\PageController::class, 'page'])->defaults('slug', 'contact')->name('contact');
 
-// Individual tool landing pages (SEO — crawlable dedicated pages)
-Route::get('/tools/compress', fn () => view('tools.compress'))->name('tool.compress');
-Route::get('/tools/convert', fn () => view('tools.convert'))->name('tool.convert');
-Route::get('/tools/resize', fn () => view('tools.resize'))->name('tool.resize');
-Route::get('/tools/batch-compress', fn () => view('tools.batch-compress'))->name('tool.batch');
-Route::get('/tools/watermark', fn () => view('tools.watermark'))->name('tool.watermark');
-Route::get('/tools/image-to-pdf', fn () => view('tools.image-to-pdf'))->name('tool.img2pdf');
-Route::get('/tools/pdf-to-image', fn () => view('tools.pdf-to-image'))->name('tool.pdf2img');
+// Individual tool landing pages
+Route::get('/tools/{slug}', [App\Http\Controllers\PageController::class, 'tool'])->name('tool.show');
 
 // Blog
-Route::get('/blog', fn () => view('blog.index'))->name('blog');
-Route::get('/blog/{slug}', function (string $slug) {
-    $allowed = [
-        'how-to-compress-images-for-web',
-        'webp-vs-jpg-vs-png',
-        'image-seo-best-practices',
-        'reduce-image-size-for-email',
-        'core-web-vitals-image-optimization',
-        'batch-image-compression-workflow',
-        'best-image-formats-for-social-media',
-        'how-to-add-watermark-to-photos',
-        'optimize-images-for-wordpress',
-        'convert-images-to-pdf-guide',
-    ];
-    if (! in_array($slug, $allowed)) {
-        abort(404);
-    }
-    return view('blog.' . $slug);
-})->name('blog.show')->where('slug', '[a-z0-9\-]+');
+Route::get('/blog', [App\Http\Controllers\PageController::class, 'blogIndex'])->name('blog');
+Route::get('/blog/{slug}', [App\Http\Controllers\PageController::class, 'blogShow'])->name('blog.show')->where('slug', '[a-z0-9\-]+');
 
 // ── All image-processing routes get the MemoryGuard middleware ──────────────
 Route::middleware('memory.guard')->group(function () {

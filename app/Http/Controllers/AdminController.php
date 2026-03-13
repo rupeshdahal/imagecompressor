@@ -14,8 +14,10 @@ class AdminController extends Controller
      */
     public function showLogin()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+        /** @var \App\Models\User|null $user */
+        $user = Auth::user();
+        if (Auth::check() && $user && $user->isAdmin()) {
+            return redirect()->to('/filament-admin');
         }
 
         return view('admin.login');
@@ -31,12 +33,13 @@ class AdminController extends Controller
             'password' => 'required|string',
         ]);
 
+        /** @var \App\Models\User|null $user */
         $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password) && $user->isAdmin()) {
             Auth::login($user);
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+            return redirect()->to('/filament-admin');
         }
 
         return back()->withErrors([

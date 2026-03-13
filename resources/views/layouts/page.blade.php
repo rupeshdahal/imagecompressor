@@ -101,12 +101,17 @@
                     </div>
                 </a>
                 <nav aria-label="Main navigation" class="hidden md:flex items-center gap-1">
-                    <a href="/tools/compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Compress</a>
-                    <a href="/tools/convert" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Convert</a>
-                    <a href="/tools/resize" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Resize</a>
-                    <a href="/tools/batch-compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Batch</a>
-                    <a href="/blog" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Blog</a>
-                    <a href="/about" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">About</a>
+                    @php
+                        $headerNav = \App\Models\Setting::get('header_menu', [
+                            ['label' => 'Compress', 'url' => '/tools/compress'],
+                            ['label' => 'Convert', 'url' => '/tools/convert'],
+                            ['label' => 'Resize', 'url' => '/tools/resize'],
+                            ['label' => 'Blog', 'url' => '/blog'],
+                        ]);
+                    @endphp
+                    @foreach($headerNav as $navItem)
+                    <a href="{{ $navItem['url'] }}" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">{{ $navItem['label'] }}</a>
+                    @endforeach
                 </nav>
                 <a href="/#compress" class="hidden sm:flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-brand-900/40">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -189,11 +194,18 @@
                 <div>
                     <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Company</h3>
                     <nav aria-label="Company links" class="space-y-2">
-                        <a href="/about" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">About Us</a>
-                        <a href="/contact" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Contact Us</a>
-                        <a href="/privacy-policy" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Privacy Policy</a>
-                        <a href="/terms" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Terms of Service</a>
-                        <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors" rel="nofollow">Sitemap</a>
+                        @php
+                            $footerNav = \App\Models\Setting::get('footer_menu', [
+                                ['label' => 'About Us', 'url' => '/about'],
+                                ['label' => 'Contact Us', 'url' => '/contact'],
+                                ['label' => 'Privacy Policy', 'url' => '/privacy-policy'],
+                                ['label' => 'Terms of Service', 'url' => '/terms'],
+                                ['label' => 'Sitemap', 'url' => '/sitemap.xml'],
+                            ]);
+                        @endphp
+                        @foreach($footerNav as $navItem)
+                        <a href="{{ $navItem['url'] }}" class="block text-indigo-300/70 hover:text-white text-sm transition-colors"@if($navItem['url'] === '/sitemap.xml') rel="nofollow"@endif>{{ $navItem['label'] }}</a>
+                        @endforeach
                     </nav>
                     <div class="mt-4 space-y-1.5 text-xs text-indigo-300/50">
                         <div class="flex items-center gap-2">
