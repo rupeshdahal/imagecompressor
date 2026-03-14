@@ -6,6 +6,8 @@ use App\Models\CompressionReport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class ReportController extends Controller
@@ -94,9 +96,15 @@ class ReportController extends Controller
             ->limit(20)
             ->get()
             ->map(function ($r) {
+                $nameWithoutExt = pathinfo($r->original_name, PATHINFO_FILENAME);
+                $safeName = Str::slug(Str::limit($nameWithoutExt, 50, '')) ?: 'image';
+                $filename = "compresslypro-{$safeName}.{$r->output_format}";
+                $exists = Storage::disk('public')->exists("uploads/{$filename}");
+
                 return [
                     'id'              => $r->id,
                     'original_name'   => $r->original_name,
+                    'preview_url'     => $exists ? Storage::url("uploads/{$filename}") : null,
                     'original_format' => strtoupper($r->original_format),
                     'output_format'   => strtoupper($r->output_format),
                     'original_size'   => $this->formatBytes($r->original_size),
