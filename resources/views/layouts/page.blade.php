@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google-adsense-account" content="ca-pub-6697940390340424">
+    <meta name="google-site-verification" content="WGkF3kyCGO47g0XHR3WBpmuNzLKO3wURAb1E1JyqUFU">
 
     {{-- Favicon --}}
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16.png') }}">
