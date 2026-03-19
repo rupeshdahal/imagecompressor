@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompressionReport;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,8 @@ class ReportController extends Controller
     public function data(Request $request): JsonResponse
     {
         $period = $request->get('period', '7d');
+        $action = trim((string) $request->get('action', 'all'));
+        $format = strtolower(trim((string) $request->get('format', 'all')));
 
         $startDate = match ($period) {
             '24h'  => Carbon::now()->subHours(24),
@@ -36,7 +39,39 @@ class ReportController extends Controller
             default => Carbon::now()->subDays(7),
         };
 
-        $reports = CompressionReport::where('created_at', '>=', $startDate);
+        $baseReports = CompressionReport::where('created_at', '>=', $startDate);
+
+        $reports = $this->applyReportFilters(clone $baseReports, $action, $format);
+
+        $availableActions = (clone $baseReports)
+            ->select('action')
+            ->distinct()
+            ->pluck('action')
+            ->map(fn ($item) => $item ?: 'compress')
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values();
+
+        $availableFormats = collect()
+            ->merge(
+                (clone $baseReports)
+                    ->whereNotNull('original_format')
+                    ->distinct()
+                    ->pluck('original_format')
+                    ->map(fn ($item) => strtolower((string) $item))
+            )
+            ->merge(
+                (clone $baseReports)
+                    ->whereNotNull('output_format')
+                    ->distinct()
+                    ->pluck('output_format')
+                    ->map(fn ($item) => strtolower((string) $item))
+            )
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values();
 
         // Summary stats
         $totalCompressions = (clone $reports)->count();
@@ -44,6 +79,38 @@ class ReportController extends Controller
         $totalCompressedSize = (clone $reports)->sum('compressed_size');
         $totalSaved = $totalOriginalSize - $totalCompressedSize;
         $avgReduction = (clone $reports)->avg('reduction_percent') ?? 0;
+
+        $todayStart = Carbon::today();
+        $todayEnd = Carbon::tomorrow();
+        $yesterdayStart = Carbon::yesterday();
+
+        $todayReports = (clone $reports)
+            ->where('created_at', '>=', $todayStart)
+            ->where('created_at', '<', $todayEnd);
+        $todayCount = (clone $todayReports)->count();
+        $todayOriginal = (clone $todayReports)->sum('original_size');
+        $todayCompressed = (clone $todayReports)->sum('compressed_size');
+        $todaySaved = max(0, $todayOriginal - $todayCompressed);
+
+        $yesterdayReports = (clone $reports)
+            ->where('created_at', '>=', $yesterdayStart)
+            ->where('created_at', '<', $todayStart);
+        $yesterdayCount = (clone $yesterdayReports)->count();
+        $yesterdayOriginal = (clone $yesterdayReports)->sum('original_size');
+        $yesterdayCompressed = (clone $yesterdayReports)->sum('compressed_size');
+        $yesterdaySaved = max(0, $yesterdayOriginal - $yesterdayCompressed);
+
+        $lastSevenDaysCount = (clone $reports)
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->count();
+        $lastSevenDaysOriginal = (clone $reports)
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->sum('original_size');
+        $lastSevenDaysCompressed = (clone $reports)
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->sum('compressed_size');
+        $avgDailyCountLast7 = round($lastSevenDaysCount / 7, 1);
+        $avgDailySavedLast7 = max(0, $lastSevenDaysOriginal - $lastSevenDaysCompressed) / 7;
 
         // Compressions by day
         $dailyStats = (clone $reports)
@@ -120,7 +187,7 @@ class ReportController extends Controller
             });
 
         // Top size savings
-        $topSavings = CompressionReport::where('created_at', '>=', $startDate)
+        $topSavings = $this->applyReportFilters(CompressionReport::where('created_at', '>=', $startDate), $action, $format)
             ->whereColumn('original_size', '>=', 'compressed_size')
             ->orderByRaw('(CAST(original_size AS SIGNED) - CAST(compressed_size AS SIGNED)) DESC')
             ->limit(5)
@@ -143,6 +210,23 @@ class ReportController extends Controller
                 'avg_reduction'       => round($avgReduction, 1) . '%',
                 'total_saved_bytes'   => $totalSaved,
             ],
+            'daily_overview' => [
+                'today_count' => $todayCount,
+                'today_saved' => $this->formatBytes($todaySaved),
+                'yesterday_count' => $yesterdayCount,
+                'yesterday_saved' => $this->formatBytes($yesterdaySaved),
+                'avg_daily_count_last_7d' => $avgDailyCountLast7,
+                'avg_daily_saved_last_7d' => $this->formatBytes($avgDailySavedLast7),
+            ],
+            'filters' => [
+                'selected' => [
+                    'period' => $period,
+                    'action' => $action,
+                    'format' => $format,
+                ],
+                'available_actions' => $availableActions,
+                'available_formats' => $availableFormats,
+            ],
             'daily_stats'        => $dailyStats,
             'format_stats'       => $formatStats,
             'output_format_stats' => $outputFormatStats,
@@ -158,6 +242,8 @@ class ReportController extends Controller
     public function export(Request $request)
     {
         $period = $request->get('period', 'all');
+        $action = trim((string) $request->get('action', 'all'));
+        $format = strtolower(trim((string) $request->get('format', 'all')));
 
         $startDate = match ($period) {
             '24h'  => \Carbon\Carbon::now()->subHours(24),
@@ -176,7 +262,7 @@ class ReportController extends Controller
             'Pragma'              => 'no-cache',
         ];
 
-        $callback = function () use ($startDate) {
+        $callback = function () use ($startDate, $action, $format) {
             $handle = fopen('php://output', 'w');
             fputcsv($handle, [
                 'ID', 'Action', 'Original Name', 'Original Format', 'Output Format',
@@ -184,7 +270,7 @@ class ReportController extends Controller
                 'Quality', 'Width', 'Height', 'Batch ID', 'IP Address', 'Date',
             ]);
 
-            CompressionReport::where('created_at', '>=', $startDate)
+            $this->applyReportFilters(CompressionReport::where('created_at', '>=', $startDate), $action, $format)
                 ->orderByDesc('created_at')
                 ->chunk(500, function ($rows) use ($handle) {
                     foreach ($rows as $r) {
@@ -227,5 +313,31 @@ class ReportController extends Controller
             $index++;
         }
         return round($size, $precision) . ' ' . $units[$index];
+    }
+
+    /**
+     * Apply action/format filters to reports queries.
+     */
+    private function applyReportFilters(Builder $query, string $action, string $format): Builder
+    {
+        if ($action !== 'all') {
+            if ($action === 'compress') {
+                $query->where(function (Builder $subQuery) {
+                    $subQuery->where('action', 'compress')
+                        ->orWhereNull('action');
+                });
+            } else {
+                $query->where('action', $action);
+            }
+        }
+
+        if ($format !== 'all') {
+            $query->where(function (Builder $subQuery) use ($format) {
+                $subQuery->whereRaw('LOWER(original_format) = ?', [$format])
+                    ->orWhereRaw('LOWER(output_format) = ?', [$format]);
+            });
+        }
+
+        return $query;
     }
 }

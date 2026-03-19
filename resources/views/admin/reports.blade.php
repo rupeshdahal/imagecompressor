@@ -117,7 +117,7 @@
                         Loading...
                     </div>
                     {{-- CSV Export Button --}}
-                    <a :href="`/admin/export?period=${period}`"
+                          <a :href="exportUrl()"
                        class="flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md"
                        title="Export CSV">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -135,15 +135,40 @@
             <main class="flex-1 p-4 lg:p-8">
                 <div class="animate-slide-up">
 
-                    {{-- Period Filter --}}
-                    <div class="mb-6 flex flex-wrap items-center gap-2">
+                    {{-- Filters --}}
+                    <div class="mb-6 space-y-3">
+                        <div class="flex flex-wrap items-center gap-2">
                         <template x-for="opt in periodOptions" :key="opt.value">
-                            <button x-on:click="period = opt.value; loadData()"
+                            <button x-on:click="period = opt.value; applyFilters()"
                                     :class="period === opt.value ? 'bg-brand-600 text-white border-brand-600' : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all border"
                                     x-text="opt.label">
                             </button>
                         </template>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <select x-model="actionFilter" x-on:change="applyFilters()"
+                                    class="px-3 py-2 rounded-lg text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200">
+                                <option value="all">All Actions</option>
+                                <template x-for="action in (data.filters?.available_actions || [])" :key="`action-${action}`">
+                                    <option :value="action" x-text="action.charAt(0).toUpperCase() + action.slice(1)"></option>
+                                </template>
+                            </select>
+
+                            <select x-model="formatFilter" x-on:change="applyFilters()"
+                                    class="px-3 py-2 rounded-lg text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200">
+                                <option value="all">All Formats</option>
+                                <template x-for="format in (data.filters?.available_formats || [])" :key="`format-${format}`">
+                                    <option :value="format" x-text="format.toUpperCase()"></option>
+                                </template>
+                            </select>
+
+                            <button x-on:click="resetFilters()"
+                                    class="px-3 py-2 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                Reset Filters
+                            </button>
+                        </div>
                     </div>
 
                     {{-- Summary Cards --}}
@@ -167,6 +192,25 @@
                         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
                             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Avg Reduction</p>
                             <p class="text-xl font-bold text-amber-600 dark:text-amber-400" x-text="data.summary?.avg_reduction ?? '0%'"></p>
+                        </div>
+                    </div>
+
+                    {{-- Daily Overview --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Today</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="(data.daily_overview?.today_count ?? 0) + ' ops'"></p>
+                            <p class="text-xs text-green-600 dark:text-green-400 mt-1" x-text="'Saved ' + (data.daily_overview?.today_saved ?? '0 B')"></p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Yesterday</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="(data.daily_overview?.yesterday_count ?? 0) + ' ops'"></p>
+                            <p class="text-xs text-green-600 dark:text-green-400 mt-1" x-text="'Saved ' + (data.daily_overview?.yesterday_saved ?? '0 B')"></p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">7-Day Daily Avg</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="(data.daily_overview?.avg_daily_count_last_7d ?? 0) + ' ops/day'"></p>
+                            <p class="text-xs text-green-600 dark:text-green-400 mt-1" x-text="'Saved ' + (data.daily_overview?.avg_daily_saved_last_7d ?? '0 B') + '/day'"></p>
                         </div>
                     </div>
 
@@ -272,6 +316,8 @@
             return {
                 darkMode: localStorage.getItem('darkMode') === 'true',
                 period: 'all',
+                actionFilter: 'all',
+                formatFilter: 'all',
                 periodOptions: [
                     { value: '24h', label: '24 Hours' },
                     { value: '7d', label: '7 Days' },
@@ -280,7 +326,7 @@
                     { value: 'all', label: 'All Time' }
                 ],
                 loading: false,
-                data: { summary: {}, daily_stats: [], format_stats: [], recent: [] },
+                data: { summary: {}, daily_overview: {}, daily_stats: [], format_stats: [], filters: { available_actions: [], available_formats: [] }, recent: [] },
                 dailyChartInstance: null,
                 formatChartInstance: null,
 
@@ -295,18 +341,49 @@
                 async loadData() {
                     this.loading = true;
                     try {
-                        const res = await fetch(`/admin/api/reports?period=${this.period}`, {
+                        const params = new URLSearchParams({
+                            period: this.period,
+                            action: this.actionFilter,
+                            format: this.formatFilter,
+                        });
+
+                        const res = await fetch(`/admin/api/reports?${params.toString()}`, {
                             credentials: 'same-origin',
                             headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
                         });
                         if (!res.ok) throw new Error('Failed to load');
                         this.data = await res.json();
+
+                        this.actionFilter = this.data.filters?.selected?.action || this.actionFilter;
+                        this.formatFilter = this.data.filters?.selected?.format || this.formatFilter;
+
                         this.$nextTick(() => this.renderCharts());
                     } catch (e) {
                         console.error('Reports load error:', e);
                     } finally {
                         this.loading = false;
                     }
+                },
+
+                applyFilters() {
+                    this.loadData();
+                },
+
+                resetFilters() {
+                    this.period = 'all';
+                    this.actionFilter = 'all';
+                    this.formatFilter = 'all';
+                    this.loadData();
+                },
+
+                exportUrl() {
+                    const params = new URLSearchParams({
+                        period: this.period,
+                        action: this.actionFilter,
+                        format: this.formatFilter,
+                    });
+
+                    return `/admin/export?${params.toString()}`;
                 },
 
                 renderCharts() {
