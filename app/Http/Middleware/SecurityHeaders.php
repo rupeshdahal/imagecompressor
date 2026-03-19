@@ -21,6 +21,18 @@ class SecurityHeaders
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
+        $isPrivateOrUtilityPath = $request->is('admin*')
+            || $request->is('authorize*')
+            || $request->is('api/*')
+            || $request->is('dl/*')
+            || $request->is('pdf/*');
+
+        $isClientError = $response->getStatusCode() >= 400 && $response->getStatusCode() < 500;
+
+        if ($isPrivateOrUtilityPath || $isClientError) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        }
+
         return $response;
     }
 }

@@ -14,6 +14,11 @@ use App\Http\Controllers\T2Controller;
 
 // Public routes
 Route::get('/', [ImageController::class, 'index'])->name('home');
+
+// Legacy auth URLs redirected to current admin auth entry.
+Route::redirect('/login', '/authorize', 301);
+Route::redirect('/admin/login', '/authorize', 301);
+
 Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
 Route::get('/terms', fn () => view('legal.terms'))->name('terms');
 

@@ -17,17 +17,18 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     {{-- SEO Meta --}}
+    @php($canonicalUrl = trim($__env->yieldContent('canonical', url()->current())))
     <title>@yield('title', 'CompresslyPro — Free Online Image Tools')</title>
     <meta name="description" content="@yield('description', 'Free online image tools: compress, convert, resize images. No signup required.')">
     <meta name="robots" content="index, follow">
     <meta name="author" content="CompresslyPro">
-    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <link rel="canonical" href="{{ $canonicalUrl }}">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:title" content="@yield('og_title', 'CompresslyPro — Free Online Image Tools')">
     <meta property="og:description" content="@yield('og_description', 'Compress, convert, resize images online free. No signup required.')">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:site_name" content="CompresslyPro">
     <meta property="og:image" content="{{ asset('og-image.png') }}">
 
