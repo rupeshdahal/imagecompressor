@@ -7,6 +7,11 @@
     <meta name="description" content="Terms of Service for CompresslyPro — Free Online Image Tools. Read our terms before using the service.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url('/terms') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Terms of Service — CompresslyPro">
+    <meta property="og:description" content="Terms of Service for CompresslyPro — Free Online Image Tools.">
+    <meta property="og:url" content="{{ url('/terms') }}">
+    <meta property="og:site_name" content="CompresslyPro">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 

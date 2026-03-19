@@ -7,6 +7,11 @@
     <meta name="description" content="Privacy Policy for CompresslyPro — Free Online Image Tools. Learn how we handle your data and uploaded images.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url('/privacy-policy') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Privacy Policy — CompresslyPro">
+    <meta property="og:description" content="Privacy Policy for CompresslyPro — Free Online Image Tools.">
+    <meta property="og:url" content="{{ url('/privacy-policy') }}">
+    <meta property="og:site_name" content="CompresslyPro">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 

@@ -131,6 +131,13 @@ Route::get('/api/' . config('api_routes.batch_zip'), fn () => response()->json([
     'message' => 'This endpoint only accepts POST requests.',
 ], 405))->name('batch.zip.get');
 
+Route::get('/api/{any}', fn () => response()->json([
+    'success' => false,
+    'message' => 'API endpoints only accept POST requests.',
+], 405, ['X-Robots-Tag' => 'noindex, nofollow, noarchive']))
+    ->where('any', '.*')
+    ->name('api.get.fallback');
+
 // Admin authentication routes (using /authorize instead of /login)
 Route::get('/authorize', [AdminController::class, 'showLogin'])->name('admin.login');
 Route::post('/authorize', [AdminController::class, 'login'])->name('admin.login.submit');
@@ -143,3 +150,7 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/api/reports', [ReportController::class, 'data'])->name('reports.data');
     Route::get('/admin/export', [ReportController::class, 'export'])->name('reports.export');
 });
+
+Route::fallback(fn () => response('Not Found', 404, [
+    'X-Robots-Tag' => 'noindex, nofollow, noarchive',
+]));

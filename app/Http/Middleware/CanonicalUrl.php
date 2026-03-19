@@ -13,6 +13,10 @@ class CanonicalUrl
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (! app()->isProduction()) {
+            return $next($request);
+        }
+
         if (! $request->isMethod('GET') && ! $request->isMethod('HEAD')) {
             return $next($request);
         }
