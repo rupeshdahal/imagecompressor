@@ -23,6 +23,7 @@
     "@type": "SoftwareApplication",
     "name": "CompresslyPro Watermark Tool",
     "description": "Add custom text watermarks to images online for free.",
+    "image": ["https://compresslypro.com/og-image.png"],
     "url": "https://compresslypro.com/tools/watermark",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",

@@ -23,6 +23,7 @@
     "@type": "SoftwareApplication",
     "name": "CompresslyPro Image Compressor",
     "description": "Free online image compressor that reduces JPG, PNG, WebP and GIF file sizes by up to 90% without losing quality.",
+    "image": ["https://compresslypro.com/og-image.png"],
     "url": "https://compresslypro.com/tools/compress",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",

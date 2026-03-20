@@ -23,6 +23,7 @@
     "@type": "SoftwareApplication",
     "name": "CompresslyPro Image Resizer",
     "description": "Free online image resizer. Resize by exact pixels, percentage, or maximum dimensions.",
+    "image": ["https://compresslypro.com/og-image.png"],
     "url": "https://compresslypro.com/tools/resize",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",

@@ -23,6 +23,7 @@
     "@type": "SoftwareApplication",
     "name": "CompresslyPro Image Converter",
     "description": "Free online image converter. Convert between JPG, PNG and WebP formats instantly.",
+    "image": ["https://compresslypro.com/og-image.png"],
     "url": "https://compresslypro.com/tools/convert",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",

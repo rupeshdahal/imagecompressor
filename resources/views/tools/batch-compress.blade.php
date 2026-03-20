@@ -23,6 +23,7 @@
     "@type": "SoftwareApplication",
     "name": "CompresslyPro Batch Image Compressor",
     "description": "Compress up to 20 images simultaneously and download all results as a single ZIP file.",
+    "image": ["https://compresslypro.com/og-image.png"],
     "url": "https://compresslypro.com/tools/batch-compress",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",

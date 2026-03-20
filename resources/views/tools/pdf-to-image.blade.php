@@ -23,6 +23,7 @@
     "@type": "SoftwareApplication",
     "name": "CompresslyPro PDF to Image Converter",
     "description": "Convert PDF pages to JPG, PNG, or WebP images online for free.",
+    "image": ["https://compresslypro.com/og-image.png"],
     "url": "https://compresslypro.com/tools/pdf-to-image",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
