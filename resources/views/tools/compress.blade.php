@@ -27,7 +27,30 @@
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
     "isAccessibleForFree": true,
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2030-12-31",
+        "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "US",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+        },
+        "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingDestination": {
+                "@type": "DefinedRegion",
+                "addressCountry": "US"
+            },
+            "shippingRate": {
+                "@type": "MonetaryAmount",
+                "value": "0",
+                "currency": "USD"
+            }
+        }
+    },
     "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "3124", "bestRating": "5" }
 }
 </script>

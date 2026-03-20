@@ -93,7 +93,24 @@
             "price": "0",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "priceValidUntil": "2030-12-31"
+            "priceValidUntil": "2030-12-31",
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "US",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                },
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "USD"
+                }
+            }
         },
         "creator": {
             "@type": "Organization",
@@ -434,13 +451,49 @@
         "@type": "Product",
         "name": "CompresslyPro — Free Online Image Compressor",
         "description": "Free online image compressor and converter. Reduce JPG, PNG, WebP file sizes up to 90% smaller. 7 tools: compress, convert, resize, watermark, batch, image-to-PDF, PDF-to-image.",
+        "image": [
+            "https://compresslypro.com/og-image.png"
+        ],
         "url": "https://compresslypro.com",
         "brand": { "@type": "Brand", "name": "CompresslyPro" },
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2030-12-31",
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "US",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                },
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "USD"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 0,
+                        "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 0,
+                        "unitCode": "DAY"
+                    }
+                }
+            }
         },
         "aggregateRating": {
             "@type": "AggregateRating",
@@ -452,6 +505,7 @@
         "review": [
             {
                 "@type": "Review",
+                "itemReviewed": { "@type": "Product", "name": "CompresslyPro — Free Online Image Compressor" },
                 "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
                 "name": "Best free image compressor I've found",
                 "reviewBody": "I've tried TinyPNG and Squoosh but CompresslyPro is faster and has more tools in one place. Batch compression with ZIP download is a game changer for my workflow.",
@@ -460,6 +514,7 @@
             },
             {
                 "@type": "Review",
+                "itemReviewed": { "@type": "Product", "name": "CompresslyPro — Free Online Image Compressor" },
                 "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
                 "name": "Reduced my PNG to 15% of original size",
                 "reviewBody": "Compressed a 4MB PNG screenshot down to 600KB without any visible quality loss. The before/after slider is really helpful. No signup, no watermarks — exactly what I needed.",
@@ -468,6 +523,7 @@
             },
             {
                 "@type": "Review",
+                "itemReviewed": { "@type": "Product", "name": "CompresslyPro — Free Online Image Compressor" },
                 "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
                 "name": "Watermark tool is perfect for photographers",
                 "reviewBody": "Love the new watermark feature — tile mode across the whole image looks professional. Font options, rotation, and opacity control make it just as good as paid tools.",
@@ -476,6 +532,7 @@
             },
             {
                 "@type": "Review",
+                "itemReviewed": { "@type": "Product", "name": "CompresslyPro — Free Online Image Compressor" },
                 "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5" },
                 "name": "Great for optimising website images",
                 "reviewBody": "Use it weekly for my blog. Batch compress 15+ images at once and download as ZIP. It improved my Google PageSpeed score from 62 to 94. Highly recommended.",
