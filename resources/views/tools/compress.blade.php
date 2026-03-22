@@ -34,12 +34,7 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
         "priceValidUntil": "2030-12-31"
-    },
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "3124", "bestRating": "5", "worstRating": "1" },
-    "review": [
-        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Best free image compressor", "reviewBody": "Fastest and most feature-rich tool for image compression.", "author": { "@type": "Person", "name": "Sarah K." }, "datePublished": "2026-02-14" },
-        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Excellent compression quality", "reviewBody": "Reduced PNG by 85% with zero quality loss.", "author": { "@type": "Person", "name": "Marcus T." }, "datePublished": "2026-01-28" }
-    ]
+    }
 }
 </script>
 @endverbatim

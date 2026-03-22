@@ -34,11 +34,7 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
         "priceValidUntil": "2030-12-31"
-    },
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "2156", "bestRating": "5", "worstRating": "1" },
-    "review": [
-        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Game changer for bulk work", "reviewBody": "Compress 20 images at once. Download as ZIP. Perfect for e-commerce.", "author": { "@type": "Person", "name": "Lisa P." }, "datePublished": "2026-02-20" }
-    ]
+    }
 }
 </script>
 @endverbatim

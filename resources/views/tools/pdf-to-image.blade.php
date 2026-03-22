@@ -34,11 +34,7 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
         "priceValidUntil": "2030-12-31"
-    },
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.6", "ratingCount": "654", "bestRating": "5", "worstRating": "1" },
-    "review": [
-        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Quick PDF extraction", "reviewBody": "Extract PDF pages as JPG, PNG or WebP instantly.", "author": { "@type": "Person", "name": "Nina R." }, "datePublished": "2026-03-05" }
-    ]
+    }
 }
 </script>
 @endverbatim

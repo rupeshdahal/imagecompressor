@@ -34,11 +34,7 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
         "priceValidUntil": "2030-12-31"
-    },
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "1823", "bestRating": "5", "worstRating": "1" },
-    "review": [
-        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Flexible resizing options", "reviewBody": "Can resize by %, max width/height, or exact dimensions. Aspect ratio preserved.", "author": { "@type": "Person", "name": "John M." }, "datePublished": "2026-02-18" }
-    ]
+    }
 }
 </script>
 @endverbatim

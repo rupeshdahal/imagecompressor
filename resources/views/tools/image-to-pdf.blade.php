@@ -34,11 +34,7 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
         "priceValidUntil": "2030-12-31"
-    },
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "987", "bestRating": "5", "worstRating": "1" },
-    "review": [
-        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Easy image to PDF conversion", "reviewBody": "Multiple page size options. Batch convert supported.", "author": { "@type": "Person", "name": "Alex T." }, "datePublished": "2026-02-25" }
-    ]
+    }
 }
 </script>
 @endverbatim
