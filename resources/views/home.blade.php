@@ -508,7 +508,7 @@
         "review": [
             {
                 "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
                 "name": "Best free image compressor I've found",
                 "reviewBody": "I've tried TinyPNG and Squoosh but CompresslyPro is faster and has more tools in one place. Batch compression with ZIP download is a game changer for my workflow.",
                 "author": { "@type": "Person", "name": "Sarah K." },
@@ -516,7 +516,7 @@
             },
             {
                 "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
                 "name": "Reduced my PNG to 15% of original size",
                 "reviewBody": "Compressed a 4MB PNG screenshot down to 600KB without any visible quality loss. The before/after slider is really helpful. No signup, no watermarks — exactly what I needed.",
                 "author": { "@type": "Person", "name": "Marcus T." },
@@ -524,7 +524,7 @@
             },
             {
                 "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
                 "name": "Watermark tool is perfect for photographers",
                 "reviewBody": "Love the new watermark feature — tile mode across the whole image looks professional. Font options, rotation, and opacity control make it just as good as paid tools.",
                 "author": { "@type": "Person", "name": "Priya M." },
@@ -532,7 +532,7 @@
             },
             {
                 "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5", "worstRating": "1" },
                 "name": "Great for optimising website images",
                 "reviewBody": "Use it weekly for my blog. Batch compress 15+ images at once and download as ZIP. It improved my Google PageSpeed score from 62 to 94. Highly recommended.",
                 "author": { "@type": "Person", "name": "James W." },
@@ -2111,11 +2111,9 @@
                     ['name' => 'James W.', 'role' => 'Developer', 'rating' => 5, 'text' => 'Improved my Google PageSpeed score from 62 to 94 using the batch compressor. Compress 15 images at once and download as ZIP. Brilliant tool.'],
                 ]; @endphp
                 @foreach($testimonials as $t)
-                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm hover:shadow-lg transition-shadow" itemscope itemtype="https://schema.org/Review">
-                    <div class="hidden" itemprop="itemReviewed" itemscope itemtype="https://schema.org/Product">
+                <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm hover:shadow-lg transition-shadows" itemscope itemtype="https://schema.org/Review">
+                    <div class="hidden">
                         <meta itemprop="name" content="CompresslyPro — Free Online Image Compressor">
-                        <meta itemprop="image" content="https://compresslypro.com/og-image.png">
-                        <meta itemprop="url" content="https://compresslypro.com">
                     </div>
                     <div class="hidden" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
                         <meta itemprop="ratingValue" content="{{ $t['rating'] }}">
