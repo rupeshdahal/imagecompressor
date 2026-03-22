@@ -769,8 +769,8 @@
         </div>
 
         {{-- ======================== COMPRESS TAB ======================== --}}
-        <div x-show="activeTab === 'compress'" x-transition.opacity.duration.200ms
-             x-data="compressor()" x-init="initComp()" itemscope itemtype="https://schema.org/SoftwareApplication">
+           <div x-show="activeTab === 'compress'" x-transition.opacity.duration.200ms
+               x-data="compressor()" x-init="initComp()">
 
             {{-- IDLE / ERROR --}}
             <div x-show="state === 'idle' || state === 'error'" class="animate-slide-up">
