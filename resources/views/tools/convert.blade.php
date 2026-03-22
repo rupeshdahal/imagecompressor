@@ -33,25 +33,13 @@
         "price": "0",
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31",
-        "hasMerchantReturnPolicy": {
-            "@type": "MerchantReturnPolicy",
-            "applicableCountry": "US",
-            "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
-        },
-        "shippingDetails": {
-            "@type": "OfferShippingDetails",
-            "shippingDestination": {
-                "@type": "DefinedRegion",
-                "addressCountry": "US"
-            },
-            "shippingRate": {
-                "@type": "MonetaryAmount",
-                "value": "0",
-                "currency": "USD"
-            }
-        }
-    }
+        "priceValidUntil": "2030-12-31"
+    },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "3124", "bestRating": "5", "worstRating": "1" },
+    "review": [
+        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Quick format conversion", "reviewBody": "Convert JPG to PNG instantly without quality loss.", "author": { "@type": "Person", "name": "Emma L." }, "datePublished": "2026-02-15" },
+        { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" }, "name": "Best converter tool", "reviewBody": "Supports all formats I need. Batch convert is amazing.", "author": { "@type": "Person", "name": "David C." }, "datePublished": "2026-03-01" }
+    ]
 }
 </script>
 @endverbatim

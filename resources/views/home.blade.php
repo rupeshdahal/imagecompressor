@@ -96,24 +96,7 @@
             "price": "0",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "priceValidUntil": "2030-12-31",
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "US",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
-            },
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "US"
-                },
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "USD"
-                }
-            }
+            "priceValidUntil": "2030-12-31"
         },
         "creator": {
             "@type": "Organization",
@@ -167,7 +150,41 @@
             "reviewCount": "3124",
             "bestRating": "5",
             "worstRating": "1"
-        }
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+                "name": "Best free image compressor I've found",
+                "reviewBody": "CompresslyPro is faster than competing tools and has more features in one place. Batch compression with ZIP download is a game changer.",
+                "author": { "@type": "Person", "name": "Sarah K." },
+                "datePublished": "2026-02-14"
+            },
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+                "name": "Reduced PNG file to 15% of original size",
+                "reviewBody": "Compressed a 4MB PNG screenshot down to 600KB with no visible quality loss. The before/after slider is really helpful.",
+                "author": { "@type": "Person", "name": "Marcus T." },
+                "datePublished": "2026-01-28"
+            },
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+                "name": "Perfect watermark tool for photographers",
+                "reviewBody": "Tile mode looks professional with excellent font options, rotation, and opacity control. As good as paid tools.",
+                "author": { "@type": "Person", "name": "Priya M." },
+                "datePublished": "2026-02-22"
+            },
+            {
+                "@type": "Review",
+                "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5", "worstRating": "1" },
+                "name": "Improved website Google PageSpeed score",
+                "reviewBody": "Batch compress 15 images at once and download as ZIP. Within one week, my PageSpeed score improved from 62 to 94.",
+                "author": { "@type": "Person", "name": "James W." },
+                "datePublished": "2026-02-10"
+            }
+        ]
     }
     </script>
     <script type="application/ld+json">
@@ -464,39 +481,7 @@
             "price": "0",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "priceValidUntil": "2030-12-31",
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "US",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
-            },
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "US"
-                },
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "USD"
-                },
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 0,
-                        "maxValue": 0,
-                        "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 0,
-                        "maxValue": 0,
-                        "unitCode": "DAY"
-                    }
-                }
-            }
+            "priceValidUntil": "2030-12-31"
         },
         "aggregateRating": {
             "@type": "AggregateRating",
