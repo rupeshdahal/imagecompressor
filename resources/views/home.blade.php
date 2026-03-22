@@ -150,41 +150,7 @@
             "reviewCount": "3124",
             "bestRating": "5",
             "worstRating": "1"
-        },
-        "review": [
-            {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-                "name": "Best free image compressor I've found",
-                "reviewBody": "CompresslyPro is faster than competing tools and has more features in one place. Batch compression with ZIP download is a game changer.",
-                "author": { "@type": "Person", "name": "Sarah K." },
-                "datePublished": "2026-02-14"
-            },
-            {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-                "name": "Reduced PNG file to 15% of original size",
-                "reviewBody": "Compressed a 4MB PNG screenshot down to 600KB with no visible quality loss. The before/after slider is really helpful.",
-                "author": { "@type": "Person", "name": "Marcus T." },
-                "datePublished": "2026-01-28"
-            },
-            {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-                "name": "Perfect watermark tool for photographers",
-                "reviewBody": "Tile mode looks professional with excellent font options, rotation, and opacity control. As good as paid tools.",
-                "author": { "@type": "Person", "name": "Priya M." },
-                "datePublished": "2026-02-22"
-            },
-            {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "4", "bestRating": "5", "worstRating": "1" },
-                "name": "Improved website Google PageSpeed score",
-                "reviewBody": "Batch compress 15 images at once and download as ZIP. Within one week, my PageSpeed score improved from 62 to 94.",
-                "author": { "@type": "Person", "name": "James W." },
-                "datePublished": "2026-02-10"
-            }
-        ]
+        }
     }
     </script>
     <script type="application/ld+json">
@@ -2090,15 +2056,16 @@
             </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 @php $testimonials = [
-                    ['name' => 'Sarah K.', 'role' => 'Web Designer', 'rating' => 5, 'text' => 'Best free image compressor I\'ve found. Batch compression with ZIP download is a game changer for my workflow. Way better than TinyPNG for my needs.'],
-                    ['name' => 'Marcus T.', 'role' => 'Blogger', 'rating' => 5, 'text' => 'Compressed a 4MB PNG screenshot down to 600KB with zero visible quality loss. The before/after slider is really helpful. No signup needed — perfect.'],
-                    ['name' => 'Priya M.', 'role' => 'Photographer', 'rating' => 5, 'text' => 'The watermark tile mode looks professional — font options, rotation and opacity control make it just as good as paid tools. Highly recommend!'],
-                    ['name' => 'James W.', 'role' => 'Developer', 'rating' => 5, 'text' => 'Improved my Google PageSpeed score from 62 to 94 using the batch compressor. Compress 15 images at once and download as ZIP. Brilliant tool.'],
+                    ['name' => 'Sarah K.', 'role' => 'Web Designer', 'rating' => 5, 'title' => 'Best free image compressor', 'text' => 'Best free image compressor I\'ve found. Batch compression with ZIP download is a game changer for my workflow. Way better than TinyPNG for my needs.', 'date' => '2026-02-14'],
+                    ['name' => 'Marcus T.', 'role' => 'Blogger', 'rating' => 5, 'title' => 'Excellent compression quality', 'text' => 'Compressed a 4MB PNG screenshot down to 600KB with zero visible quality loss. The before/after slider is really helpful. No signup needed — perfect.', 'date' => '2026-01-28'],
+                    ['name' => 'Priya M.', 'role' => 'Photographer', 'rating' => 5, 'title' => 'Professional watermark tool', 'text' => 'The watermark tile mode looks professional — font options, rotation and opacity control make it just as good as paid tools. Highly recommend!', 'date' => '2026-02-22'],
+                    ['name' => 'James W.', 'role' => 'Developer', 'rating' => 5, 'title' => 'Improved PageSpeed score', 'text' => 'Improved my Google PageSpeed score from 62 to 94 using the batch compressor. Compress 15 images at once and download as ZIP. Brilliant tool.', 'date' => '2026-02-10'],
                 ]; @endphp
                 @foreach($testimonials as $t)
                 <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-sm hover:shadow-lg transition-shadows" itemscope itemtype="https://schema.org/Review">
                     <div class="hidden">
-                        <meta itemprop="name" content="CompresslyPro — Free Online Image Compressor">
+                        <meta itemprop="name" content="{{ $t['title'] }}">
+                        <meta itemprop="datePublished" content="{{ $t['date'] }}">
                     </div>
                     <div class="hidden" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
                         <meta itemprop="ratingValue" content="{{ $t['rating'] }}">
