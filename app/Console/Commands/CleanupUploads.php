@@ -11,11 +11,11 @@ class CleanupUploads extends Command
     /**
      * The name and signature of the console command.
      *
-     * --minutes  : Age threshold; files/dirs older than this are deleted (default 30).
+        * --minutes  : Age threshold; files/dirs older than this are deleted (default 1440).
      * --dry-run  : List what would be deleted without actually deleting anything.
      */
     protected $signature = 'uploads:cleanup
-                            {--minutes=30 : Minutes after which files are deleted}
+                           {--minutes=1440 : Minutes after which files are deleted}
                             {--dry-run    : Preview deletions without removing anything}';
 
     /**

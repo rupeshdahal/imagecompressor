@@ -10,7 +10,7 @@ Artisan::command('inspire', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Scheduled Cleanup: Remove files older than 30 minutes
+| Scheduled Cleanup: Remove files older than 24 hours
 |--------------------------------------------------------------------------
 */
-Schedule::command('uploads:cleanup')->everyFiveMinutes();
+Schedule::command('uploads:cleanup --minutes=1440')->hourly();
