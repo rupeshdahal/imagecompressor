@@ -195,7 +195,8 @@
                         <a href="/contact" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Contact Us</a>
                         <a href="/privacy-policy" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Privacy Policy</a>
                         <a href="/terms" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Terms of Service</a>
-                        <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors" rel="nofollow">Sitemap</a>
+                        <a href="/sitemap" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Sitemap</a>
+                        <a href="/sitemap.xml" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">XML Sitemap</a>
                     </nav>
                     <div class="mt-4 space-y-1.5 text-xs text-indigo-300/50">
                         <div class="flex items-center gap-2">
@@ -221,7 +222,9 @@
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
                     <a href="/about" class="hover:text-white transition-colors">About</a>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
-                    <a href="/sitemap.xml" class="hover:text-white transition-colors" rel="nofollow">Sitemap</a>
+                    <a href="/sitemap" class="hover:text-white transition-colors">Sitemap</a>
+                    <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
+                    <a href="/sitemap.xml" class="hover:text-white transition-colors">XML Sitemap</a>
                 </div>
             </div>
         </div>

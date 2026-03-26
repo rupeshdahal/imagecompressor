@@ -36,21 +36,24 @@ Route::get('/tools/image-to-pdf', fn () => view('tools.image-to-pdf'))->name('to
 Route::get('/tools/pdf-to-image', fn () => view('tools.pdf-to-image'))->name('tool.pdf2img');
 
 // Blog
+ $blogSlugs = [
+    'how-to-compress-images-for-web',
+    'webp-vs-jpg-vs-png',
+    'image-seo-best-practices',
+    'reduce-image-size-for-email',
+    'core-web-vitals-image-optimization',
+    'batch-image-compression-workflow',
+    'best-image-formats-for-social-media',
+    'how-to-add-watermark-to-photos',
+    'optimize-images-for-wordpress',
+    'convert-images-to-pdf-guide',
+];
+
 Route::get('/blog', fn () => view('blog.index'))->name('blog');
-Route::get('/blog/{slug}', function (string $slug) {
-    $allowed = [
-        'how-to-compress-images-for-web',
-        'webp-vs-jpg-vs-png',
-        'image-seo-best-practices',
-        'reduce-image-size-for-email',
-        'core-web-vitals-image-optimization',
-        'batch-image-compression-workflow',
-        'best-image-formats-for-social-media',
-        'how-to-add-watermark-to-photos',
-        'optimize-images-for-wordpress',
-        'convert-images-to-pdf-guide',
-    ];
-    if (! in_array($slug, $allowed)) {
+Route::get('/sitemap', fn () => view('pages.sitemap', ['blogSlugs' => $blogSlugs]))->name('sitemap.html');
+
+Route::get('/blog/{slug}', function (string $slug) use ($blogSlugs) {
+    if (! in_array($slug, $blogSlugs, true)) {
         abort(404);
     }
     return view('blog.' . $slug);
