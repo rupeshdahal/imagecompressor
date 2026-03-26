@@ -214,8 +214,27 @@
                         </div>
                     </div>
 
+                    {{-- Audience & Network Stats --}}
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Unique Users (IP)</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="data.audience?.unique_users ?? 0"></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Distinct IPs in selected period</p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Unique Clients</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="data.audience?.unique_clients ?? 0"></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Unique IP + browser fingerprints</p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Today Unique Users</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="data.daily_overview?.today_unique_users ?? 0"></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Distinct IPs today</p>
+                        </div>
+                    </div>
+
                     {{-- Charts --}}
-                    <div class="grid lg:grid-cols-2 gap-4 mb-6">
+                    <div class="grid lg:grid-cols-2 gap-4 mb-4">
                         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
                             <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Compressions Over Time</h3>
                             <div class="h-60">
@@ -227,6 +246,52 @@
                             <div class="h-60">
                                 <canvas id="formatChart"></canvas>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Action Distribution</h3>
+                            <div class="h-60">
+                                <canvas id="actionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Average Reduction Trend</h3>
+                            <div class="h-60">
+                                <canvas id="reductionTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 mb-6">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Top IP Activity</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 dark:bg-gray-800/50">
+                                    <tr>
+                                        <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">IP</th>
+                                        <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Operations</th>
+                                        <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Avg Reduction</th>
+                                        <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Saved</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                                    <template x-if="!data.ip_stats || data.ip_stats.length === 0">
+                                        <tr>
+                                            <td colspan="4" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">No IP activity data</td>
+                                        </tr>
+                                    </template>
+                                    <template x-for="(ip, idx) in (data.ip_stats || [])" :key="`ip-${idx}`">
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                            <td class="px-4 py-2.5 font-medium text-gray-900 dark:text-gray-100" x-text="ip.ip_address"></td>
+                                            <td class="px-4 py-2.5 text-gray-600 dark:text-gray-400" x-text="ip.count"></td>
+                                            <td class="px-4 py-2.5 text-green-600 dark:text-green-400" x-text="ip.avg_reduction"></td>
+                                            <td class="px-4 py-2.5 text-gray-600 dark:text-gray-400" x-text="ip.saved"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
@@ -246,13 +311,14 @@
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Compressed</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Reduction</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Quality</th>
+                                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">User IP</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Date</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                                     <template x-if="!data.recent || data.recent.length === 0">
                                         <tr>
-                                            <td colspan="8" class="px-5 py-12 text-center text-gray-500 dark:text-gray-400">
+                                            <td colspan="9" class="px-5 py-12 text-center text-gray-500 dark:text-gray-400">
                                                 <svg class="w-10 h-10 mx-auto mb-2 text-gray-300 dark:text-gray-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
                                                 <p>No reports for this period</p>
                                             </td>
@@ -315,11 +381,45 @@
                                                 <span class="px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-semibold" x-text="r.reduction"></span>
                                             </td>
                                             <td class="px-5 py-3 text-gray-600 dark:text-gray-400" x-text="r.quality"></td>
+                                            <td class="px-5 py-3 text-gray-600 dark:text-gray-400 font-mono text-xs" x-text="r.ip_address || '—'"></td>
                                             <td class="px-5 py-3 text-gray-500 dark:text-gray-400" x-text="r.created_at" :title="r.created_date"></td>
                                         </tr>
                                     </template>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="px-5 py-4 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <p class="text-xs text-gray-500 dark:text-gray-400"
+                               x-text="`Showing ${data.recent_pagination?.from || 0}-${data.recent_pagination?.to || 0} of ${data.recent_pagination?.total || 0}`">
+                            </p>
+
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs text-gray-500 dark:text-gray-400">Rows</label>
+                                <select x-model.number="perPage" x-on:change="changePerPage(perPage)"
+                                        class="px-2 py-1.5 rounded-md text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200">
+                                    <template x-for="size in perPageOptions" :key="`size-${size}`">
+                                        <option :value="size" x-text="size"></option>
+                                    </template>
+                                </select>
+
+                                <button type="button"
+                                        x-on:click="changePage((data.recent_pagination?.current_page || 1) - 1)"
+                                        :disabled="(data.recent_pagination?.current_page || 1) <= 1"
+                                        class="px-2.5 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-600 dark:text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    Prev
+                                </button>
+
+                                <span class="text-xs text-gray-500 dark:text-gray-400"
+                                      x-text="`Page ${data.recent_pagination?.current_page || 1} / ${data.recent_pagination?.last_page || 1}`">
+                                </span>
+
+                                <button type="button"
+                                        x-on:click="changePage((data.recent_pagination?.current_page || 1) + 1)"
+                                        :disabled="(data.recent_pagination?.current_page || 1) >= (data.recent_pagination?.last_page || 1)"
+                                        class="px-2.5 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-600 dark:text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    Next
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -351,6 +451,9 @@
                 period: 'all',
                 actionFilter: 'all',
                 formatFilter: 'all',
+                currentPage: 1,
+                perPage: 15,
+                perPageOptions: [10, 15, 20, 30, 50],
                 previewModalOpen: false,
                 previewImageUrl: '',
                 previewImageName: '',
@@ -362,9 +465,24 @@
                     { value: 'all', label: 'All Time' }
                 ],
                 loading: false,
-                data: { summary: {}, daily_overview: {}, daily_stats: [], format_stats: [], filters: { available_actions: [], available_formats: [] }, recent: [] },
+                data: {
+                    summary: {},
+                    daily_overview: {},
+                    daily_stats: [],
+                    format_stats: [],
+                    output_format_stats: [],
+                    quality_stats: [],
+                    action_stats: [],
+                    ip_stats: [],
+                    audience: { unique_users: 0, unique_clients: 0 },
+                    filters: { available_actions: [], available_formats: [] },
+                    recent: [],
+                    recent_pagination: { current_page: 1, last_page: 1, per_page: 15, total: 0, from: 0, to: 0 }
+                },
                 dailyChartInstance: null,
                 formatChartInstance: null,
+                actionChartInstance: null,
+                reductionTrendChartInstance: null,
 
                 initApp() {
                     this.$watch('darkMode', val => {
@@ -381,6 +499,8 @@
                             period: this.period,
                             action: this.actionFilter,
                             format: this.formatFilter,
+                            page: this.currentPage,
+                            per_page: this.perPage,
                         });
 
                         const res = await fetch(`/admin/api/reports?${params.toString()}`, {
@@ -392,6 +512,8 @@
 
                         this.actionFilter = this.data.filters?.selected?.action || this.actionFilter;
                         this.formatFilter = this.data.filters?.selected?.format || this.formatFilter;
+                        this.currentPage = this.data.recent_pagination?.current_page || this.currentPage;
+                        this.perPage = this.data.recent_pagination?.per_page || this.perPage;
 
                         this.$nextTick(() => this.renderCharts());
                     } catch (e) {
@@ -402,6 +524,7 @@
                 },
 
                 applyFilters() {
+                    this.currentPage = 1;
                     this.loadData();
                 },
 
@@ -409,6 +532,22 @@
                     this.period = 'all';
                     this.actionFilter = 'all';
                     this.formatFilter = 'all';
+                    this.currentPage = 1;
+                    this.perPage = 15;
+                    this.loadData();
+                },
+
+                changePage(page) {
+                    const maxPage = this.data.recent_pagination?.last_page || 1;
+                    const nextPage = Math.max(1, Math.min(page, maxPage));
+                    if (nextPage === this.currentPage) return;
+                    this.currentPage = nextPage;
+                    this.loadData();
+                },
+
+                changePerPage(size) {
+                    this.perPage = size;
+                    this.currentPage = 1;
                     this.loadData();
                 },
 
@@ -438,6 +577,8 @@
                 renderCharts() {
                     this.renderDailyChart();
                     this.renderFormatChart();
+                    this.renderActionChart();
+                    this.renderReductionTrendChart();
                 },
 
                 renderDailyChart() {
@@ -496,6 +637,87 @@
                             responsive: true,
                             maintainAspectRatio: false,
                             plugins: { legend: { position: 'bottom', labels: { color: isDark ? '#9ca3af' : '#6b7280', padding: 16, usePointStyle: true, pointStyleWidth: 10 } } }
+                        }
+                    });
+                },
+
+                renderActionChart() {
+                    const el = document.getElementById('actionChart');
+                    if (!el) return;
+                    if (this.actionChartInstance) this.actionChartInstance.destroy();
+
+                    const isDark = this.darkMode;
+                    const stats = this.data.action_stats || [];
+                    if (stats.length === 0) return;
+
+                    const labels = stats.map(item => item.action || 'compress');
+                    const counts = stats.map(item => item.count);
+
+                    this.actionChartInstance = new Chart(el, {
+                        type: 'bar',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'Operations',
+                                data: counts,
+                                backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#14b8a6', '#94a3b8'],
+                                borderRadius: 6,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { beginAtZero: true, ticks: { color: isDark ? '#9ca3af' : '#6b7280', stepSize: 1 }, grid: { color: isDark ? '#1f2937' : '#f3f4f6' } },
+                                x: { ticks: { color: isDark ? '#9ca3af' : '#6b7280' }, grid: { display: false } }
+                            }
+                        }
+                    });
+                },
+
+                renderReductionTrendChart() {
+                    const el = document.getElementById('reductionTrendChart');
+                    if (!el) return;
+                    if (this.reductionTrendChartInstance) this.reductionTrendChartInstance.destroy();
+
+                    const isDark = this.darkMode;
+                    const stats = this.data.daily_stats || [];
+                    if (stats.length === 0) return;
+
+                    const labels = stats.map(d => d.date);
+                    const avgReduction = stats.map(d => Number(d.avg_reduction || 0).toFixed(1));
+
+                    this.reductionTrendChartInstance = new Chart(el, {
+                        type: 'line',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'Avg Reduction %',
+                                data: avgReduction,
+                                borderColor: '#10b981',
+                                backgroundColor: isDark ? 'rgba(16,185,129,0.15)' : 'rgba(16,185,129,0.12)',
+                                fill: true,
+                                tension: 0.35,
+                                pointRadius: 2.5,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        color: isDark ? '#9ca3af' : '#6b7280',
+                                        callback: (value) => `${value}%`
+                                    },
+                                    grid: { color: isDark ? '#1f2937' : '#f3f4f6' }
+                                },
+                                x: { ticks: { color: isDark ? '#9ca3af' : '#6b7280' }, grid: { display: false } }
+                            }
                         }
                     });
                 }
