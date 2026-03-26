@@ -239,7 +239,7 @@
                             <table class="w-full text-sm">
                                 <thead class="bg-gray-50 dark:bg-gray-800/50">
                                     <tr>
-                                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Image</th>
+                                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Preview</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Action</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Format</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Original</th>
@@ -260,16 +260,33 @@
                                     </template>
                                     <template x-for="r in (data.recent || [])" :key="r.id">
                                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                            <td class="px-5 py-3 font-medium text-gray-900 dark:text-gray-100 max-w-[160px] truncate">
-                                                <template x-if="r.preview_url">
-                                                    <a :href="r.preview_url" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 group" title="View Image">
-                                                        <span x-text="r.original_name" class="truncate"></span>
-                                                        <svg class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                                                    </a>
-                                                </template>
-                                                <template x-if="!r.preview_url">
-                                                    <span x-text="r.original_name"></span>
-                                                </template>
+                                            <td class="px-5 py-3">
+                                                <div class="flex items-center gap-3 min-w-0">
+                                                    <template x-if="r.preview_url">
+                                                        <button type="button" x-on:click="openPreview(r.preview_url, r.original_name)" title="Open preview image" class="flex-shrink-0">
+                                                            <img :src="r.preview_url"
+                                                                 :alt="'Preview of ' + r.original_name"
+                                                                 class="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-gray-700 shadow-sm">
+                                                        </button>
+                                                    </template>
+                                                    <template x-if="!r.preview_url">
+                                                        <div class="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-xs font-bold text-gray-500 dark:text-gray-400 flex-shrink-0"
+                                                             x-text="(r.original_format || '?').slice(0, 3)">
+                                                        </div>
+                                                    </template>
+                                                    <div class="min-w-0">
+                                                        <template x-if="r.preview_url">
+                                                            <button type="button" x-on:click="openPreview(r.preview_url, r.original_name)" class="hover:text-brand-600 dark:hover:text-brand-400 inline-flex items-center gap-1.5 group font-medium text-gray-900 dark:text-gray-100 max-w-[180px]" title="View Image">
+                                                                <span x-text="r.original_name" class="truncate"></span>
+                                                                <svg class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                                            </button>
+                                                        </template>
+                                                        <template x-if="!r.preview_url">
+                                                            <span class="font-medium text-gray-900 dark:text-gray-100 truncate block max-w-[180px]" x-text="r.original_name"></span>
+                                                        </template>
+                                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5" x-text="r.dimensions"></p>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td class="px-5 py-3">
                                                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
@@ -311,6 +328,22 @@
         </div>
     </div>
 
+    {{-- Image Preview Modal --}}
+    <div x-show="previewModalOpen" x-cloak x-on:keydown.escape.window="closePreview()" class="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6">
+        <div class="absolute inset-0 bg-black/70" x-on:click="closePreview()"></div>
+        <div class="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+            <div class="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-gray-200 dark:border-gray-800">
+                <h4 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-gray-100 truncate pr-4" x-text="previewImageName || 'Image Preview'"></h4>
+                <button type="button" x-on:click="closePreview()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400" aria-label="Close preview">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-3 sm:p-4 flex items-center justify-center bg-gray-50 dark:bg-gray-950 max-h-[calc(90vh-70px)] overflow-auto">
+                <img :src="previewImageUrl" :alt="previewImageName || 'Preview image'" class="max-w-full max-h-[calc(90vh-110px)] object-contain rounded-lg">
+            </div>
+        </div>
+    </div>
+
     <script>
         function reportsPage() {
             return {
@@ -318,6 +351,9 @@
                 period: 'all',
                 actionFilter: 'all',
                 formatFilter: 'all',
+                previewModalOpen: false,
+                previewImageUrl: '',
+                previewImageName: '',
                 periodOptions: [
                     { value: '24h', label: '24 Hours' },
                     { value: '7d', label: '7 Days' },
@@ -384,6 +420,19 @@
                     });
 
                     return `/admin/export?${params.toString()}`;
+                },
+
+                openPreview(imageUrl, imageName = 'Image Preview') {
+                    if (!imageUrl) return;
+                    this.previewImageUrl = imageUrl;
+                    this.previewImageName = imageName;
+                    this.previewModalOpen = true;
+                },
+
+                closePreview() {
+                    this.previewModalOpen = false;
+                    this.previewImageUrl = '';
+                    this.previewImageName = '';
                 },
 
                 renderCharts() {
