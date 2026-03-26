@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google-adsense-account" content="ca-pub-6697940390340424">
-    <meta name="google-site-verification" content="WGkF3kyCGO47g0XHR3WBpmuNzLKO3wURAb1E1JyqUFU">
+    @if(config('services.google_site_verification'))
+    <meta name="google-site-verification" content="{{ config('services.google_site_verification') }}">
+    @endif
+    @if(config('services.bing_site_verification'))
+    <meta name="msvalidate.01" content="{{ config('services.bing_site_verification') }}">
+    @endif
+    @if(config('services.yandex_site_verification'))
+    <meta name="yandex-verification" content="{{ config('services.yandex_site_verification') }}">
+    @endif
+    @if(config('services.baidu_site_verification'))
+    <meta name="baidu-site-verification" content="{{ config('services.baidu_site_verification') }}">
+    @endif
 
     {{-- Favicon --}}
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16.png') }}">

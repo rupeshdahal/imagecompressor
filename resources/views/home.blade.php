@@ -68,6 +68,15 @@
     @if(config('services.google_site_verification'))
     <meta name="google-site-verification" content="{{ config('services.google_site_verification') }}" />
     @endif
+    @if(config('services.bing_site_verification'))
+    <meta name="msvalidate.01" content="{{ config('services.bing_site_verification') }}" />
+    @endif
+    @if(config('services.yandex_site_verification'))
+    <meta name="yandex-verification" content="{{ config('services.yandex_site_verification') }}" />
+    @endif
+    @if(config('services.baidu_site_verification'))
+    <meta name="baidu-site-verification" content="{{ config('services.baidu_site_verification') }}" />
+    @endif
 
     {{-- Schema Markup — raw block prevents Blade parsing @context/@type --}}
     @verbatim

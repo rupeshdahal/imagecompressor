@@ -42,4 +42,10 @@ return [
 
     'google_site_verification' => env('GOOGLE_SITE_VERIFICATION'),
 
+    'bing_site_verification' => env('BING_SITE_VERIFICATION'),
+
+    'yandex_site_verification' => env('YANDEX_SITE_VERIFICATION'),
+
+    'baidu_site_verification' => env('BAIDU_SITE_VERIFICATION'),
+
 ];
