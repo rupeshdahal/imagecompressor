@@ -598,7 +598,7 @@
     <header class="hero-bg pt-10 pb-6 sm:pt-14 sm:pb-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-4 animate-slide-down">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 100% Free · No Signup · 7 Powerful Tools
             </div>
             {{-- Social proof --}}
@@ -652,7 +652,7 @@
     {{-- ============================================================ --}}
     {{-- TOOL TABS: Compress / Convert / Batch / Resize / PDF        --}}
     {{-- ============================================================ --}}
-    <div id="tools-section" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-12" x-data="toolTabs()"
+    <div id="tools-section" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-12" x-data="toolTabs()"
          x-init="
             const hash = window.location.hash.replace('#','');
             if (['compress','convert','batch','resize','tools'].includes(hash)) activeTab = hash;
@@ -662,12 +662,18 @@
             });
          ">
 
+        <div class="bg-gradient-to-br from-white via-indigo-50/40 to-white border border-indigo-200/60 rounded-3xl shadow-xl shadow-indigo-100/50 p-4 sm:p-6 mb-6">
+            <div class="flex items-center justify-between gap-3 mb-4">
+                <h2 class="text-lg sm:text-2xl font-extrabold tracking-tight text-gray-900">Image Tools Workspace</h2>
+                <span class="inline-flex items-center gap-1.5 bg-indigo-100 text-indigo-700 text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full">Live Preview + Instant Download</span>
+            </div>
+
         {{-- Tab Switcher --}}
-        <div id="compress" class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 shadow-sm overflow-x-auto">
+        <div id="compress" class="flex gap-1.5 bg-white/90 ring-1 ring-indigo-200 rounded-2xl p-1.5 mb-2 shadow-sm overflow-x-auto">
             <button x-on:click="activeTab = 'compress'"
                 :class="activeTab === 'compress'
-                    ? 'bg-white text-brand-700 shadow-sm font-bold'
-                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                    ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200 font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold hover:bg-gray-50'"
                 class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
@@ -676,8 +682,8 @@
             </button>
             <button x-on:click="activeTab = 'convert'"
                 :class="activeTab === 'convert'
-                    ? 'bg-white text-purple-700 shadow-sm font-bold'
-                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                    ? 'bg-purple-50 text-purple-700 shadow-sm ring-1 ring-purple-200 font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold hover:bg-gray-50'"
                 class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/>
@@ -686,8 +692,8 @@
             </button>
             <button x-on:click="activeTab = 'batch'"
                 :class="activeTab === 'batch'
-                    ? 'bg-white text-blue-700 shadow-sm font-bold'
-                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                    ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-200 font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold hover:bg-gray-50'"
                 class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/>
@@ -696,8 +702,8 @@
             </button>
             <button x-on:click="activeTab = 'resize'"
                 :class="activeTab === 'resize'
-                    ? 'bg-white text-orange-700 shadow-sm font-bold'
-                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                    ? 'bg-orange-50 text-orange-700 shadow-sm ring-1 ring-orange-200 font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold hover:bg-gray-50'"
                 class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
@@ -706,14 +712,15 @@
             </button>
             <button x-on:click="activeTab = 'tools'"
                 :class="activeTab === 'tools'
-                    ? 'bg-white text-teal-700 shadow-sm font-bold'
-                    : 'text-gray-500 hover:text-gray-700 font-semibold'"
+                    ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-200 font-bold'
+                    : 'text-gray-500 hover:text-gray-700 font-semibold hover:bg-gray-50'"
                 class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all duration-200 whitespace-nowrap min-w-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
                 </svg>
                 <span class="truncate">More Tools</span>
             </button>
+        </div>
         </div>
 
         {{-- ======================== COMPRESS TAB ======================== --}}
@@ -739,7 +746,7 @@
                     <h2 class="text-xl sm:text-2xl font-bold mb-2">Drop your image here</h2>
                     <p class="text-gray-500 mb-5">or <span class="text-brand-600 font-semibold underline decoration-brand-300 underline-offset-2">browse files</span> from your device</p>
                     <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded">Ctrl+V</kbd> to paste</span>
                     </div>
                     <div class="flex flex-wrap justify-center gap-2">
@@ -860,7 +867,7 @@
                     </div>
                     <div class="bg-white rounded-2xl border border-gray-200/60 p-4 sm:p-5 text-center shadow-sm">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-2" :class="result.reduction > 0 ? 'bg-green-50' : 'bg-red-50'">
-                            <svg class="w-4 h-4" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                            <svg class="w-6 h-6" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                         </div>
                         <p class="text-xs text-gray-400 font-medium mb-0.5">Saved</p>
                         <p class="text-base sm:text-lg font-bold" :class="result.reduction > 0 ? 'text-green-600' : 'text-red-500'" x-text="result.reduction + '%'"></p>
@@ -971,6 +978,11 @@
                         <div class="flex justify-between"><span class="text-gray-400">Quality</span><strong class="text-gray-900" x-text="quality + '%'"></strong></div>
                         <div class="flex justify-between"><span class="text-gray-400">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900" x-text="result.original_name"></strong></div>
                     </div>
+                    <div class="pt-4 text-center border-t border-gray-100 mt-4">
+                        <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h1m3 0h1m3 0h1"/></svg><span>Support us on Buy Me a Coffee ☕</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>{{-- end compress tab --}}
@@ -999,7 +1011,7 @@
                     <h2 class="text-xl sm:text-2xl font-bold mb-2">Drop your image to convert</h2>
                     <p class="text-gray-500 mb-5">or <span class="text-purple-600 font-semibold underline decoration-purple-300 underline-offset-2">browse files</span> from your device</p>
                     <div class="mb-5 flex items-center justify-center gap-2 text-sm text-gray-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         <span>or press <kbd class="px-2 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded">Ctrl+V</kbd> to paste</span>
                     </div>
                     <div class="flex flex-wrap justify-center gap-2">
@@ -1163,6 +1175,11 @@
                         <div class="flex justify-between"><span class="text-gray-400">Original Size</span><strong class="text-gray-900" x-text="cresult.formatted_original"></strong></div>
                         <div class="flex justify-between"><span class="text-gray-400">File</span><strong class="truncate max-w-[120px] block text-right text-gray-900" x-text="cresult.original_name"></strong></div>
                     </div>
+                    <div class="pt-6 text-center border-t border-gray-100 mt-6">
+                        <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path d="M6 4h1m3 0h1m3 0h1"/></svg><span>Support us on Buy Me a Coffee ☕</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>{{-- end convert tab --}}
@@ -1297,7 +1314,7 @@
                         <div class="flex gap-2">
                             <button x-on:click="bDownloadZip()" x-show="bresults.filenames && bresults.filenames.length > 0"
                                 class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                 Download ZIP
                             </button>
                             <button x-on:click="bReset()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition-all">New Batch</button>
@@ -1325,6 +1342,11 @@
                             </div>
                         </template>
                     </div>
+                </div>
+                <div class="text-center py-4">
+                    <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path d="M6 4h1m3 0h1m3 0h1"/></svg><span>Enjoying batch tools? Buy us a coffee ☕</span>
+                    </a>
                 </div>
             </div>
         </div>{{-- end batch tab --}}
@@ -1514,6 +1536,11 @@
                             New Image
                         </button>
                     </div>
+                    <div class="pt-4 text-center border-t border-gray-100 mt-4">
+                        <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h1m3 0h1m3 0h1"/></svg><span>Support us on Buy Me a Coffee ☕</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>{{-- end resize tab --}}
@@ -1550,7 +1577,7 @@
                             <div class="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2">
                                 <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5"/></svg>
                                 <span class="text-xs text-gray-700 truncate flex-1" x-text="wfileName"></span>
-                                <button x-on:click="wReset()" class="text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                                <button x-on:click="wReset()" class="text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
                             </div>
 
                             {{-- Watermark text --}}
@@ -1655,7 +1682,7 @@
                             <button x-on:click="wApply()" :disabled="!wtext.trim()"
                                 :class="wtext.trim() ? 'opacity-100 hover:scale-[1.02]' : 'opacity-50 cursor-not-allowed'"
                                 class="w-full bg-gradient-to-r from-pink-600 to-pink-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
                                 Apply Watermark
                             </button>
                         </div>
@@ -1680,10 +1707,15 @@
                             </div>
                             <button x-on:click="downloadFromUrl(wresult.download_url, wresult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-sm transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v1a2 2 0 002 2h14a2 2 0 002-2v-1"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v1a2 2 0 002 2h14a2 2 0 002-2v-1"/></svg>
                                 Download
                             </button>
                             <button x-on:click="wReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Apply another</button>
+                            <div class="text-center pt-3">
+                                <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path d="M6 4h1m3 0h1m3 0h1"/></svg><span>Buy us a coffee ☕</span>
+                                </a>
+                            </div>
                         </div>
 
                         {{-- Error message --}}
@@ -1716,7 +1748,7 @@
                             <button x-on:click="uCompress()" :disabled="!uurl.trim()"
                                 :class="uurl.trim() ? 'opacity-100' : 'opacity-50 cursor-not-allowed'"
                                 class="w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                                 Compress URL Image
                             </button>
                             <div x-show="uerrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="uerrorMessage"></div>
@@ -1744,10 +1776,15 @@
                             </div>
                             <button x-on:click="downloadFromUrl(uresult.download_url, uresult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-sm transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download
                             </button>
                             <button x-on:click="uReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Compress another</button>
+                            <div class="text-center pt-1">
+                                <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h1m3 0h1m3 0h1"/></svg><span>Buy us a coffee ☕</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1774,7 +1811,7 @@
                         <div x-show="pstate === 'settings'" class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-semibold text-gray-600 truncate flex-1" x-text="pfileName"></span>
-                                <button x-on:click="pReset()" class="ml-2 text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                                <button x-on:click="pReset()" class="ml-2 text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
                             </div>
                             <div class="flex gap-2">
                                 <div class="flex-1">
@@ -1796,7 +1833,7 @@
                             </div>
                             <button x-on:click="pConvert()"
                                 class="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
                                 Convert to PDF
                             </button>
                         </div>
@@ -1813,10 +1850,15 @@
                             </div>
                             <button x-on:click="downloadFromUrl(presult.download_url, presult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download PDF
                             </button>
                             <button x-on:click="pReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Convert another</button>
+                            <div class="text-center pt-1">
+                                <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h1m3 0h1m3 0h1"/></svg><span>Buy us a coffee ☕</span>
+                                </a>
+                            </div>
                         </div>
 
                         <div x-show="perrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="perrorMessage"></div>
@@ -1846,7 +1888,7 @@
                         <div x-show="pdfistate === 'settings'" class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-semibold text-gray-600 truncate flex-1" x-text="pdfifileName"></span>
-                                <button x-on:click="pdfiReset()" class="ml-2 text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                                <button x-on:click="pdfiReset()" class="ml-2 text-gray-400 hover:text-red-500 flex-shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
                             </div>
                             <div class="flex gap-2">
                                 <div class="flex-1">
@@ -1870,7 +1912,7 @@
                             </div>
                             <button x-on:click="pdfiConvert()"
                                 class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm hover:scale-[1.02]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909"/></svg>
                                 Convert to Image
                             </button>
                         </div>
@@ -1893,10 +1935,15 @@
                             </div>
                             <button x-on:click="downloadFromUrl(pdfiresult.download_url, pdfiresult.filename)"
                                class="flex w-full items-center justify-center gap-2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3"/></svg>
                                 Download Image
                             </button>
                             <button x-on:click="pdfiReset()" class="w-full py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">Convert another</button>
+                            <div class="text-center pt-1">
+                                <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-3 text-sm font-extrabold text-yellow-900 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 hover:from-yellow-400 hover:via-amber-400 hover:to-yellow-500 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-amber-300/50 hover:-translate-y-1 transition-all duration-300 ring-2 ring-offset-2 ring-amber-200 animate-pulse">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h1m3 0h1m3 0h1"/></svg><span>Buy us a coffee ☕</span>
+                                </a>
+                            </div>
                         </div>
 
                         <div x-show="pdfierrorMessage" class="bg-red-50 rounded-xl px-3 py-2 text-xs text-red-600" x-text="pdfierrorMessage"></div>
@@ -2433,6 +2480,8 @@
                     <a href="/privacy-policy" class="hover:text-white transition-colors">Privacy Policy</a>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
                     <a href="/terms" class="hover:text-white transition-colors">Terms of Service</a>
+                    <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
+                    <a href="https://www.buymeacoffee.com/compresslypro" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-300 to-amber-300 text-yellow-900 font-bold border-2 border-yellow-400 hover:from-yellow-400 hover:to-amber-400 hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-200 animate-pulse ring-2 ring-offset-2 ring-yellow-200"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h1a3 3 0 010 6h-1M4 8h14v5a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path d="M6 4h1m3 0h1m3 0h1"/></svg><span>☕ Buy Me a Coffee</span></a>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
                     <span>Max 20MB per file</span>
                     <span class="w-1 h-1 bg-indigo-600 rounded-full"></span>
