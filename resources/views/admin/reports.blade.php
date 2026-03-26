@@ -266,11 +266,11 @@
                                                         <button type="button" x-on:click="openPreview(r.preview_url, r.original_name)" title="Open preview image" class="flex-shrink-0">
                                                             <img :src="r.preview_url"
                                                                  :alt="'Preview of ' + r.original_name"
-                                                                 class="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-gray-700 shadow-sm">
+                                                                 class="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-gray-700 shadow-sm">
                                                         </button>
                                                     </template>
                                                     <template x-if="!r.preview_url">
-                                                        <div class="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-xs font-bold text-gray-500 dark:text-gray-400 flex-shrink-0"
+                                                        <div class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-xs font-bold text-gray-500 dark:text-gray-400 flex-shrink-0"
                                                              x-text="(r.original_format || '?').slice(0, 3)">
                                                         </div>
                                                     </template>
