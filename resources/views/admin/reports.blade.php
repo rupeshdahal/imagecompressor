@@ -215,7 +215,7 @@
                     </div>
 
                     {{-- Audience & Network Stats --}}
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-6">
                         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
                             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Unique Users (IP)</p>
                             <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="data.audience?.unique_users ?? 0"></p>
@@ -230,6 +230,11 @@
                             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Today Unique Users</p>
                             <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="data.daily_overview?.today_unique_users ?? 0"></p>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Distinct IPs today</p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Countries</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-gray-100" x-text="data.audience?.unique_countries ?? 0"></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Unique countries in selected period</p>
                         </div>
                     </div>
 
@@ -249,7 +254,7 @@
                         </div>
                     </div>
 
-                    <div class="grid lg:grid-cols-2 gap-4 mb-6">
+                    <div class="grid lg:grid-cols-3 gap-4 mb-6">
                         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
                             <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Action Distribution</h3>
                             <div class="h-60">
@@ -260,6 +265,12 @@
                             <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Average Reduction Trend</h3>
                             <div class="h-60">
                                 <canvas id="reductionTrendChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3">Country Distribution</h3>
+                            <div class="h-60">
+                                <canvas id="countryChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -312,13 +323,14 @@
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Reduction</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Quality</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">User IP</th>
+                                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Country</th>
                                         <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Date</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                                     <template x-if="!data.recent || data.recent.length === 0">
                                         <tr>
-                                            <td colspan="9" class="px-5 py-12 text-center text-gray-500 dark:text-gray-400">
+                                            <td colspan="10" class="px-5 py-12 text-center text-gray-500 dark:text-gray-400">
                                                 <svg class="w-10 h-10 mx-auto mb-2 text-gray-300 dark:text-gray-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
                                                 <p>No reports for this period</p>
                                             </td>
@@ -382,6 +394,7 @@
                                             </td>
                                             <td class="px-5 py-3 text-gray-600 dark:text-gray-400" x-text="r.quality"></td>
                                             <td class="px-5 py-3 text-gray-600 dark:text-gray-400 font-mono text-xs" x-text="r.ip_address || '—'"></td>
+                                            <td class="px-5 py-3 text-gray-600 dark:text-gray-400 font-semibold text-xs" x-text="r.country || 'ZZ'"></td>
                                             <td class="px-5 py-3 text-gray-500 dark:text-gray-400" x-text="r.created_at" :title="r.created_date"></td>
                                         </tr>
                                     </template>
@@ -473,8 +486,9 @@
                     output_format_stats: [],
                     quality_stats: [],
                     action_stats: [],
+                    country_stats: [],
                     ip_stats: [],
-                    audience: { unique_users: 0, unique_clients: 0 },
+                    audience: { unique_users: 0, unique_clients: 0, unique_countries: 0 },
                     filters: { available_actions: [], available_formats: [] },
                     recent: [],
                     recent_pagination: { current_page: 1, last_page: 1, per_page: 15, total: 0, from: 0, to: 0 }
@@ -483,6 +497,7 @@
                 formatChartInstance: null,
                 actionChartInstance: null,
                 reductionTrendChartInstance: null,
+                countryChartInstance: null,
 
                 initApp() {
                     this.$watch('darkMode', val => {
@@ -579,6 +594,7 @@
                     this.renderFormatChart();
                     this.renderActionChart();
                     this.renderReductionTrendChart();
+                    this.renderCountryChart();
                 },
 
                 renderDailyChart() {
@@ -717,6 +733,47 @@
                                     grid: { color: isDark ? '#1f2937' : '#f3f4f6' }
                                 },
                                 x: { ticks: { color: isDark ? '#9ca3af' : '#6b7280' }, grid: { display: false } }
+                            }
+                        }
+                    });
+                },
+
+                renderCountryChart() {
+                    const el = document.getElementById('countryChart');
+                    if (!el) return;
+                    if (this.countryChartInstance) this.countryChartInstance.destroy();
+
+                    const isDark = this.darkMode;
+                    const stats = this.data.country_stats || [];
+                    if (stats.length === 0) return;
+
+                    const labels = stats.map(item => item.country || 'ZZ');
+                    const counts = stats.map(item => item.count);
+
+                    this.countryChartInstance = new Chart(el, {
+                        type: 'doughnut',
+                        data: {
+                            labels,
+                            datasets: [{
+                                data: counts,
+                                backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#ec4899', '#14b8a6', '#8b5cf6', '#f97316', '#22c55e'],
+                                borderWidth: 3,
+                                borderColor: isDark ? '#111827' : '#ffffff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        color: isDark ? '#9ca3af' : '#6b7280',
+                                        padding: 12,
+                                        usePointStyle: true,
+                                        pointStyleWidth: 10,
+                                    }
+                                }
                             }
                         }
                     });

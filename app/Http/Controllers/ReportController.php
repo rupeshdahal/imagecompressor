@@ -131,6 +131,12 @@ class ReportController extends Controller
             ->get()
             ->count();
 
+        $uniqueCountries = (clone $reports)
+            ->whereNotNull('country')
+            ->where('country', '!=', '')
+            ->distinct('country')
+            ->count('country');
+
         // Compressions by day
         $dailyStats = (clone $reports)
             ->select(
@@ -186,6 +192,20 @@ class ReportController extends Controller
             ->orderByDesc('count')
             ->get();
 
+        // Country distribution
+        $countryStats = (clone $reports)
+            ->whereNotNull('country')
+            ->where('country', '!=', '')
+            ->select(
+                DB::raw("UPPER(country) as country"),
+                DB::raw("COUNT(*) as count"),
+                DB::raw("AVG(reduction_percent) as avg_reduction")
+            )
+            ->groupBy(DB::raw("UPPER(country)"))
+            ->orderByDesc('count')
+            ->limit(10)
+            ->get();
+
         // Top IP activity
         $ipStats = (clone $reports)
             ->whereNotNull('ip_address')
@@ -238,6 +258,7 @@ class ReportController extends Controller
                     'action'          => $r->action ?? 'compress',
                     'batch_id'        => $r->batch_id,
                     'ip_address'      => $this->maskIpAddress($r->ip_address),
+                    'country'         => strtoupper((string) ($r->country ?: 'ZZ')),
                 ];
             });
 
@@ -277,6 +298,7 @@ class ReportController extends Controller
             'audience' => [
                 'unique_users' => $uniqueUsers,
                 'unique_clients' => $uniqueClients,
+                'unique_countries' => $uniqueCountries,
             ],
             'filters' => [
                 'selected' => [
@@ -292,6 +314,7 @@ class ReportController extends Controller
             'output_format_stats' => $outputFormatStats,
             'quality_stats'      => $qualityStats,
             'action_stats'       => $actionStats,
+            'country_stats'      => $countryStats,
             'ip_stats'           => $ipStats,
             'recent'             => $recentCompressions,
             'recent_pagination'  => [
@@ -337,7 +360,7 @@ class ReportController extends Controller
             fputcsv($handle, [
                 'ID', 'Action', 'Original Name', 'Original Format', 'Output Format',
                 'Original Size (bytes)', 'Compressed Size (bytes)', 'Reduction (%)',
-                'Quality', 'Width', 'Height', 'Batch ID', 'IP Address', 'Date',
+                'Quality', 'Width', 'Height', 'Batch ID', 'IP Address', 'Country', 'Date',
             ]);
 
             $this->applyReportFilters(CompressionReport::where('created_at', '>=', $startDate), $action, $format)
@@ -358,6 +381,7 @@ class ReportController extends Controller
                             $r->height ?? '',
                             $r->batch_id ?? '',
                             $r->ip_address ?? '',
+                            $r->country ?? '',
                             $r->created_at->format('Y-m-d H:i:s'),
                         ]);
                     }
