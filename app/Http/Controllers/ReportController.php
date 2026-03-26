@@ -29,6 +29,9 @@ class ReportController extends Controller
         $period = $request->get('period', '7d');
         $action = trim((string) $request->get('action', 'all'));
         $format = strtolower(trim((string) $request->get('format', 'all')));
+        $page = max(1, (int) $request->get('page', 1));
+        $perPage = (int) $request->get('per_page', 15);
+        $perPage = in_array($perPage, [10, 15, 20, 30, 50], true) ? $perPage : 15;
 
         $startDate = match ($period) {
             '24h'  => Carbon::now()->subHours(24),
@@ -91,6 +94,10 @@ class ReportController extends Controller
         $todayOriginal = (clone $todayReports)->sum('original_size');
         $todayCompressed = (clone $todayReports)->sum('compressed_size');
         $todaySaved = max(0, $todayOriginal - $todayCompressed);
+        $todayUniqueUsers = (clone $todayReports)
+            ->whereNotNull('ip_address')
+            ->distinct('ip_address')
+            ->count('ip_address');
 
         $yesterdayReports = (clone $reports)
             ->where('created_at', '>=', $yesterdayStart)
@@ -111,6 +118,18 @@ class ReportController extends Controller
             ->sum('compressed_size');
         $avgDailyCountLast7 = round($lastSevenDaysCount / 7, 1);
         $avgDailySavedLast7 = max(0, $lastSevenDaysOriginal - $lastSevenDaysCompressed) / 7;
+
+        $uniqueUsers = (clone $reports)
+            ->whereNotNull('ip_address')
+            ->distinct('ip_address')
+            ->count('ip_address');
+
+        $uniqueClients = (clone $reports)
+            ->whereNotNull('ip_address')
+            ->select('ip_address', 'user_agent')
+            ->distinct()
+            ->get()
+            ->count();
 
         // Compressions by day
         $dailyStats = (clone $reports)
@@ -157,11 +176,46 @@ class ReportController extends Controller
             ->groupBy('quality_range')
             ->get();
 
-        // Recent compressions
-        $recentCompressions = (clone $reports)
-            ->orderByDesc('created_at')
-            ->limit(20)
+        // Action distribution
+        $actionStats = (clone $reports)
+            ->select(
+                DB::raw("COALESCE(action, 'compress') as action"),
+                DB::raw("COUNT(*) as count")
+            )
+            ->groupBy(DB::raw("COALESCE(action, 'compress')"))
+            ->orderByDesc('count')
+            ->get();
+
+        // Top IP activity
+        $ipStats = (clone $reports)
+            ->whereNotNull('ip_address')
+            ->select(
+                'ip_address',
+                DB::raw("COUNT(*) as count"),
+                DB::raw("AVG(reduction_percent) as avg_reduction"),
+                DB::raw("SUM(original_size) as total_original"),
+                DB::raw("SUM(compressed_size) as total_compressed")
+            )
+            ->groupBy('ip_address')
+            ->orderByDesc('count')
+            ->limit(8)
             ->get()
+            ->map(function ($item) {
+                $saved = max(0, (int) $item->total_original - (int) $item->total_compressed);
+                return [
+                    'ip_address' => $this->maskIpAddress($item->ip_address),
+                    'count' => (int) $item->count,
+                    'avg_reduction' => round((float) $item->avg_reduction, 1) . '%',
+                    'saved' => $this->formatBytes($saved),
+                ];
+            });
+
+        // Recent compressions
+        $recentPaginator = (clone $reports)
+            ->orderByDesc('created_at')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $recentCompressions = collect($recentPaginator->items())
             ->map(function ($r) {
                 $nameWithoutExt = pathinfo($r->original_name, PATHINFO_FILENAME);
                 $safeName = Str::slug(Str::limit($nameWithoutExt, 50, '')) ?: 'image';
@@ -183,6 +237,7 @@ class ReportController extends Controller
                     'created_date'    => $r->created_at->format('M d, Y H:i'),
                     'action'          => $r->action ?? 'compress',
                     'batch_id'        => $r->batch_id,
+                    'ip_address'      => $this->maskIpAddress($r->ip_address),
                 ];
             });
 
@@ -213,10 +268,15 @@ class ReportController extends Controller
             'daily_overview' => [
                 'today_count' => $todayCount,
                 'today_saved' => $this->formatBytes($todaySaved),
+                'today_unique_users' => $todayUniqueUsers,
                 'yesterday_count' => $yesterdayCount,
                 'yesterday_saved' => $this->formatBytes($yesterdaySaved),
                 'avg_daily_count_last_7d' => $avgDailyCountLast7,
                 'avg_daily_saved_last_7d' => $this->formatBytes($avgDailySavedLast7),
+            ],
+            'audience' => [
+                'unique_users' => $uniqueUsers,
+                'unique_clients' => $uniqueClients,
             ],
             'filters' => [
                 'selected' => [
@@ -231,7 +291,17 @@ class ReportController extends Controller
             'format_stats'       => $formatStats,
             'output_format_stats' => $outputFormatStats,
             'quality_stats'      => $qualityStats,
+            'action_stats'       => $actionStats,
+            'ip_stats'           => $ipStats,
             'recent'             => $recentCompressions,
+            'recent_pagination'  => [
+                'current_page' => $recentPaginator->currentPage(),
+                'last_page' => $recentPaginator->lastPage(),
+                'per_page' => $recentPaginator->perPage(),
+                'total' => $recentPaginator->total(),
+                'from' => $recentPaginator->firstItem() ?? 0,
+                'to' => $recentPaginator->lastItem() ?? 0,
+            ],
             'top_savings'        => $topSavings,
         ]);
     }
@@ -313,6 +383,30 @@ class ReportController extends Controller
             $index++;
         }
         return round($size, $precision) . ' ' . $units[$index];
+    }
+
+    /**
+     * Mask IP address for safer display in admin analytics.
+     */
+    private function maskIpAddress(?string $ip): string
+    {
+        if (!$ip) {
+            return '—';
+        }
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $parts = explode('.', $ip);
+            if (count($parts) === 4) {
+                return $parts[0] . '.' . $parts[1] . '.x.x';
+            }
+        }
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $parts = explode(':', $ip);
+            return implode(':', array_slice($parts, 0, 3)) . ':xxxx:xxxx';
+        }
+
+        return 'masked';
     }
 
     /**
