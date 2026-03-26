@@ -131,12 +131,6 @@ class ReportController extends Controller
             ->get()
             ->count();
 
-        $uniqueCountries = (clone $reports)
-            ->whereNotNull('country')
-            ->where('country', '!=', '')
-            ->distinct('country')
-            ->count('country');
-
         // Compressions by day
         $dailyStats = (clone $reports)
             ->select(
@@ -192,19 +186,43 @@ class ReportController extends Controller
             ->orderByDesc('count')
             ->get();
 
-        // Country distribution
-        $countryStats = (clone $reports)
-            ->whereNotNull('country')
-            ->where('country', '!=', '')
-            ->select(
-                DB::raw("UPPER(country) as country"),
-                DB::raw("COUNT(*) as count"),
-                DB::raw("AVG(reduction_percent) as avg_reduction")
-            )
-            ->groupBy(DB::raw("UPPER(country)"))
-            ->orderByDesc('count')
-            ->limit(10)
+        // Country distribution (falls back to IP-based country when country is empty)
+        $countryRows = (clone $reports)
+            ->select('country', 'ip_address', 'reduction_percent')
             ->get();
+
+        $countryBuckets = [];
+        foreach ($countryRows as $row) {
+            $code = $this->resolveCountryCode($row->country, $row->ip_address);
+            if (!isset($countryBuckets[$code])) {
+                $countryBuckets[$code] = [
+                    'country' => $code,
+                    'count' => 0,
+                    'reduction_sum' => 0.0,
+                ];
+            }
+
+            $countryBuckets[$code]['count']++;
+            $countryBuckets[$code]['reduction_sum'] += (float) ($row->reduction_percent ?? 0);
+        }
+
+        $uniqueCountries = collect($countryBuckets)
+            ->keys()
+            ->filter(fn ($code) => $code !== 'ZZ')
+            ->count();
+
+        $countryStats = collect($countryBuckets)
+            ->map(function (array $bucket) {
+                $count = max(1, (int) $bucket['count']);
+                return [
+                    'country' => $bucket['country'],
+                    'count' => $bucket['count'],
+                    'avg_reduction' => round($bucket['reduction_sum'] / $count, 1),
+                ];
+            })
+            ->sortByDesc('count')
+            ->take(10)
+            ->values();
 
         // Top IP activity
         $ipStats = (clone $reports)
@@ -258,7 +276,7 @@ class ReportController extends Controller
                     'action'          => $r->action ?? 'compress',
                     'batch_id'        => $r->batch_id,
                     'ip_address'      => $this->maskIpAddress($r->ip_address),
-                    'country'         => strtoupper((string) ($r->country ?: 'ZZ')),
+                    'country'         => $this->resolveCountryCode($r->country, $r->ip_address),
                 ];
             });
 
@@ -381,7 +399,7 @@ class ReportController extends Controller
                             $r->height ?? '',
                             $r->batch_id ?? '',
                             $r->ip_address ?? '',
-                            $r->country ?? '',
+                            $this->resolveCountryCode($r->country, $r->ip_address),
                             $r->created_at->format('Y-m-d H:i:s'),
                         ]);
                     }
@@ -431,6 +449,44 @@ class ReportController extends Controller
         }
 
         return 'masked';
+    }
+
+    /**
+     * Resolve country code from stored value, with IP fallback when empty.
+     */
+    private function resolveCountryCode(?string $country, ?string $ip): string
+    {
+        $stored = strtoupper(trim((string) $country));
+        if (preg_match('/^[A-Z]{2}$/', $stored)) {
+            return $stored;
+        }
+
+        return $this->countryFromIp($ip);
+    }
+
+    /**
+     * Determine country code from IP using local extension if available.
+     */
+    private function countryFromIp(?string $ip): string
+    {
+        if (!$ip) {
+            return 'ZZ';
+        }
+
+        $isPublicIp = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+        if ($isPublicIp === false) {
+            return 'LOCAL';
+        }
+
+        if (function_exists('geoip_country_code_by_name')) {
+            $resolver = 'geoip_country_code_by_name';
+            $code = @$resolver($ip);
+            if (is_string($code) && preg_match('/^[A-Z]{2}$/', strtoupper($code))) {
+                return strtoupper($code);
+            }
+        }
+
+        return 'ZZ';
     }
 
     /**
