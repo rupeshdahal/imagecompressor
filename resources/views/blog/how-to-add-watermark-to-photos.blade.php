@@ -67,7 +67,7 @@
 
             <h2>How to Add a Watermark Using CompresslyPro</h2>
             <ol>
-                <li><strong>Open the <a href="/watermark">Watermark Tool</a>.</strong> Navigate to our free online watermark tool.</li>
+                <li><strong>Open the <a href="{{ route('tool.watermark') }}">Watermark Tool</a>.</strong> Navigate to our free online watermark tool.</li>
                 <li><strong>Upload your image.</strong> Drag and drop or click to select a JPG, PNG, or WebP file.</li>
                 <li><strong>Enter your watermark text.</strong> Type your name, brand, copyright notice (e.g., "© 2025 YourName"), or website URL.</li>
                 <li><strong>Customise settings:</strong>
@@ -120,9 +120,9 @@
             <p>For the best results, follow this order:</p>
             <ol>
                 <li><strong>Edit your image</strong> in your photo editor (Lightroom, Photoshop, etc.)</li>
-                <li><strong><a href="/resize">Resize</a></strong> to your target dimensions</li>
-                <li><strong><a href="/watermark">Add watermark</a></strong> using our free tool</li>
-                <li><strong><a href="/compress">Compress</a></strong> to reduce file size for web use</li>
+                <li><strong><a href="{{ route('tool.resize') }}">Resize</a></strong> to your target dimensions</li>
+                <li><strong><a href="{{ route('tool.watermark') }}">Add watermark</a></strong> using our free tool</li>
+                <li><strong><a href="{{ route('tool.compress') }}">Compress</a></strong> to reduce file size for web use</li>
             </ol>
             <p>Always watermark <em>before</em> compression. This ensures the watermark is baked into the compressed file and can't be removed by reverting to an unwatermarked version.</p>
 

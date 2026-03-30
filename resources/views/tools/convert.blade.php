@@ -2,7 +2,7 @@
 
 @section('title', 'Free Image Converter Online — Convert JPG, PNG, WebP Instantly | CompresslyPro')
 @section('description', 'Convert images between JPG, PNG and WebP formats online for free. High-quality format conversion with no file size limits. No signup required. Instant results.')
-@section('canonical', url('/convert'))
+@section('canonical', route('tool.convert'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Converter — Convert JPG to PNG, PNG to WebP & More')
 @section('og_description', 'Convert between JPG, PNG and WebP formats instantly. Free online image converter with no signup required.')
@@ -113,7 +113,7 @@
             <p>Converting to a lossless format (PNG, lossless WebP) preserves all quality. Converting to a lossy format (JPG, lossy WebP) may introduce minor compression artifacts, but our converter uses optimal settings to minimise any quality impact.</p>
 
             <h3>Can I convert multiple images at once?</h3>
-            <p>The converter processes one image at a time. For batch operations, use our <a href="/batch-compress">Batch Compressor</a> which can handle up to 20 images simultaneously.</p>
+            <p>The converter processes one image at a time. For batch operations, use our <a href="{{ route('tool.batch') }}">Batch Compressor</a> which can handle up to 20 images simultaneously.</p>
 
             <h3>Is the conversion done on my device?</h3>
             <p>The conversion is processed on our secure servers for the best quality results. All files are automatically deleted within 30 minutes.</p>
@@ -123,17 +123,17 @@
     <div class="mb-10">
         <h2 class="text-2xl font-extrabold mb-6">Related Tools</h2>
         <div class="grid sm:grid-cols-3 gap-4">
-            <a href="/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="{{ route('tool.compress') }}" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🗜️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Compressor</h3>
                 <p class="text-xs text-gray-500">Reduce image size up to 90%</p>
             </a>
-            <a href="/resize" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="{{ route('tool.resize') }}" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">↔️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Resizer</h3>
                 <p class="text-xs text-gray-500">Resize by pixels or percentage</p>
             </a>
-            <a href="/watermark" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="{{ route('tool.watermark') }}" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🖊️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Add Watermark</h3>
                 <p class="text-xs text-gray-500">Protect images with text watermarks</p>

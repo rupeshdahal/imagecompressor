@@ -2,7 +2,7 @@
 
 @section('title', 'Free Image Compressor Online — Compress JPG, PNG, WebP up to 90% | CompresslyPro')
 @section('description', 'Compress JPG, PNG, WebP and GIF images online for free. Reduce image file size up to 90% without visible quality loss. No signup, no watermarks. Before/after comparison slider included.')
-@section('canonical', url('/compress'))
+@section('canonical', route('tool.compress'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Compressor — Reduce Image Size up to 90% Online')
 @section('og_description', 'Compress JPG, PNG, WebP images up to 90% smaller. Adjustable quality, before/after comparison, no signup required.')
@@ -133,17 +133,17 @@
     <div class="mb-10">
         <h2 class="text-2xl font-extrabold mb-6">Related Tools</h2>
         <div class="grid sm:grid-cols-3 gap-4">
-            <a href="/batch-compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="{{ route('tool.batch') }}" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">📦</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Batch Compressor</h3>
                 <p class="text-xs text-gray-500">Compress up to 20 images at once</p>
             </a>
-            <a href="/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="{{ route('tool.convert') }}" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🔄</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Converter</h3>
                 <p class="text-xs text-gray-500">Convert between JPG, PNG, WebP</p>
             </a>
-            <a href="/resize" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="{{ route('tool.resize') }}" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">↔️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Resizer</h3>
                 <p class="text-xs text-gray-500">Resize by pixels or percentage</p>
