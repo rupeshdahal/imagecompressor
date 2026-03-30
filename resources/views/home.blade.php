@@ -579,10 +579,10 @@
                 </a>
                 {{-- Desktop nav links --}}
                 <nav aria-label="Main navigation" class="hidden md:flex items-center gap-1">
-                    <a href="/tools/compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Compress</a>
-                    <a href="/tools/convert" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Convert</a>
-                    <a href="/tools/resize" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Resize</a>
-                    <a href="/tools/batch-compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Batch</a>
+                    <a href="/compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Compress</a>
+                    <a href="/convert" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Convert</a>
+                    <a href="/resize" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Resize</a>
+                    <a href="/batch-compress" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Batch</a>
                     <a href="/blog" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Blog</a>
                     <a href="/about" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">About</a>
                 </nav>
@@ -2376,10 +2376,10 @@
                 <div>
                     <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Compression Tools</h3>
                     <nav aria-label="Compression tool links" class="space-y-2">
-                        <a href="/tools/compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Compressor</a>
-                        <a href="/tools/batch-compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Batch Compressor (ZIP)</a>
-                        <a href="/tools/convert" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Converter</a>
-                        <a href="/tools/resize" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Resizer</a>
+                        <a href="/compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Compressor</a>
+                        <a href="/batch-compress" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Batch Compressor (ZIP)</a>
+                        <a href="/convert" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Converter</a>
+                        <a href="/resize" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Resizer</a>
                     </nav>
                 </div>
 
@@ -2387,9 +2387,9 @@
                 <div>
                     <h3 class="text-white font-semibold text-xs mb-3 uppercase tracking-wider">Edit &amp; Convert</h3>
                     <nav aria-label="Edit tool links" class="space-y-2">
-                        <a href="/tools/watermark" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Add Watermark to Image</a>
-                        <a href="/tools/image-to-pdf" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image to PDF Converter</a>
-                        <a href="/tools/pdf-to-image" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PDF to Image Converter</a>
+                        <a href="/watermark" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Add Watermark to Image</a>
+                        <a href="/image-to-pdf" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image to PDF Converter</a>
+                        <a href="/pdf-to-image" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">PDF to Image Converter</a>
                     </nav>
                 </div>
 

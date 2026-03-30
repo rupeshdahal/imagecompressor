@@ -2,7 +2,7 @@
 
 @section('title', 'Free Batch Image Compressor — Compress Up to 20 Images at Once | CompresslyPro')
 @section('description', 'Compress multiple images at once with our free batch compressor. Upload up to 20 JPG, PNG, or WebP files, compress them all simultaneously, and download as a ZIP file.')
-@section('canonical', url('/tools/batch-compress'))
+@section('canonical', url('/batch-compress'))
 @section('og_type', 'website')
 @section('og_title', 'Free Batch Image Compressor — Compress 20 Images at Once')
 @section('og_description', 'Upload up to 20 images, compress them all in parallel, and download a ZIP file. Free, no signup.')
@@ -24,7 +24,7 @@
     "name": "CompresslyPro Batch Image Compressor",
     "description": "Compress up to 20 images simultaneously and download all results as a single ZIP file.",
     "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/tools/batch-compress",
+    "url": "https://compresslypro.com/batch-compress",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
     "isAccessibleForFree": true,
@@ -104,24 +104,24 @@
             <p>Each individual image can be up to 20 MB. Large files use chunked uploading for reliable transfers.</p>
 
             <h3>Can I set different quality levels for different images?</h3>
-            <p>The batch compressor applies the same quality to all images. If you need different settings for specific images, use the <a href="/tools/compress">single Image Compressor</a> for those files.</p>
+            <p>The batch compressor applies the same quality to all images. If you need different settings for specific images, use the <a href="/compress">single Image Compressor</a> for those files.</p>
         </div>
     </div>
 
     <div class="mb-10">
         <h2 class="text-2xl font-extrabold mb-6">Related Tools</h2>
         <div class="grid sm:grid-cols-3 gap-4">
-            <a href="/tools/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🗜️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Compressor</h3>
                 <p class="text-xs text-gray-500">Compress individual images</p>
             </a>
-            <a href="/tools/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🔄</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Converter</h3>
                 <p class="text-xs text-gray-500">Convert between JPG, PNG, WebP</p>
             </a>
-            <a href="/tools/resize" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/resize" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">↔️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Resizer</h3>
                 <p class="text-xs text-gray-500">Resize by pixels or percentage</p>

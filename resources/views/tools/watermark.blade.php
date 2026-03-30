@@ -2,7 +2,7 @@
 
 @section('title', 'Free Add Watermark to Image Online — Text Watermark Tool | CompresslyPro')
 @section('description', 'Add custom text watermarks to images online for free. Choose position, opacity, font size, and rotation. Protect your photos from unauthorised use. No signup required.')
-@section('canonical', url('/tools/watermark'))
+@section('canonical', url('/watermark'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Watermark Tool — Add Text Watermarks to Photos Online')
 @section('og_description', 'Add custom text watermarks to your images. Set position, opacity, font size and rotation. Free, no signup.')
@@ -24,7 +24,7 @@
     "name": "CompresslyPro Watermark Tool",
     "description": "Add custom text watermarks to images online for free.",
     "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/tools/watermark",
+    "url": "https://compresslypro.com/watermark",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
     "isAccessibleForFree": true,
@@ -115,17 +115,17 @@
     <div class="mb-10">
         <h2 class="text-2xl font-extrabold mb-6">Related Tools</h2>
         <div class="grid sm:grid-cols-3 gap-4">
-            <a href="/tools/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🗜️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Compressor</h3>
                 <p class="text-xs text-gray-500">Reduce image size up to 90%</p>
             </a>
-            <a href="/tools/resize" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/resize" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">↔️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Resizer</h3>
                 <p class="text-xs text-gray-500">Resize by pixels or percentage</p>
             </a>
-            <a href="/tools/image-to-pdf" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/image-to-pdf" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">📄</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image to PDF</h3>
                 <p class="text-xs text-gray-500">Convert images to PDF documents</p>

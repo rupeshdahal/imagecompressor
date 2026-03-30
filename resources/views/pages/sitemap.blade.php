@@ -26,13 +26,13 @@
         <article class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
             <h2 class="text-xl font-bold text-gray-900 mb-4">Image Tools</h2>
             <ul class="space-y-2 text-brand-700">
-                <li><a class="hover:underline" href="/tools/compress">Image Compressor</a></li>
-                <li><a class="hover:underline" href="/tools/convert">Image Converter</a></li>
-                <li><a class="hover:underline" href="/tools/resize">Image Resizer</a></li>
-                <li><a class="hover:underline" href="/tools/batch-compress">Batch Compressor</a></li>
-                <li><a class="hover:underline" href="/tools/watermark">Watermark Tool</a></li>
-                <li><a class="hover:underline" href="/tools/image-to-pdf">Image to PDF</a></li>
-                <li><a class="hover:underline" href="/tools/pdf-to-image">PDF to Image</a></li>
+                <li><a class="hover:underline" href="/compress">Image Compressor</a></li>
+                <li><a class="hover:underline" href="/convert">Image Converter</a></li>
+                <li><a class="hover:underline" href="/resize">Image Resizer</a></li>
+                <li><a class="hover:underline" href="/batch-compress">Batch Compressor</a></li>
+                <li><a class="hover:underline" href="/watermark">Watermark Tool</a></li>
+                <li><a class="hover:underline" href="/image-to-pdf">Image to PDF</a></li>
+                <li><a class="hover:underline" href="/pdf-to-image">PDF to Image</a></li>
             </ul>
         </article>
 

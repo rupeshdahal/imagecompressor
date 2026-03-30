@@ -2,7 +2,7 @@
 
 @section('title', 'Free Image to PDF Converter Online — JPG PNG WebP to PDF | CompresslyPro')
 @section('description', 'Convert JPG, PNG, and WebP images to PDF documents online for free. Merge multiple images into a single PDF with custom page size and orientation. No signup required.')
-@section('canonical', url('/tools/image-to-pdf'))
+@section('canonical', url('/image-to-pdf'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image to PDF Converter — Merge Multiple Images into One PDF')
 @section('og_description', 'Convert JPG, PNG, WebP images to PDF. Merge multiple images into one document. Choose page size, orientation, and margins. Free online tool.')
@@ -24,7 +24,7 @@
     "name": "CompresslyPro Image to PDF Converter",
     "description": "Convert JPG, PNG, and WebP images to PDF documents online for free.",
     "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/tools/image-to-pdf",
+    "url": "https://compresslypro.com/image-to-pdf",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
     "isAccessibleForFree": true,
@@ -124,17 +124,17 @@
     <div class="mb-10">
         <h2 class="text-2xl font-extrabold mb-6">Related Tools</h2>
         <div class="grid sm:grid-cols-3 gap-4">
-            <a href="/tools/pdf-to-image" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/pdf-to-image" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🖼️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">PDF to Image</h3>
                 <p class="text-xs text-gray-500">Extract images from PDF files</p>
             </a>
-            <a href="/tools/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🗜️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Compressor</h3>
                 <p class="text-xs text-gray-500">Compress before converting to PDF</p>
             </a>
-            <a href="/tools/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🔄</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Converter</h3>
                 <p class="text-xs text-gray-500">Convert between JPG, PNG, WebP</p>

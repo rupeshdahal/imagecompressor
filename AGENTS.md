@@ -1,7 +1,7 @@
 # AGENTS.md — CompresslyPro Codebase Guide
 
 ## Project Overview
-Laravel 12 / PHP 8.3 image-processing SaaS (**CompresslyPro**). No API keys or third-party processing — all image work is server-side via **Intervention Image v3**. Uses SQLite by default.
+Laravel 12 / PHP 8.2+ image-processing SaaS (**CompresslyPro**). No API keys or third-party processing — all image work is server-side via **Intervention Image v3**. Uses SQLite by default.
 
 ## Architecture
 
@@ -12,7 +12,7 @@ Laravel 12 / PHP 8.3 image-processing SaaS (**CompresslyPro**). No API keys or t
 Both controllers use the shared trait `app/Http/Controllers/Concerns/ImageSafetyGuard.php` for memory safety (dimension guard, stream chunk assembly, auto-downscale).
 
 ### Obfuscated API Routes
-All AJAX endpoints live under `/api/{slug}` where slugs are random tokens stored in `config/api_routes.php`, overridable via `.env` (`API_SLUG_*`). **Never hard-code these slugs in frontend JS** — always read them from the Blade template where they're injected as JS variables.
+All public image-processing AJAX endpoints live under `/api/{slug}` where slugs are random tokens stored in `config/api_routes.php`, overridable via `.env` (`API_SLUG_*`). **Never hard-code these slugs in frontend JS** — always read them from the Blade template where they're injected as JS variables.
 
 ```php
 // config/api_routes.php — rotate slugs by changing .env values
@@ -24,13 +24,14 @@ All AJAX endpoints live under `/api/{slug}` where slugs are random tokens stored
 |---|---|---|
 | `memory.guard` | `MemoryGuard` | Sets per-request PHP memory limit (formula: 64 MB + 6× file size, capped at 256 MB) |
 | `admin.auth` | `AdminAuth` | Checks `Auth::user()->is_admin` |
-| `SecurityHeaders` | (global web) | Adds `X-Frame-Options`, CSP, etc. to every response |
+| `SecurityHeaders` | (global web) | Adds hardening headers (`X-Frame-Options`, `Referrer-Policy`, etc.) and `X-Robots-Tag` on admin/auth/api/download and 4xx responses |
+| `CanonicalUrl` | (global web) | In production, 301-redirects GET/HEAD requests to canonical scheme/host/path from `APP_URL` |
 
 All image-processing POST routes are wrapped in the `memory.guard` group in `routes/web.php`.
 
 ### Frontend Stack
 - **Tailwind CSS** loaded via CDN in `layouts/page.blade.php` (not the Vite build) with an inline `tailwind.config` block for brand/accent color extensions
-- **Vite** only bundles `resources/css/app.css` + `resources/js/app.js` (used on the home page, not the `page.blade.php` layout)
+- **Vite** bundles `resources/css/app.css` + `resources/js/app.js`; currently only the default `welcome.blade.php` uses `@vite`, while routed tool/marketing pages use Blade + CDN assets
 - **Alpine.js** for reactive UI on the main tool pages — no separate JS build for tool pages
 
 ## Developer Workflows
@@ -53,9 +54,9 @@ composer run test  # clears config cache, then runs phpunit
 php artisan test --filter SomeTest
 ```
 
-### File Cleanup (scheduled every 5 min in production)
+### File Cleanup (scheduled hourly in production)
 ```bash
-php artisan uploads:cleanup              # deletes files >30 min old
+php artisan uploads:cleanup              # deletes files older than 1440 min (24h) by default
 php artisan uploads:cleanup --dry-run   # preview only
 php artisan uploads:cleanup --minutes=60
 ```
@@ -75,10 +76,10 @@ Every compress/convert/resize/etc. call writes a `CompressionReport` record with
 - Protected routes prefixed `/admin/*` under `admin.auth` middleware
 
 ### Blog / Tool Landing Pages
-Static Blade views only — no DB queries. Blog slugs are allowlisted in `routes/web.php`; adding a new post requires both a new view in `resources/views/blog/` and an entry in the `$allowed` array.
+Static Blade views only — no DB queries. Blog slugs are allowlisted in `routes/web.php`; adding a new post requires both a new view in `resources/views/blog/` and an entry in the `$blogSlugs` array.
 
 ### SEO / Layout
-All public-facing pages extend `layouts/page.blade.php`. Override `@section('title')`, `@section('description')`, `@section('canonical')`, `@section('og_title')` etc. AdSense script is only injected in `app()->isProduction()`.
+Most public-facing marketing/tool/blog pages extend `layouts/page.blade.php`. Override `@section('title')`, `@section('description')`, `@section('canonical')`, `@section('og_title')` etc. `home.blade.php` and legal pages are standalone templates. AdSense script is only injected in `app()->isProduction()`.
 
 ## Key Files
 | Path | Purpose |
@@ -87,10 +88,11 @@ All public-facing pages extend `layouts/page.blade.php`. Override `@section('tit
 | `app/Http/Controllers/T2Controller.php` | All Sprint 2 tools (1541 lines) |
 | `app/Http/Controllers/Concerns/ImageSafetyGuard.php` | Shared memory/safety trait |
 | `app/Http/Middleware/MemoryGuard.php` | Dynamic memory_limit per request |
+| `app/Console/Commands/CleanupUploads.php` | Cleanup command behavior (`uploads:cleanup` options and deletion rules) |
 | `config/api_routes.php` | Obfuscated endpoint slugs |
 | `routes/web.php` | All route definitions, middleware grouping |
 | `resources/views/layouts/page.blade.php` | Master layout (SEO, nav, footer, Tailwind CDN) |
-| `routes/console.php` | Scheduled cleanup (every 5 min) |
+| `routes/console.php` | Scheduled cleanup (`uploads:cleanup --minutes=1440` hourly) |
 
 ## Environment Variables (non-obvious)
 ```

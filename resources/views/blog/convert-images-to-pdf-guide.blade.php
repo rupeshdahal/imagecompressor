@@ -66,7 +66,7 @@
             <h2>Method 1: Using CompresslyPro's Image to PDF Tool</h2>
             <p>The easiest way to convert images to PDF online:</p>
             <ol>
-                <li><strong>Open the <a href="/tools/image-to-pdf">Image to PDF Converter</a>.</strong></li>
+                <li><strong>Open the <a href="/image-to-pdf">Image to PDF Converter</a>.</strong></li>
                 <li><strong>Upload your images.</strong> Select one or more JPG, PNG, or WebP files. You can upload multiple files at once.</li>
                 <li><strong>Arrange the page order.</strong> Drag and drop to rearrange images in the order you want them to appear in the PDF.</li>
                 <li><strong>Choose page settings:</strong>
@@ -117,8 +117,8 @@
 
             <h2>Optimisation Tips for Best Results</h2>
             <ol>
-                <li><strong><a href="/tools/compress">Compress images first</a></strong> to keep the PDF file size manageable. Aim for 100–200KB per image.</li>
-                <li><strong><a href="/tools/resize">Resize images</a></strong> to match the PDF page size. For A4 at 150 DPI, the ideal image width is about 1240px.</li>
+                <li><strong><a href="/compress">Compress images first</a></strong> to keep the PDF file size manageable. Aim for 100–200KB per image.</li>
+                <li><strong><a href="/resize">Resize images</a></strong> to match the PDF page size. For A4 at 150 DPI, the ideal image width is about 1240px.</li>
                 <li><strong>Use consistent dimensions.</strong> Images of similar sizes create a more professional-looking PDF.</li>
                 <li><strong>Name your files in order.</strong> If uploading many images, name them 01-xxx.jpg, 02-xxx.jpg, etc., to maintain the correct order.</li>
             </ol>
@@ -127,8 +127,8 @@
             <table>
                 <thead><tr><th>Direction</th><th>Tool</th><th>Use Case</th></tr></thead>
                 <tbody>
-                    <tr><td>Image → PDF</td><td><a href="/tools/image-to-pdf">Image to PDF Converter</a></td><td>Merge images into a document</td></tr>
-                    <tr><td>PDF → Image</td><td><a href="/tools/pdf-to-image">PDF to Image Converter</a></td><td>Extract pages as individual images</td></tr>
+                    <tr><td>Image → PDF</td><td><a href="/image-to-pdf">Image to PDF Converter</a></td><td>Merge images into a document</td></tr>
+                    <tr><td>PDF → Image</td><td><a href="/pdf-to-image">PDF to Image Converter</a></td><td>Extract pages as individual images</td></tr>
                 </tbody>
             </table>
 
@@ -137,13 +137,13 @@
             <p>No. Our tool embeds images at their original quality into the PDF. The images are not re-compressed during conversion.</p>
 
             <h3>Can I convert HEIC (iPhone) images to PDF?</h3>
-            <p>HEIC is not directly supported. First <a href="/tools/convert">convert your HEIC images to JPG</a>, then use the Image to PDF tool to create your document.</p>
+            <p>HEIC is not directly supported. First <a href="/convert">convert your HEIC images to JPG</a>, then use the Image to PDF tool to create your document.</p>
 
             <h3>Is there a limit on the number of images?</h3>
             <p>Since all processing happens in your browser, there's no server-side limit. Practical limits depend on your device's memory — most devices handle 50+ images easily.</p>
 
             <h3>Can I add text or captions to the PDF?</h3>
-            <p>Our tool focuses on image-to-PDF conversion. For adding text, consider adding text as a <a href="/tools/watermark">watermark</a> on each image before converting, or use a PDF editor after conversion.</p>
+            <p>Our tool focuses on image-to-PDF conversion. For adding text, consider adding text as a <a href="/watermark">watermark</a> on each image before converting, or use a PDF editor after conversion.</p>
         </div>
     </div>
 </article>

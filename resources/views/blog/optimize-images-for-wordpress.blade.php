@@ -65,7 +65,7 @@
             <h2>Step 1: Resize Images Before Uploading</h2>
             <p>One of the most common mistakes is uploading images straight from a camera or phone. A typical DSLR photo is 6000×4000 pixels (24 megapixels), while most WordPress themes display images at 1200px wide or less. That means 80% of the pixel data is wasted.</p>
             <p><strong>Rule of thumb:</strong> Resize images to 2× the display size for retina screens. If your content area is 800px wide, resize images to 1600px wide maximum.</p>
-            <p>Use our free <a href="/tools/resize">Image Resizer</a> to resize images to the exact dimensions you need.</p>
+            <p>Use our free <a href="/resize">Image Resizer</a> to resize images to the exact dimensions you need.</p>
 
             <h2>Step 2: Compress Images</h2>
             <p>After resizing, compress your images to reduce file size without visible quality loss. For web use:</p>
@@ -78,11 +78,11 @@
                     <tr><td>Background Images</td><td>60–70%</td><td>50–100 KB</td></tr>
                 </tbody>
             </table>
-            <p>Use our <a href="/tools/compress">Image Compressor</a> to achieve these targets. Most images can be reduced 60–80% without visible quality loss.</p>
+            <p>Use our <a href="/compress">Image Compressor</a> to achieve these targets. Most images can be reduced 60–80% without visible quality loss.</p>
 
             <h2>Step 3: Convert to WebP Format</h2>
             <p>WebP delivers 25–35% smaller files than JPG at the same visual quality. WordPress has supported WebP natively since version 5.8 (2021). Modern browsers (Chrome, Firefox, Safari, Edge) all support WebP.</p>
-            <p>Use our <a href="/tools/convert">Image Converter</a> to convert JPG and PNG images to WebP format before uploading.</p>
+            <p>Use our <a href="/convert">Image Converter</a> to convert JPG and PNG images to WebP format before uploading.</p>
 
             <h2>Step 4: Use Proper WordPress Image Settings</h2>
             <ul>

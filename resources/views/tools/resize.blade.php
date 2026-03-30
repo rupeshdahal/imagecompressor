@@ -2,7 +2,7 @@
 
 @section('title', 'Free Image Resizer Online — Resize JPG, PNG, WebP by Pixels or Percentage | CompresslyPro')
 @section('description', 'Resize images online for free. Set exact pixel dimensions, resize by percentage, or define max width/height. Aspect ratio preserved automatically. Supports JPG, PNG, WebP.')
-@section('canonical', url('/tools/resize'))
+@section('canonical', url('/resize'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Resizer — Resize Images by Pixels, Percentage, or Max Dimensions')
 @section('og_description', 'Resize JPG, PNG, WebP images online. Exact pixels, percentage, max width/height. Free, no signup.')
@@ -24,7 +24,7 @@
     "name": "CompresslyPro Image Resizer",
     "description": "Free online image resizer. Resize by exact pixels, percentage, or maximum dimensions.",
     "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/tools/resize",
+    "url": "https://compresslypro.com/resize",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
     "isAccessibleForFree": true,
@@ -121,17 +121,17 @@
     <div class="mb-10">
         <h2 class="text-2xl font-extrabold mb-6">Related Tools</h2>
         <div class="grid sm:grid-cols-3 gap-4">
-            <a href="/tools/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🗜️</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Compressor</h3>
                 <p class="text-xs text-gray-500">Reduce image size up to 90%</p>
             </a>
-            <a href="/tools/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/convert" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">🔄</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Image Converter</h3>
                 <p class="text-xs text-gray-500">Convert between JPG, PNG, WebP</p>
             </a>
-            <a href="/tools/batch-compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
+            <a href="/batch-compress" class="bg-white rounded-2xl border border-gray-200/60 p-5 hover:shadow-lg transition-shadow group text-center">
                 <div class="text-3xl mb-2">📦</div>
                 <h3 class="font-bold text-sm mb-1 group-hover:text-brand-600 transition-colors">Batch Compressor</h3>
                 <p class="text-xs text-gray-500">Compress up to 20 images at once</p>

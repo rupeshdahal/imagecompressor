@@ -134,9 +134,9 @@
             <h2>Optimisation Workflow for Social Media Images</h2>
             <ol>
                 <li><strong>Create at the recommended size.</strong> Design your image at the exact platform dimensions listed above.</li>
-                <li><strong><a href="/tools/resize">Resize</a></strong> existing images to the target dimensions using our free Image Resizer.</li>
-                <li><strong><a href="/tools/compress">Compress</a></strong> to reduce file size without visible quality loss. Aim for under 200KB for feed images.</li>
-                <li><strong><a href="/tools/convert">Convert</a></strong> to the recommended format if needed (e.g., PNG to JPG for photographs).</li>
+                <li><strong><a href="/resize">Resize</a></strong> existing images to the target dimensions using our free Image Resizer.</li>
+                <li><strong><a href="/compress">Compress</a></strong> to reduce file size without visible quality loss. Aim for under 200KB for feed images.</li>
+                <li><strong><a href="/convert">Convert</a></strong> to the recommended format if needed (e.g., PNG to JPG for photographs).</li>
                 <li><strong>Upload</strong> to the platform. Pre-optimised images won't be recompressed as aggressively.</li>
             </ol>
 
