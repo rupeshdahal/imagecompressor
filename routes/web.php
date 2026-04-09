@@ -5,6 +5,9 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\T2Controller;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AdminBlogController;
+use App\Models\BlogPost;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,29 +47,15 @@ Route::redirect('/tools/watermark', '/watermark', 301);
 Route::redirect('/tools/image-to-pdf', '/image-to-pdf', 301);
 Route::redirect('/tools/pdf-to-image', '/pdf-to-image', 301);
 
+// Legacy Filament blog panel path.
+Route::redirect('/admin/blog-panel', '/blog-admin', 301);
+
 // Blog
- $blogSlugs = [
-    'how-to-compress-images-for-web',
-    'webp-vs-jpg-vs-png',
-    'image-seo-best-practices',
-    'reduce-image-size-for-email',
-    'core-web-vitals-image-optimization',
-    'batch-image-compression-workflow',
-    'best-image-formats-for-social-media',
-    'how-to-add-watermark-to-photos',
-    'optimize-images-for-wordpress',
-    'convert-images-to-pdf-guide',
-];
-
-Route::get('/blog', fn () => view('blog.index'))->name('blog');
-Route::get('/sitemap', fn () => view('pages.sitemap', ['blogSlugs' => $blogSlugs]))->name('sitemap.html');
-
-Route::get('/blog/{slug}', function (string $slug) use ($blogSlugs) {
-    if (! in_array($slug, $blogSlugs, true)) {
-        abort(404);
-    }
-    return view('blog.' . $slug);
-})->name('blog.show')->where('slug', '[a-z0-9\-]+');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where('slug', '[a-z0-9\-]+');
+Route::get('/sitemap', fn () => view('pages.sitemap', [
+    'blogPosts' => BlogPost::published()->orderByDesc('published_at')->get(['title', 'slug']),
+]))->name('sitemap.html');
 
 // ── All image-processing routes get the MemoryGuard middleware ──────────────
 Route::middleware('memory.guard')->group(function () {
@@ -161,6 +150,13 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports');
     Route::get('/admin/api/reports', [ReportController::class, 'data'])->name('reports.data');
     Route::get('/admin/export', [ReportController::class, 'export'])->name('reports.export');
+
+    Route::get('/admin/blog', [AdminBlogController::class, 'index'])->name('admin.blog.index');
+    Route::get('/admin/blog/create', [AdminBlogController::class, 'create'])->name('admin.blog.create');
+    Route::post('/admin/blog', [AdminBlogController::class, 'store'])->name('admin.blog.store');
+    Route::get('/admin/blog/{blogPost}/edit', [AdminBlogController::class, 'edit'])->name('admin.blog.edit');
+    Route::put('/admin/blog/{blogPost}', [AdminBlogController::class, 'update'])->name('admin.blog.update');
+    Route::delete('/admin/blog/{blogPost}', [AdminBlogController::class, 'destroy'])->name('admin.blog.destroy');
 });
 
 Route::fallback(fn () => response('Not Found', 404, [

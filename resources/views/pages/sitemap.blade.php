@@ -39,9 +39,9 @@
         <article class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm md:col-span-2">
             <h2 class="text-xl font-bold text-gray-900 mb-4">Blog Posts</h2>
             <ul class="grid gap-2 sm:grid-cols-2 text-brand-700">
-                @foreach($blogSlugs as $slug)
+                @foreach($blogPosts as $post)
                 <li>
-                    <a class="hover:underline" href="{{ url('/blog/' . $slug) }}">{{ ucwords(str_replace('-', ' ', $slug)) }}</a>
+                    <a class="hover:underline" href="{{ url('/blog/' . $post->slug) }}">{{ $post->title }}</a>
                 </li>
                 @endforeach
             </ul>
