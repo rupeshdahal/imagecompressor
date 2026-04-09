@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminBlogPostController;
 use App\Http\Controllers\T2Controller;
 
 /*
@@ -18,6 +19,8 @@ Route::get('/', [ImageController::class, 'index'])->name('home');
 // Legacy auth URLs redirected to current admin auth entry.
 Route::redirect('/login', '/authorize', 301);
 Route::redirect('/admin/login', '/authorize', 301);
+Route::redirect('/admin/blog-panel', '/admin/blog', 301);
+Route::redirect('/blog-admin', '/admin/blog', 301);
 
 Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
 Route::get('/terms', fn () => view('legal.terms'))->name('terms');
@@ -161,6 +164,14 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports');
     Route::get('/admin/api/reports', [ReportController::class, 'data'])->name('reports.data');
     Route::get('/admin/export', [ReportController::class, 'export'])->name('reports.export');
+
+    Route::get('/admin/blog', [AdminBlogPostController::class, 'index'])->name('admin.blog.index');
+    Route::get('/admin/blog/create', [AdminBlogPostController::class, 'create'])->name('admin.blog.create');
+    Route::post('/admin/blog', [AdminBlogPostController::class, 'store'])->name('admin.blog.store');
+    Route::get('/admin/blog/{blogPost}', [AdminBlogPostController::class, 'show'])->name('admin.blog.show');
+    Route::get('/admin/blog/{blogPost}/edit', [AdminBlogPostController::class, 'edit'])->name('admin.blog.edit');
+    Route::put('/admin/blog/{blogPost}', [AdminBlogPostController::class, 'update'])->name('admin.blog.update');
+    Route::delete('/admin/blog/{blogPost}', [AdminBlogPostController::class, 'destroy'])->name('admin.blog.destroy');
 });
 
 Route::fallback(fn () => response('Not Found', 404, [
