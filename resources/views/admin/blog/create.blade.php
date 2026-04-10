@@ -13,13 +13,13 @@
     <div class="max-w-7xl mx-auto">
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Create Blog Post</h1>
-                <p class="text-sm text-gray-500 mt-1">Write, optimize, and publish new content.</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Create Blog Post</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Write, optimize, and publish new content.</p>
             </div>
-            <a href="{{ route('admin.blog.index') }}" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Back to Posts</a>
+            <a href="{{ route('admin.blog.index') }}" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-200 dark:hover:bg-gray-800">Back to Posts</a>
         </div>
 
-        <form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm dark:bg-gray-900 dark:border-gray-800">
             @csrf
             @include('admin.blog.form')
         </form>
