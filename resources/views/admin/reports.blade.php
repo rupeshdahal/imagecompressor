@@ -1,34 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Compression Reports – CompresslyPro Admin</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+@extends('admin.layouts.app')
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand:  { 50:'#eef2ff',100:'#e0e7ff',200:'#c7d2fe',300:'#a5b4fc',400:'#818cf8',500:'#6366f1',600:'#4f46e5',700:'#4338ca',800:'#3730a3',900:'#312e81' },
-                        accent: { 50:'#ecfdf5',100:'#d1fae5',200:'#a7f3d0',300:'#6ee7b7',400:'#34d399',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b' },
-                    },
-                    fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] },
-                }
-            }
-        }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+@section('title', 'Compression Reports')
+@section('page_title', 'Compression Reports')
+@section('nav_reports', 'bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300 font-semibold')
+
+@section('admin_head')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
@@ -36,104 +12,61 @@
         @keyframes slideUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
         .animate-slide-up { animation: slideUp 0.5s ease-out; }
     </style>
-</head>
+@endsection
 
-<body class="min-h-screen font-sans transition-colors duration-300"
-      x-data="reportsPage()"
-      x-init="initApp()"
-      :class="darkMode ? 'dark bg-gray-950 text-gray-100' : 'bg-gray-50 text-gray-900'">
+@section('content')
+<div x-data="reportsPage()" x-init="initApp()" class="space-y-6">
 
-    <div class="flex min-h-screen" x-data="{ sidebarOpen: false }">
-
-        {{-- Mobile Overlay --}}
-        <div x-show="sidebarOpen" x-cloak x-on:click="sidebarOpen = false"
-             class="fixed inset-0 bg-black/50 z-40 lg:hidden" x-transition.opacity></div>
-
-        {{-- Sidebar --}}
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-               class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-200 lg:translate-x-0 lg:static lg:inset-auto flex flex-col">
-
-            <div class="p-6 border-b border-gray-200 dark:border-gray-800">
-                <a href="{{ route('admin.dashboard') }}" class="block">
-                    <img src="{{ asset('logo.png') }}" alt="CompresslyPro" class="h-10 w-auto dark:brightness-0 dark:invert transition-all">
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Admin Panel</p>
+    {{-- Page Header --}}
+    <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight">Compression Reports</h1>
+                <p class="text-gray-500 mt-1">Track usage, savings, and performance metrics</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div x-show="loading" x-cloak class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Loading...
+                </div>
+                <a :href="exportUrl()"
+                   class="flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md"
+                   title="Export CSV">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span class="hidden sm:inline">Export CSV</span>
                 </a>
             </div>
+        </div>
+    </header>
 
-            <nav class="flex-1 p-4 space-y-1">
-                <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium text-sm">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    Dashboard
-                </a>
-                <a href="{{ route('reports') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300 font-semibold text-sm">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    Reports
-                </a>
-                <a href="{{ route('home') }}" target="_blank"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium text-sm">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    Visit Site
-                </a>
-            </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16" x-cloak>
 
-            <div class="p-4 border-t border-gray-200 dark:border-gray-800">
-                <div class="flex items-center gap-3 mb-3 px-2">
-                    <div class="w-9 h-9 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center">
-                        <span class="text-sm font-bold text-brand-700 dark:text-brand-300">{{ substr(Auth::user()->name ?? 'A', 0, 1) }}</span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{{ Auth::user()->name ?? 'Admin' }}</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email ?? '' }}</p>
-                    </div>
-                </div>
-                <form action="{{ route('admin.logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm font-medium">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                        Logout
-                    </button>
-                </form>
+        {{-- Loading State --}}
+        <div x-show="loading" class="flex items-center justify-center py-20">
+            <svg class="animate-spin w-8 h-8 text-brand-600" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+                <path class="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+            </svg>
+        </div>
+
+        {{-- Empty State --}}
+        <div x-show="!loading && data && data.summary.total_compressions === 0" class="text-center py-20 animate-fade-in">
+            <div class="w-20 h-20 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
             </div>
-        </aside>
+            <h3 class="text-xl font-bold mb-2">No Data Yet</h3>
+            <p class="text-gray-500 mb-6">Compress some images to see reports here</p>
+            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                Compress an Image
+            </a>
+        </div>
 
-        {{-- Main Content --}}
-        <div class="flex-1 flex flex-col min-w-0">
-
-            <header class="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30">
-                <div class="flex items-center gap-4">
-                    <button x-on:click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </button>
-                    <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">Compression Reports</h1>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div x-show="loading" x-cloak class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Loading...
-                    </div>
-                    {{-- CSV Export Button --}}
-                          <a :href="exportUrl()"
-                       class="flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md"
-                       title="Export CSV">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        <span class="hidden sm:inline">Export CSV</span>
-                    </a>
-                    <button x-on:click="darkMode = !darkMode"
-                        class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
-                        aria-label="Toggle dark mode">
-                        <svg x-show="!darkMode" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                        <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    </button>
-                </div>
-            </header>
-
-            <main class="flex-1 p-4 lg:p-8">
-                <div class="animate-slide-up">
+        {{-- Dashboard Content --}}
+        <div x-show="!loading && data && data.summary.total_compressions > 0" class="space-y-6 animate-slide-up">
 
                     {{-- Filters --}}
                     <div class="mb-6 space-y-3">
@@ -457,10 +390,12 @@
         </div>
     </div>
 
+    @endsection
+
+    @section('admin_scripts')
     <script>
         function reportsPage() {
             return {
-                darkMode: localStorage.getItem('darkMode') === 'true',
                 period: 'all',
                 actionFilter: 'all',
                 formatFilter: 'all',
@@ -498,13 +433,26 @@
                 actionChartInstance: null,
                 reductionTrendChartInstance: null,
                 countryChartInstance: null,
+                themeObserver: null,
 
                 initApp() {
-                    this.$watch('darkMode', val => {
-                        localStorage.setItem('darkMode', val);
+                    this.setupThemeWatcher();
+                    this.loadData();
+                },
+
+                setupThemeWatcher() {
+                    this.themeObserver = new MutationObserver(() => {
                         this.renderCharts();
                     });
-                    this.loadData();
+
+                    this.themeObserver.observe(document.body, {
+                        attributes: true,
+                        attributeFilter: ['class'],
+                    });
+                },
+
+                isDarkMode() {
+                    return document.body.classList.contains('dark');
                 },
 
                 async loadData() {
@@ -602,7 +550,7 @@
                     if (!el) return;
                     if (this.dailyChartInstance) this.dailyChartInstance.destroy();
 
-                    const isDark = this.darkMode;
+                    const isDark = this.isDarkMode();
                     const labels = (this.data.daily_stats || []).map(d => d.date);
                     const counts = (this.data.daily_stats || []).map(d => d.count);
 
@@ -635,7 +583,7 @@
                     if (!el) return;
                     if (this.formatChartInstance) this.formatChartInstance.destroy();
 
-                    const isDark = this.darkMode;
+                    const isDark = this.isDarkMode();
                     const stats = this.data.format_stats || [];
                     if (stats.length === 0) return;
 
@@ -662,7 +610,7 @@
                     if (!el) return;
                     if (this.actionChartInstance) this.actionChartInstance.destroy();
 
-                    const isDark = this.darkMode;
+                    const isDark = this.isDarkMode();
                     const stats = this.data.action_stats || [];
                     if (stats.length === 0) return;
 
@@ -697,7 +645,7 @@
                     if (!el) return;
                     if (this.reductionTrendChartInstance) this.reductionTrendChartInstance.destroy();
 
-                    const isDark = this.darkMode;
+                    const isDark = this.isDarkMode();
                     const stats = this.data.daily_stats || [];
                     if (stats.length === 0) return;
 
@@ -743,7 +691,7 @@
                     if (!el) return;
                     if (this.countryChartInstance) this.countryChartInstance.destroy();
 
-                    const isDark = this.darkMode;
+                    const isDark = this.isDarkMode();
                     const stats = this.data.country_stats || [];
                     if (stats.length === 0) return;
 
@@ -781,6 +729,4 @@
             };
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</body>
-</html>
+@endsection
