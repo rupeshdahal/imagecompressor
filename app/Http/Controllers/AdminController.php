@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function showLogin()
     {
         if (Auth::check() && Auth::user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect('/admin');
         }
 
         return view('admin.login');
@@ -36,7 +36,7 @@ class AdminController extends Controller
         if ($user && Hash::check($request->password, $user->password) && $user->isAdmin()) {
             Auth::login($user);
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+            return redirect('/admin');
         }
 
         return back()->withErrors([

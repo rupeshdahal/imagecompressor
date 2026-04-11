@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\T2Controller;
 
@@ -17,7 +16,6 @@ Route::get('/', [ImageController::class, 'index'])->name('home');
 
 // Legacy auth URLs redirected to current admin auth entry.
 Route::redirect('/login', '/authorize', 301);
-Route::redirect('/admin/login', '/authorize', 301);
 
 Route::get('/privacy-policy', fn () => view('legal.privacy'))->name('privacy');
 Route::get('/terms', fn () => view('legal.terms'))->name('terms');
@@ -153,15 +151,6 @@ Route::get('/api/{any}', fn () => response()->json([
 // Admin authentication routes (using /authorize instead of /login)
 Route::get('/authorize', [AdminController::class, 'showLogin'])->name('admin.login');
 Route::post('/authorize', [AdminController::class, 'login'])->name('admin.login.submit');
-Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
-
-// Admin protected routes
-Route::middleware('admin.auth')->group(function () {
-    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports');
-    Route::get('/admin/api/reports', [ReportController::class, 'data'])->name('reports.data');
-    Route::get('/admin/export', [ReportController::class, 'export'])->name('reports.export');
-});
 
 Route::fallback(fn () => response('Not Found', 404, [
     'X-Robots-Tag' => 'noindex, nofollow, noarchive',
