@@ -3,31 +3,41 @@
 namespace App\Filament\Resources\CompressionReportResource\Pages;
 
 use App\Filament\Resources\CompressionReportResource;
-use App\Filament\Widgets\CompressionReportFormatDistributionChartWidget;
-use App\Filament\Widgets\CompressionReportOverviewWidget;
-use App\Filament\Widgets\CompressionReportTrendChartWidget;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\Page;
 
-class ListCompressionReports extends ListRecords
+class ListCompressionReports extends Page
 {
     protected static string $resource = CompressionReportResource::class;
 
-    protected function getHeaderActions(): array
+    protected static string $view = 'filament.pages.compression-reports';
+
+    protected static ?string $title = 'Compression Reports';
+
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar-square';
+
+    protected static ?string $slug = 'reports';
+
+    public string $reportsDataUrl;
+
+    public string $reportsExportUrl;
+
+    public string $dashboardUrl;
+
+    public string $siteUrl;
+
+    public string $blogUrl;
+
+    public function mount(): void
     {
-        return [];
+        $this->reportsDataUrl = route('admin.reports.data');
+        $this->reportsExportUrl = route('admin.reports.export');
+        $this->dashboardUrl = url('/admin');
+        $this->siteUrl = url('/');
+        $this->blogUrl = url('/admin/blog');
     }
 
-    protected function getHeaderWidgets(): array
+    public static function getNavigationLabel(): string
     {
-        return [
-            CompressionReportOverviewWidget::class,
-            CompressionReportTrendChartWidget::class,
-            CompressionReportFormatDistributionChartWidget::class,
-        ];
-    }
-
-    public function getHeaderWidgetsColumns(): int | array
-    {
-        return 3;
+        return 'Reports';
     }
 }
