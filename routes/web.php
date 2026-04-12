@@ -34,6 +34,7 @@ Route::get('/batch-compress', fn () => view('tools.batch-compress'))->name('tool
 Route::get('/watermark', fn () => view('tools.watermark'))->name('tool.watermark');
 Route::get('/image-to-pdf', fn () => view('tools.image-to-pdf'))->name('tool.img2pdf');
 Route::get('/pdf-to-image', fn () => view('tools.pdf-to-image'))->name('tool.pdf2img');
+Route::get('/compress-from-url', fn () => view('tools.url-compress'))->name('tool.url');
 
 // Legacy /tools/* URLs permanently redirect to canonical tool pages.
 Route::redirect('/tools/compress', '/compress', 301);
@@ -43,6 +44,7 @@ Route::redirect('/tools/batch-compress', '/batch-compress', 301);
 Route::redirect('/tools/watermark', '/watermark', 301);
 Route::redirect('/tools/image-to-pdf', '/image-to-pdf', 301);
 Route::redirect('/tools/pdf-to-image', '/pdf-to-image', 301);
+Route::redirect('/tools/compress-from-url', '/compress-from-url', 301);
 
 // Blog
  $blogSlugs = [

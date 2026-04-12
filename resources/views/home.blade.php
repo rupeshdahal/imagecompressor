@@ -577,19 +577,91 @@
                         <span class="text-indigo-300/70 text-[10px] sm:text-xs font-medium hidden sm:block tracking-wide">Free Image Tools</span>
                     </div>
                 </a>
-                {{-- Desktop nav links --}}
                 <nav aria-label="Main navigation" class="hidden md:flex items-center gap-1">
-                    <a href="{{ route('tool.compress') }}" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Compress</a>
-                    <a href="{{ route('tool.convert') }}" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Convert</a>
-                    <a href="{{ route('tool.resize') }}" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Resize</a>
-                    <a href="{{ route('tool.batch') }}" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Batch</a>
-                    <a href="/blog" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">Blog</a>
-                    <a href="/about" class="text-indigo-200/70 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all">About</a>
+                    <div class="relative group">
+                        <button type="button" class="text-indigo-200/80 group-hover:text-white text-xs font-semibold px-3 py-2 rounded-lg group-hover:bg-white/10 transition-all inline-flex items-center gap-1.5">
+                            Images
+                            <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="absolute left-0 top-full mt-2 w-56 rounded-xl border border-indigo-800/70 bg-gray-950/95 backdrop-blur shadow-2xl shadow-black/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all p-2 z-50">
+                            <a href="{{ route('tool.compress') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Image Compressor</a>
+                            <a href="{{ route('tool.convert') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Image Converter</a>
+                            <a href="{{ route('tool.resize') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Image Resizer</a>
+                            <a href="{{ route('tool.batch') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Batch Compressor</a>
+                            <a href="{{ route('tool.watermark') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Watermark Tool</a>
+                            <a href="{{ route('tool.url') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Compress from URL</a>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button type="button" class="text-indigo-200/80 group-hover:text-white text-xs font-semibold px-3 py-2 rounded-lg group-hover:bg-white/10 transition-all inline-flex items-center gap-1.5">
+                            PDF
+                            <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="absolute left-0 top-full mt-2 w-56 rounded-xl border border-indigo-800/70 bg-gray-950/95 backdrop-blur shadow-2xl shadow-black/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all p-2 z-50">
+                            <a href="{{ route('tool.img2pdf') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Image to PDF</a>
+                            <a href="{{ route('tool.pdf2img') }}" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">PDF to Image</a>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button type="button" class="text-indigo-200/80 group-hover:text-white text-xs font-semibold px-3 py-2 rounded-lg group-hover:bg-white/10 transition-all inline-flex items-center gap-1.5">
+                            Other
+                            <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="absolute left-0 top-full mt-2 w-48 rounded-xl border border-indigo-800/70 bg-gray-950/95 backdrop-blur shadow-2xl shadow-black/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all p-2 z-50">
+                            <a href="/blog" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Blog</a>
+                            <a href="/about" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">About</a>
+                            <a href="/contact" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Contact</a>
+                            <a href="/sitemap" class="block text-indigo-100/90 hover:text-white text-xs font-medium px-3 py-2 rounded-lg hover:bg-indigo-500/20 transition-colors">Sitemap</a>
+                        </div>
+                    </div>
                 </nav>
                 <a href="/#compress" class="hidden sm:flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-brand-900/40">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     Start Free
                 </a>
+            </div>
+
+            <div class="md:hidden pb-3 grid grid-cols-3 gap-2">
+                <details class="group relative">
+                    <summary class="list-none cursor-pointer text-indigo-200/80 text-xs font-semibold px-3 py-2 rounded-lg bg-white/5 border border-indigo-800/50 flex items-center justify-between">
+                        Images
+                        <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="absolute left-0 right-0 mt-1 rounded-lg border border-indigo-800/70 bg-gray-950/95 p-2 z-50 shadow-xl">
+                        <a href="{{ route('tool.compress') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Compressor</a>
+                        <a href="{{ route('tool.convert') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Converter</a>
+                        <a href="{{ route('tool.resize') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Resizer</a>
+                        <a href="{{ route('tool.batch') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Batch</a>
+                        <a href="{{ route('tool.watermark') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Watermark</a>
+                        <a href="{{ route('tool.url') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">From URL</a>
+                    </div>
+                </details>
+
+                <details class="group relative">
+                    <summary class="list-none cursor-pointer text-indigo-200/80 text-xs font-semibold px-3 py-2 rounded-lg bg-white/5 border border-indigo-800/50 flex items-center justify-between">
+                        PDF
+                        <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="absolute left-0 right-0 mt-1 rounded-lg border border-indigo-800/70 bg-gray-950/95 p-2 z-50 shadow-xl">
+                        <a href="{{ route('tool.img2pdf') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Image to PDF</a>
+                        <a href="{{ route('tool.pdf2img') }}" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">PDF to Image</a>
+                    </div>
+                </details>
+
+                <details class="group relative">
+                    <summary class="list-none cursor-pointer text-indigo-200/80 text-xs font-semibold px-3 py-2 rounded-lg bg-white/5 border border-indigo-800/50 flex items-center justify-between">
+                        Other
+                        <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="absolute left-0 right-0 mt-1 rounded-lg border border-indigo-800/70 bg-gray-950/95 p-2 z-50 shadow-xl">
+                        <a href="/blog" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Blog</a>
+                        <a href="/about" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">About</a>
+                        <a href="/contact" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Contact</a>
+                        <a href="/sitemap" class="block text-indigo-100 text-xs px-2 py-1.5 rounded hover:bg-indigo-500/20">Sitemap</a>
+                    </div>
+                </details>
             </div>
         </div>
     </nav>
@@ -2380,6 +2452,7 @@
                         <a href="{{ route('tool.batch') }}" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Batch Compressor (ZIP)</a>
                         <a href="{{ route('tool.convert') }}" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Converter</a>
                         <a href="{{ route('tool.resize') }}" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Image Resizer</a>
+                        <a href="{{ route('tool.url') }}" class="block text-indigo-300/70 hover:text-white text-sm transition-colors">Compress from URL</a>
                     </nav>
                 </div>
 

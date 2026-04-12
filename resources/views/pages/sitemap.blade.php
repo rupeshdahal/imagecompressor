@@ -31,6 +31,7 @@
                 <li><a class="hover:underline" href="{{ route('tool.resize') }}">Image Resizer</a></li>
                 <li><a class="hover:underline" href="{{ route('tool.batch') }}">Batch Compressor</a></li>
                 <li><a class="hover:underline" href="{{ route('tool.watermark') }}">Watermark Tool</a></li>
+                <li><a class="hover:underline" href="{{ route('tool.url') }}">Compress from URL</a></li>
                 <li><a class="hover:underline" href="{{ route('tool.img2pdf') }}">Image to PDF</a></li>
                 <li><a class="hover:underline" href="{{ route('tool.pdf2img') }}">PDF to Image</a></li>
             </ul>
