@@ -40,6 +40,10 @@
 @endverbatim
 @endsection
 
+@section('tool_runtime')
+@include('partials.tools.runtime')
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -55,15 +59,8 @@
         </p>
     </div>
 
-    <div class="bg-white rounded-3xl border-2 border-dashed border-cyan-300 p-10 text-center mb-14 hover:border-cyan-500 hover:shadow-lg transition-all">
-        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-3xl flex items-center justify-center mb-5 shadow-xl shadow-cyan-500/25">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 015.656 5.656l-3 3a4 4 0 01-5.656-5.656m-1.172 1.172a4 4 0 01-5.656-5.656l3-3a4 4 0 015.656 5.656"/></svg>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Ready to Compress a Remote Image?</h2>
-        <p class="text-gray-500 mb-6 max-w-md mx-auto">Paste a direct image URL, choose quality, and download the optimized result.</p>
-        <a href="/#tools" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-cyan-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:from-cyan-500 hover:to-cyan-600 transition-all text-base">
-            🔗 Open URL Compressor
-        </a>
+    <div class="mb-14">
+        @include('partials.tools.widget-url')
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-8 sm:p-10 mb-10">

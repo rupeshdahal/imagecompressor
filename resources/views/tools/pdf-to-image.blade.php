@@ -40,6 +40,10 @@
 @endverbatim
 @endsection
 
+@section('tool_runtime')
+@include('partials.tools.runtime')
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -55,15 +59,8 @@
         </p>
     </div>
 
-    <div class="bg-white rounded-3xl border-2 border-dashed border-red-300 p-10 text-center mb-14 hover:border-red-500 hover:shadow-lg transition-all">
-        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-red-500 to-red-700 rounded-3xl flex items-center justify-center mb-5 shadow-xl shadow-red-500/25">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Ready to Extract PDF Pages?</h2>
-        <p class="text-gray-500 mb-6 max-w-md mx-auto">Upload your PDF and convert each page to high-quality images.</p>
-        <a href="/#tools" class="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg shadow-red-500/25 hover:shadow-xl hover:from-red-500 hover:to-red-600 transition-all text-base">
-            🖼️ Open PDF to Image Tool
-        </a>
+    <div class="mb-14">
+        @include('partials.tools.widget-pdf2img')
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-8 sm:p-10 mb-10">

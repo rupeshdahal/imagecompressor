@@ -40,6 +40,10 @@
 @endverbatim
 @endsection
 
+@section('tool_runtime')
+@include('partials.tools.runtime')
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -55,16 +59,8 @@
         </p>
     </div>
 
-    <div class="bg-white rounded-3xl border-2 border-dashed border-orange-300 p-10 text-center mb-14 hover:border-orange-500 hover:shadow-lg transition-all">
-        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-700 rounded-3xl flex items-center justify-center mb-5 shadow-xl shadow-orange-500/25">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Ready to Resize Your Images?</h2>
-        <p class="text-gray-500 mb-6 max-w-md mx-auto">Upload your image and set your desired dimensions. Original file is not modified.</p>
-        <a href="/#resize" class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:from-orange-500 hover:to-orange-600 transition-all text-base">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
-            Open Image Resizer
-        </a>
+    <div class="mb-14">
+        @include('partials.tools.widget-resize')
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-8 sm:p-10 mb-10">

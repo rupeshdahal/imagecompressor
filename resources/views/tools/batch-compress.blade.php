@@ -40,6 +40,10 @@
 @endverbatim
 @endsection
 
+@section('tool_runtime')
+@include('partials.tools.runtime')
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -55,16 +59,8 @@
         </p>
     </div>
 
-    <div class="bg-white rounded-3xl border-2 border-dashed border-blue-300 p-10 text-center mb-14 hover:border-blue-500 hover:shadow-lg transition-all">
-        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl flex items-center justify-center mb-5 shadow-xl shadow-blue-500/25">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Ready to Batch Compress?</h2>
-        <p class="text-gray-500 mb-6 max-w-md mx-auto">Select up to 20 JPG, PNG, or WebP images. All are compressed simultaneously.</p>
-        <a href="/#batch" class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:from-blue-500 hover:to-blue-600 transition-all text-base">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
-            Open Batch Compressor
-        </a>
+    <div class="mb-14">
+        @include('partials.tools.widget-batch')
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-8 sm:p-10 mb-10">

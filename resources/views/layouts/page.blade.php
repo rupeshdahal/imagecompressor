@@ -297,5 +297,7 @@
         </div>
     </footer>
 
+    @yield('tool_runtime')
+
 </body>
 </html>

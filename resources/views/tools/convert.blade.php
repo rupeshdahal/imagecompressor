@@ -40,6 +40,10 @@
 @endverbatim
 @endsection
 
+@section('tool_runtime')
+@include('partials.tools.runtime')
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -55,16 +59,8 @@
         </p>
     </div>
 
-    <div class="bg-white rounded-3xl border-2 border-dashed border-purple-300 p-10 text-center mb-14 hover:border-purple-500 hover:shadow-lg transition-all">
-        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-3xl flex items-center justify-center mb-5 shadow-xl shadow-purple-500/25">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Ready to Convert Your Images?</h2>
-        <p class="text-gray-500 mb-6 max-w-md mx-auto">Upload your image and choose the target format. Supports JPG, PNG, and WebP.</p>
-        <a href="/#convert" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg shadow-purple-500/25 hover:shadow-xl hover:from-purple-500 hover:to-purple-600 transition-all text-base">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
-            Open Image Converter
-        </a>
+    <div class="mb-14">
+        @include('partials.tools.widget-convert')
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-8 sm:p-10 mb-10">

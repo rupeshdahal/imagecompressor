@@ -40,6 +40,10 @@
 @endverbatim
 @endsection
 
+@section('tool_runtime')
+@include('partials.tools.runtime')
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -56,17 +60,8 @@
         </p>
     </div>
 
-    {{-- CTA to use the tool --}}
-    <div class="bg-white rounded-3xl border-2 border-dashed border-brand-300 p-10 text-center mb-14 hover:border-brand-500 hover:shadow-lg transition-all">
-        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-brand-500 to-brand-700 rounded-3xl flex items-center justify-center mb-5 shadow-xl shadow-brand-500/25">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Ready to Compress Your Images?</h2>
-        <p class="text-gray-500 mb-6 max-w-md mx-auto">Drag & drop your image, or click the button below. Supports JPG, PNG, WebP, and GIF up to 20 MB.</p>
-        <a href="/#compress" class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-600 to-brand-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg shadow-brand-500/25 hover:shadow-xl hover:from-brand-500 hover:to-brand-600 transition-all text-base">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            Open Image Compressor
-        </a>
+    <div class="mb-14">
+        @include('partials.tools.widget-compress')
     </div>
 
     {{-- SEO Content --}}
