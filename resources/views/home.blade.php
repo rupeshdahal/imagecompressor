@@ -97,7 +97,7 @@
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "softwareVersion": "2.0",
         "datePublished": "2024-01-01",
-        "dateModified": "2026-03-03",
+        "dateModified": "2026-04-15",
         "inLanguage": "en",
         "isAccessibleForFree": true,
         "offers": {
@@ -155,8 +155,8 @@
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.8",
-            "ratingCount": "3124",
-            "reviewCount": "3124",
+            "ratingCount": "4200",
+            "reviewCount": "4200",
             "bestRating": "5",
             "worstRating": "1"
         }
@@ -174,49 +174,49 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Free Image Compressor Online",
-                "url": "https://compresslypro.com/#compress",
+                "url": "https://compresslypro.com/compress",
                 "description": "Compress JPG, PNG, WebP and GIF images up to 90% smaller online for free. Adjustable quality with before/after comparison."
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Image Format Converter",
-                "url": "https://compresslypro.com/#convert",
+                "url": "https://compresslypro.com/convert",
                 "description": "Convert images between JPG, PNG and WebP formats online free. High quality conversion."
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Batch Image Compressor",
-                "url": "https://compresslypro.com/#batch",
+                "url": "https://compresslypro.com/batch-compress",
                 "description": "Compress up to 20 images at once and download all results as a single ZIP file."
             },
             {
                 "@type": "ListItem",
                 "position": 4,
                 "name": "Image Resizer Online Free",
-                "url": "https://compresslypro.com/#resize",
+                "url": "https://compresslypro.com/resize",
                 "description": "Resize images by percentage, max width, max height, or exact pixel dimensions. Aspect ratio preserved."
             },
             {
                 "@type": "ListItem",
                 "position": 5,
                 "name": "Add Watermark to Image Free",
-                "url": "https://compresslypro.com/#tools",
+                "url": "https://compresslypro.com/watermark",
                 "description": "Add custom text watermarks to images with adjustable position, opacity and font size."
             },
             {
                 "@type": "ListItem",
                 "position": 6,
                 "name": "Image to PDF Converter Free",
-                "url": "https://compresslypro.com/#tools",
+                "url": "https://compresslypro.com/image-to-pdf",
                 "description": "Convert JPG, PNG or WebP images to PDF in A4, A3, Letter or Legal size. Free, no signup."
             },
             {
                 "@type": "ListItem",
                 "position": 7,
                 "name": "PDF to Image Converter",
-                "url": "https://compresslypro.com/#tools",
+                "url": "https://compresslypro.com/pdf-to-image",
                 "description": "Extract PDF pages as JPG, PNG or WebP images online free."
             }
         ]

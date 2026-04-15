@@ -32,7 +32,7 @@
     <title>@yield('title', 'CompresslyPro — Free Online Image Tools')</title>
     <meta name="description" content="@yield('description', 'Free online image tools: compress, convert, resize images. No signup required.')">
     @hasSection('keywords')<meta name="keywords" content="@yield('keywords')">@endif
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ $canonicalUrl }}">
 
@@ -48,6 +48,10 @@
     <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:site_name" content="CompresslyPro">
     <meta property="og:image" content="{{ asset('og-image.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CompresslyPro — Free Online Image Tools">
+    <meta property="og:locale" content="en_US">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
