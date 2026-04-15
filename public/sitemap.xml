@@ -1,192 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-    <!-- Homepage / Image Compressor -->
+    <!-- Homepage -->
     <url>
         <loc>https://compresslypro.com/</loc>
-        <lastmod>2026-03-12</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
         <image:image>
             <image:loc>https://compresslypro.com/og-image.png</image:loc>
-            <image:title>Free Online Image Compressor — Compress JPG, PNG, WebP Online | CompresslyPro</image:title>
-            <image:caption>Compress images online free. Reduce JPG, PNG, WebP file sizes up to 90% smaller. Convert, resize, watermark and PDF tools. No signup required.</image:caption>
-        </image:image>
-        <image:image>
-            <image:loc>https://compresslypro.com/logo.png</image:loc>
-            <image:title>CompresslyPro Logo</image:title>
-            <image:caption>CompresslyPro — Free Online Image Tools</image:caption>
+            <image:title>CompresslyPro — Free Online Image Tools</image:title>
         </image:image>
     </url>
 
-    <!-- About Us -->
-    <url>
-        <loc>https://compresslypro.com/about</loc>
-        <lastmod>2026-03-12</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <!-- Contact -->
-    <url>
-        <loc>https://compresslypro.com/contact</loc>
-        <lastmod>2026-03-12</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <!-- Blog Index -->
-    <url>
-        <loc>https://compresslypro.com/blog</loc>
-        <lastmod>2025-03-22</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <!-- HTML Sitemap -->
-    <url>
-        <loc>https://compresslypro.com/sitemap</loc>
-        <lastmod>2026-03-26</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <!-- Individual Tool Pages -->
+    <!-- Tool Pages -->
     <url>
         <loc>https://compresslypro.com/compress</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Image Compressor — Reduce Image Size up to 90% Online</image:title>
+            <image:caption>Compress JPG, PNG, WebP images up to 90% with adjustable quality and before/after comparison.</image:caption>
+        </image:image>
     </url>
 
     <url>
         <loc>https://compresslypro.com/convert</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Image Converter — Convert JPG to PNG, PNG to WebP &amp; More</image:title>
+            <image:caption>Convert between JPG, PNG and WebP formats instantly. Free online image format converter.</image:caption>
+        </image:image>
     </url>
 
     <url>
         <loc>https://compresslypro.com/resize</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Image Resizer — Resize Images by Pixels, Percentage, or Max Dimensions</image:title>
+            <image:caption>Resize JPG, PNG, WebP images online. Exact pixels, percentage, or max dimensions.</image:caption>
+        </image:image>
     </url>
 
     <url>
         <loc>https://compresslypro.com/batch-compress</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.85</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Batch Image Compressor — Compress 20 Images at Once</image:title>
+            <image:caption>Upload up to 20 images, compress them simultaneously, and download as a ZIP file.</image:caption>
+        </image:image>
     </url>
 
     <url>
         <loc>https://compresslypro.com/watermark</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.85</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Image Watermark Tool — Add Text Watermarks to Photos Online</image:title>
+            <image:caption>Add custom text watermarks to your images. Set position, opacity, font size and rotation.</image:caption>
+        </image:image>
     </url>
 
     <url>
         <loc>https://compresslypro.com/image-to-pdf</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.85</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free Image to PDF Converter — Merge Multiple Images into One PDF</image:title>
+            <image:caption>Convert JPG, PNG, WebP images to PDF. Merge multiple images into one document.</image:caption>
+        </image:image>
     </url>
 
     <url>
         <loc>https://compresslypro.com/pdf-to-image</loc>
-        <lastmod>2025-03-22</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.85</priority>
+        <image:image>
+            <image:loc>https://compresslypro.com/og-image.png</image:loc>
+            <image:title>Free PDF to Image Converter — Extract PDF Pages as JPG, PNG, WebP</image:title>
+            <image:caption>Convert PDF pages to high-quality JPG, PNG, or WebP images. Free online tool.</image:caption>
+        </image:image>
     </url>
 
-    <!-- Blog Articles -->
+    <!-- Marketing / Static Pages -->
     <url>
-        <loc>https://compresslypro.com/blog/how-to-compress-images-for-web</loc>
-        <lastmod>2026-03-12</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/webp-vs-jpg-vs-png</loc>
-        <lastmod>2026-03-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/image-seo-best-practices</loc>
-        <lastmod>2026-03-08</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <loc>https://compresslypro.com/about</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
     </url>
 
     <url>
-        <loc>https://compresslypro.com/blog/reduce-image-size-for-email</loc>
-        <lastmod>2026-03-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/core-web-vitals-image-optimization</loc>
-        <lastmod>2026-03-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/batch-image-compression-workflow</loc>
-        <lastmod>2026-03-02</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/best-image-formats-for-social-media</loc>
-        <lastmod>2025-03-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/how-to-add-watermark-to-photos</loc>
-        <lastmod>2025-03-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/optimize-images-for-wordpress</loc>
-        <lastmod>2025-03-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://compresslypro.com/blog/convert-images-to-pdf-guide</loc>
-        <lastmod>2025-03-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <!-- Legal pages -->
-    <url>
-        <loc>https://compresslypro.com/privacy-policy</loc>
-        <lastmod>2026-03-03</lastmod>
+        <loc>https://compresslypro.com/privacy</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
     <url>
         <loc>https://compresslypro.com/terms</loc>
-        <lastmod>2026-03-03</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
+    </url>
+
+    <!-- Blog Index -->
+    <url>
+        <loc>https://compresslypro.com/blog</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Blog Articles -->
+    <url>
+        <loc>https://compresslypro.com/blog/how-to-compress-images-for-web</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/webp-vs-jpg-vs-png</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/image-seo-best-practices</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/reduce-image-size-for-email</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/core-web-vitals-image-optimization</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/batch-image-compression-workflow</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/best-image-formats-for-social-media</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/how-to-add-watermark-to-photos</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/optimize-images-for-wordpress</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://compresslypro.com/blog/convert-images-to-pdf-guide</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
 
 </urlset>

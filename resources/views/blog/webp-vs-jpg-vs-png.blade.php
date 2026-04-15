@@ -2,6 +2,7 @@
 
 @section('title', 'WebP vs JPG vs PNG — Format Comparison Guide 2026 | CompresslyPro')
 @section('description', 'Comprehensive comparison of WebP, JPG, and PNG image formats. Learn file size differences, quality trade-offs, browser support, transparency, and when to use each format.')
+@section('keywords', 'webp vs jpg vs png, webp vs jpeg, image format comparison, best image format for web, png vs jpg, when to use webp')
 @section('canonical', url('/blog/webp-vs-jpg-vs-png'))
 @section('og_type', 'article')
 @section('og_title', 'WebP vs JPG vs PNG: Which Image Format Should You Use in 2026?')
@@ -25,16 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "WebP vs JPG vs PNG: Which Image Format Should You Use in 2026?",
     "description": "Detailed comparison of WebP, JPEG, and PNG with real-world file size data, quality analysis, and practical recommendations.",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
     "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
     "datePublished": "2026-02-20",
-    "dateModified": "2026-03-05",
+    "dateModified": "2026-04-15",
     "url": "https://compresslypro.com/blog/webp-vs-jpg-vs-png",
     "image": "https://compresslypro.com/og-image.png",
-    "mainEntityOfPage": "https://compresslypro.com/blog/webp-vs-jpg-vs-png"
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/webp-vs-jpg-vs-png" },
+    "wordCount": 1900,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "WebP vs JPG vs PNG, image format comparison, WebP, JPEG, PNG, web images"
 }
 </script>
 @endverbatim

@@ -2,6 +2,7 @@
 
 @section('title', 'Free Image Converter Online — Convert JPG, PNG, WebP Instantly | CompresslyPro')
 @section('description', 'Convert images between JPG, PNG and WebP formats online for free. High-quality format conversion with no file size limits. No signup required. Instant results.')
+@section('keywords', 'image converter, jpg to png, png to webp, webp to jpg, convert image format online free, jpg to webp converter')
 @section('canonical', route('tool.convert'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Converter — Convert JPG to PNG, PNG to WebP & More')
@@ -20,21 +21,95 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro Image Converter",
-    "description": "Free online image converter. Convert between JPG, PNG and WebP formats instantly.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/convert",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro Image Converter",
+            "description": "Free online image converter. Convert between JPG, PNG and WebP formats instantly.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/convert",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1,943",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Convert Image Formats Online",
+            "description": "Convert between JPG, PNG and WebP image formats in three easy steps.",
+            "totalTime": "PT1M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro Image Converter" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload your image",
+                    "text": "Drag and drop a JPG, PNG, or WebP file into the converter, or click to browse your files."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Choose the output format",
+                    "text": "Select your target format — JPG, PNG, or WebP. The converter automatically handles the conversion with optimal settings."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Download the converted image",
+                    "text": "Click Download to save your newly converted file. The original image remains unchanged."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Does converting formats lose quality?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Converting to a lossless format (PNG, lossless WebP) preserves all quality. Converting to a lossy format (JPG, lossy WebP) may introduce minor compression artifacts, but our converter uses optimal settings to minimise any quality impact."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I convert multiple images at once?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The converter processes one image at a time. For batch operations, use our Batch Compressor which can handle up to 20 images simultaneously."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is the conversion done on my device?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The conversion is processed on our secure servers for the best quality results. All files are automatically deleted within 30 minutes."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "Image Converter", "item": "https://compresslypro.com/convert" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

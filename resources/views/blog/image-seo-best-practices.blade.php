@@ -2,6 +2,7 @@
 
 @section('title', 'Image SEO Best Practices — Rank Higher with Optimised Images | CompresslyPro')
 @section('description', 'Learn image SEO best practices for 2026: alt text, file naming, structured data, lazy loading, compression, and sitemaps. Boost your search rankings with properly optimised images.')
+@section('keywords', 'image SEO, image alt text, image file names SEO, optimize images for search, image sitemap, image structured data')
 @section('canonical', url('/blog/image-seo-best-practices'))
 @section('og_type', 'article')
 @section('og_title', 'Image SEO Best Practices: How to Rank Higher with Optimised Images')
@@ -25,16 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "Image SEO Best Practices: How to Rank Higher with Optimised Images",
     "description": "A comprehensive guide to image SEO covering alt text, file naming conventions, structured data, compression, and image sitemaps.",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
     "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
     "datePublished": "2026-02-25",
-    "dateModified": "2026-03-08",
+    "dateModified": "2026-04-15",
     "url": "https://compresslypro.com/blog/image-seo-best-practices",
     "image": "https://compresslypro.com/og-image.png",
-    "mainEntityOfPage": "https://compresslypro.com/blog/image-seo-best-practices"
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/image-seo-best-practices" },
+    "wordCount": 1800,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "image SEO, alt text, file naming, image sitemap, structured data, image ranking"
 }
 </script>
 @endverbatim

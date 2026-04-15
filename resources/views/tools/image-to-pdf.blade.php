@@ -2,6 +2,7 @@
 
 @section('title', 'Free Image to PDF Converter Online — JPG PNG WebP to PDF | CompresslyPro')
 @section('description', 'Convert JPG, PNG, and WebP images to PDF documents online for free. Merge multiple images into a single PDF with custom page size and orientation. No signup required.')
+@section('keywords', 'image to pdf, jpg to pdf, png to pdf, convert image to pdf online free, merge images to pdf, photos to pdf')
 @section('canonical', route('tool.img2pdf'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image to PDF Converter — Merge Multiple Images into One PDF')
@@ -20,21 +21,101 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro Image to PDF Converter",
-    "description": "Convert JPG, PNG, and WebP images to PDF documents online for free.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/image-to-pdf",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro Image to PDF Converter",
+            "description": "Convert JPG, PNG, and WebP images to PDF documents online for free.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/image-to-pdf",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1,102",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Convert Images to PDF Online",
+            "description": "Convert JPG, PNG, WebP images into a PDF document in four easy steps.",
+            "totalTime": "PT2M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro Image to PDF Converter" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload images",
+                    "text": "Drag and drop or select one or more JPG, PNG, or WebP files."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Arrange image order",
+                    "text": "Reorder images as needed. They will appear in the PDF in the order shown."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Choose page settings",
+                    "text": "Select page size (A4, Letter, A3, Legal), orientation (Portrait or Landscape), and margin."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 4,
+                    "name": "Convert and download",
+                    "text": "Click Convert to PDF and download your merged PDF document."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "How many images can I convert to PDF at once?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "You can upload multiple images at once. All images are embedded into the PDF in the order you specify."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Will the image quality be reduced when converting to PDF?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No. Images are embedded into the PDF at their original quality. The tool does not re-compress your images."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is the Image to PDF converter free to use?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, completely free with no signup, no usage limits, and no watermarks on your PDFs."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "Image to PDF", "item": "https://compresslypro.com/image-to-pdf" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

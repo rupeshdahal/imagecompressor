@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,9 +31,15 @@
     @php($canonicalUrl = trim($__env->yieldContent('canonical', url()->current())))
     <title>@yield('title', 'CompresslyPro — Free Online Image Tools')</title>
     <meta name="description" content="@yield('description', 'Free online image tools: compress, convert, resize images. No signup required.')">
+    @hasSection('keywords')<meta name="keywords" content="@yield('keywords')">@endif
     <meta name="robots" content="index, follow">
     <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ $canonicalUrl }}">
+
+    {{-- Resource Hints (LCP performance) --}}
+    <link rel="preload" as="image" href="{{ asset('logo.png') }}" fetchpriority="high">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
@@ -45,6 +51,8 @@
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@compresslypro">
+    <meta name="twitter:creator" content="@compresslypro">
     <meta name="twitter:title" content="@yield('og_title', 'CompresslyPro — Free Online Image Tools')">
     <meta name="twitter:description" content="@yield('og_description', 'Compress, convert, resize images online free.')">
     <meta name="twitter:image" content="{{ asset('og-image.png') }}">
@@ -98,6 +106,48 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697940390340424" crossorigin="anonymous"></script>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     @endif
+
+    {{-- Global WebSite + Organization JSON-LD (injected on every page) --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "{{ config('app.url', 'https://compresslypro.com') }}/#organization",
+                "name": "CompresslyPro",
+                "url": "{{ config('app.url', 'https://compresslypro.com') }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ asset('logo.png') }}",
+                    "width": 512,
+                    "height": 512
+                },
+                "description": "Free online image tools: compress, convert, resize, watermark, batch compress, image-to-PDF and PDF-to-image. No signup, no watermarks, privacy-first.",
+                "sameAs": []
+            },
+            {
+                "@type": "WebSite",
+                "@id": "{{ config('app.url', 'https://compresslypro.com') }}/#website",
+                "url": "{{ config('app.url', 'https://compresslypro.com') }}",
+                "name": "CompresslyPro",
+                "description": "Free Online Image Tools",
+                "publisher": { "@id": "{{ config('app.url', 'https://compresslypro.com') }}/#organization" },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "{{ config('app.url', 'https://compresslypro.com') }}/blog?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                }
+            }
+        ]
+    }
+    </script>
+
+    {{-- Per-page additional schema slot --}}
+    @yield('schema')
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans min-h-screen flex flex-col">

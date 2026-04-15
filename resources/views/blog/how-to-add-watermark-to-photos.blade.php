@@ -2,6 +2,7 @@
 
 @section('title', 'How to Add a Watermark to Photos — Protect Your Images Online | CompresslyPro')
 @section('description', 'Learn how to add text watermarks to your photos to protect them from theft. Step-by-step guide with best practices for watermark placement, opacity, and font settings.')
+@section('keywords', 'how to add watermark to photo, watermark photos online free, protect photos watermark, watermark placement guide, photo watermark text')
 @section('canonical', url('/blog/how-to-add-watermark-to-photos'))
 @section('og_type', 'article')
 @section('og_title', 'How to Add a Watermark to Photos — Protect Your Images Online')
@@ -25,14 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "How to Add a Watermark to Photos — Protect Your Images Online",
     "description": "Learn how to add text watermarks to your photos to protect them from theft.",
     "url": "https://compresslypro.com/blog/how-to-add-watermark-to-photos",
     "datePublished": "2025-03-18",
-    "dateModified": "2025-03-18",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
-    "publisher": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" }
+    "dateModified": "2026-04-15",
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
+    "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
+    "image": "https://compresslypro.com/og-image.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/how-to-add-watermark-to-photos" },
+    "wordCount": 1100,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "watermark photos, protect images, photo watermark, copyright images, watermark placement"
 }
 </script>
 @endverbatim

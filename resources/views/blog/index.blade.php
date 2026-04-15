@@ -2,10 +2,38 @@
 
 @section('title', 'Blog — Image Optimisation Guides & Tips | CompresslyPro')
 @section('description', 'Expert guides on image compression, format comparison, SEO best practices, and web performance optimisation. Learn how to optimise images for websites, email, and social media.')
+@section('keywords', 'image optimization blog, image compression guide, webp vs jpg, core web vitals images, image SEO tips, image resizing guide')
 @section('canonical', url('/blog'))
 @section('og_title', 'CompresslyPro Blog — Image Optimisation Guides & Tips')
 @section('og_description', 'Expert guides on image compression, WebP vs JPG vs PNG, image SEO, and web performance. Free practical advice from the CompresslyPro team.')
 @section('og_type', 'blog')
+
+@section('head')
+@verbatim
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "CompresslyPro Blog",
+    "description": "Expert guides on image compression, web performance, and image SEO.",
+    "url": "https://compresslypro.com/blog",
+    "publisher": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
+    "blogPost": [
+        { "@type": "BlogPosting", "headline": "The Complete Guide to Image Compression for the Web in 2026", "url": "https://compresslypro.com/blog/how-to-compress-images-for-web", "datePublished": "2026-03-10" },
+        { "@type": "BlogPosting", "headline": "WebP vs JPG vs PNG: Which Image Format Should You Use in 2026?", "url": "https://compresslypro.com/blog/webp-vs-jpg-vs-png", "datePublished": "2026-02-20" },
+        { "@type": "BlogPosting", "headline": "Image SEO Best Practices: How to Rank Higher with Optimised Images", "url": "https://compresslypro.com/blog/image-seo-best-practices", "datePublished": "2026-02-25" },
+        { "@type": "BlogPosting", "headline": "Core Web Vitals: How Images Impact Your Google Rankings", "url": "https://compresslypro.com/blog/core-web-vitals-image-optimization", "datePublished": "2026-03-05" },
+        { "@type": "BlogPosting", "headline": "How to Reduce Image Size for Email Attachments and Newsletters", "url": "https://compresslypro.com/blog/reduce-image-size-for-email", "datePublished": "2026-03-01" },
+        { "@type": "BlogPosting", "headline": "How to Set Up a Batch Image Compression Workflow", "url": "https://compresslypro.com/blog/batch-image-compression-workflow", "datePublished": "2026-02-18" },
+        { "@type": "BlogPosting", "headline": "Best Image Formats for Social Media in 2026", "url": "https://compresslypro.com/blog/best-image-formats-for-social-media", "datePublished": "2025-03-15" },
+        { "@type": "BlogPosting", "headline": "How to Add a Watermark to Photos", "url": "https://compresslypro.com/blog/how-to-add-watermark-to-photos", "datePublished": "2025-03-18" },
+        { "@type": "BlogPosting", "headline": "How to Optimise Images for WordPress", "url": "https://compresslypro.com/blog/optimize-images-for-wordpress", "datePublished": "2025-03-20" },
+        { "@type": "BlogPosting", "headline": "How to Convert Images to PDF", "url": "https://compresslypro.com/blog/convert-images-to-pdf-guide", "datePublished": "2025-03-22" }
+    ]
+}
+</script>
+@endverbatim
+@endsection
 
 @section('breadcrumb')
     <li class="flex items-center gap-1.5">

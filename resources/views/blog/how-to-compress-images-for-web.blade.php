@@ -2,6 +2,7 @@
 
 @section('title', 'How to Compress Images for the Web — Complete 2026 Guide | CompresslyPro')
 @section('description', 'Learn how to compress images for websites in 2026. Covers format selection, quality settings, Core Web Vitals, lazy loading, and step-by-step compression techniques for faster page loads.')
+@section('keywords', 'how to compress images for web, image compression guide, reduce image file size website, image optimization web performance, compress photos for website')
 @section('canonical', url('/blog/how-to-compress-images-for-web'))
 @section('og_type', 'article')
 @section('og_title', 'The Complete Guide to Image Compression for the Web (2026)')
@@ -25,16 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "The Complete Guide to Image Compression for the Web in 2026",
     "description": "Everything you need to know about compressing images for websites — from choosing the right format to advanced Core Web Vitals optimisation.",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
     "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
     "datePublished": "2026-03-10",
-    "dateModified": "2026-03-12",
+    "dateModified": "2026-04-15",
     "url": "https://compresslypro.com/blog/how-to-compress-images-for-web",
     "image": "https://compresslypro.com/og-image.png",
-    "mainEntityOfPage": "https://compresslypro.com/blog/how-to-compress-images-for-web"
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/how-to-compress-images-for-web" },
+    "wordCount": 2100,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "image compression, web performance, Core Web Vitals, WebP, image optimization"
 }
 </script>
 @endverbatim

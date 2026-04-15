@@ -2,6 +2,7 @@
 
 @section('title', 'How to Convert Images to PDF — Complete Step-by-Step Guide | CompresslyPro')
 @section('description', 'Learn how to convert single or multiple images (JPG, PNG, WebP) to PDF documents. Choose page sizes, orientation, and merge multiple images into one professional PDF.')
+@section('keywords', 'convert images to pdf, jpg to pdf guide, png to pdf, merge images pdf, image to pdf online free, photos to pdf document')
 @section('canonical', url('/blog/convert-images-to-pdf-guide'))
 @section('og_type', 'article')
 @section('og_title', 'How to Convert Images to PDF — Complete Step-by-Step Guide')
@@ -25,14 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "How to Convert Images to PDF — Complete Step-by-Step Guide",
     "description": "Learn how to convert single or multiple images to PDF documents with custom settings.",
     "url": "https://compresslypro.com/blog/convert-images-to-pdf-guide",
     "datePublished": "2025-03-22",
-    "dateModified": "2025-03-22",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
-    "publisher": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" }
+    "dateModified": "2026-04-15",
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
+    "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
+    "image": "https://compresslypro.com/og-image.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/convert-images-to-pdf-guide" },
+    "wordCount": 1300,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "convert images to PDF, JPG to PDF, PNG to PDF, merge images PDF, image to PDF online"
 }
 </script>
 @endverbatim

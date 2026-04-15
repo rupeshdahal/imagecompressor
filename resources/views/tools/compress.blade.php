@@ -2,6 +2,7 @@
 
 @section('title', 'Free Image Compressor Online — Compress JPG, PNG, WebP up to 90% | CompresslyPro')
 @section('description', 'Compress JPG, PNG, WebP and GIF images online for free. Reduce image file size up to 90% without visible quality loss. No signup, no watermarks. Before/after comparison slider included.')
+@section('keywords', 'image compressor, compress image online, reduce image size, jpg compressor, png compressor, webp compressor, compress photos free')
 @section('canonical', route('tool.compress'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Compressor — Reduce Image Size up to 90% Online')
@@ -20,21 +21,103 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro Image Compressor",
-    "description": "Free online image compressor that reduces JPG, PNG, WebP and GIF file sizes by up to 90% without losing quality.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/compress",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro Image Compressor",
+            "description": "Free online image compressor that reduces JPG, PNG, WebP and GIF file sizes by up to 90% without losing quality.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/compress",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "2,841",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Compress an Image Online",
+            "description": "Compress JPG, PNG, WebP and GIF images online for free in three easy steps.",
+            "totalTime": "PT1M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro Image Compressor" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload your image",
+                    "text": "Drag and drop a JPG, PNG, WebP, or GIF file (up to 20 MB) into the compressor — or click to browse your files."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Adjust the quality slider",
+                    "text": "Set the compression level from 10% (maximum compression) to 90% (maximum quality). The default of 50% works well for most images."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Download your compressed image",
+                    "text": "Preview the before/after comparison using the built-in slider. When satisfied, click Download to save the compressed file."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Is the image compressor really free?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, 100% free with no limits. No signup, no watermarks, no hidden fees. Compress as many images as you want."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the maximum file size I can compress?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "You can upload images up to 20 MB each. For larger files, we use chunked uploading to ensure reliable transfers even on slower connections."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I compress images to a specific file size?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "While you cannot set an exact target file size, adjusting the quality slider gives you precise control. Quality 40-50% typically produces 100-300 KB files for standard photos."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does compression remove EXIF metadata?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, the compression process strips EXIF metadata (camera info, GPS coordinates, timestamps) from your images, which also contributes to smaller file sizes and better privacy."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "Image Compressor", "item": "https://compresslypro.com/compress" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

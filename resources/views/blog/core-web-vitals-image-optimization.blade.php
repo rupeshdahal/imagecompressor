@@ -2,6 +2,7 @@
 
 @section('title', 'Core Web Vitals & Image Optimisation — SEO Performance Guide | CompresslyPro')
 @section('description', 'Learn how images impact Core Web Vitals (LCP, CLS, INP) and what to do about it. Practical guide to image optimisation for better Google rankings in 2026.')
+@section('keywords', 'core web vitals images, LCP image optimization, improve LCP, cumulative layout shift images, image optimization Google ranking')
 @section('canonical', url('/blog/core-web-vitals-image-optimization'))
 @section('og_type', 'article')
 @section('og_title', 'Core Web Vitals: How Images Impact Your Google Rankings')
@@ -25,16 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "Core Web Vitals: How Images Impact Your Google Rankings",
     "description": "Understanding LCP, CLS, and INP — and exactly how image optimisation improves each metric for better search rankings.",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
     "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
     "datePublished": "2026-03-05",
-    "dateModified": "2026-03-10",
+    "dateModified": "2026-04-15",
     "url": "https://compresslypro.com/blog/core-web-vitals-image-optimization",
     "image": "https://compresslypro.com/og-image.png",
-    "mainEntityOfPage": "https://compresslypro.com/blog/core-web-vitals-image-optimization"
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/core-web-vitals-image-optimization" },
+    "wordCount": 2200,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "Core Web Vitals, LCP, CLS, INP, image optimization, Google PageSpeed"
 }
 </script>
 @endverbatim

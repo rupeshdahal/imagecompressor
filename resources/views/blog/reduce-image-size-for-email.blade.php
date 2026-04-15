@@ -2,6 +2,7 @@
 
 @section('title', 'How to Reduce Image Size for Email — Practical Guide | CompresslyPro')
 @section('description', 'Learn how to reduce image file sizes for email attachments and newsletters. Covers size limits, compression techniques, format selection, and best practices for Outlook, Gmail, and Apple Mail.')
+@section('keywords', 'reduce image size for email, compress photos for email, email image size limit, compress images gmail outlook, email attachment too large')
 @section('canonical', url('/blog/reduce-image-size-for-email'))
 @section('og_type', 'article')
 @section('og_title', 'How to Reduce Image Size for Email Attachments and Newsletters')
@@ -25,16 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "How to Reduce Image Size for Email Attachments and Newsletters",
     "description": "Practical guide to compressing images for email — size limits, recommended dimensions, format tips, and step-by-step instructions.",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
     "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
     "datePublished": "2026-03-01",
-    "dateModified": "2026-03-01",
+    "dateModified": "2026-04-15",
     "url": "https://compresslypro.com/blog/reduce-image-size-for-email",
     "image": "https://compresslypro.com/og-image.png",
-    "mainEntityOfPage": "https://compresslypro.com/blog/reduce-image-size-for-email"
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/reduce-image-size-for-email" },
+    "wordCount": 1400,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "email image compression, reduce image size email, email attachment size limit, compress photos Gmail Outlook"
 }
 </script>
 @endverbatim

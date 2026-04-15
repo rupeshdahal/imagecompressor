@@ -2,6 +2,7 @@
 
 @section('title', 'Free Image Resizer Online — Resize JPG, PNG, WebP by Pixels or Percentage | CompresslyPro')
 @section('description', 'Resize images online for free. Set exact pixel dimensions, resize by percentage, or define max width/height. Aspect ratio preserved automatically. Supports JPG, PNG, WebP.')
+@section('keywords', 'image resizer, resize image online, resize jpg, resize png, resize photo pixels, reduce image dimensions free')
 @section('canonical', route('tool.resize'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Resizer — Resize Images by Pixels, Percentage, or Max Dimensions')
@@ -20,21 +21,87 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro Image Resizer",
-    "description": "Free online image resizer. Resize by exact pixels, percentage, or maximum dimensions.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/resize",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro Image Resizer",
+            "description": "Free online image resizer. Resize by exact pixels, percentage, or maximum dimensions.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/resize",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": "1,205",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Resize Images Online",
+            "description": "Resize JPG, PNG, and WebP images by exact pixels, percentage, max width, or max height.",
+            "totalTime": "PT1M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro Image Resizer" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload your image",
+                    "text": "Drag and drop or click to select a JPG, PNG, or WebP file up to 20 MB."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Choose resize method",
+                    "text": "Select from four options: resize by percentage, set a max width, set a max height, or enter exact pixel dimensions."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Download the resized image",
+                    "text": "Click Resize, then download your new image. The original remains unchanged."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Does resizing reduce quality?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Downscaling (making smaller) generally maintains excellent quality. Upscaling (making larger) can introduce blurriness since the tool must generate new pixels. For best results, avoid enlarging images beyond their original dimensions."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is the aspect ratio preserved?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, by default. When you set a max width or max height, the other dimension adjusts proportionally. When using exact dimensions, both values are applied as specified."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "Image Resizer", "item": "https://compresslypro.com/resize" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

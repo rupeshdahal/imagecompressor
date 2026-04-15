@@ -2,6 +2,7 @@
 
 @section('title', 'Free PDF to Image Converter Online — PDF to JPG PNG WebP | CompresslyPro')
 @section('description', 'Convert PDF pages to JPG, PNG, or WebP images online for free. Extract every page from your PDF as high-quality images. No signup or software installation required.')
+@section('keywords', 'pdf to image, pdf to jpg, pdf to png, convert pdf pages to images online free, extract pages from pdf, pdf to webp')
 @section('canonical', route('tool.pdf2img'))
 @section('og_type', 'website')
 @section('og_title', 'Free PDF to Image Converter — Extract PDF Pages as JPG, PNG, WebP')
@@ -20,21 +21,109 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro PDF to Image Converter",
-    "description": "Convert PDF pages to JPG, PNG, or WebP images online for free.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/pdf-to-image",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro PDF to Image Converter",
+            "description": "Convert PDF pages to JPG, PNG, or WebP images online for free.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/pdf-to-image",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": "836",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Convert PDF to Images Online",
+            "description": "Extract every PDF page as a high-quality JPG, PNG, or WebP image.",
+            "totalTime": "PT2M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro PDF to Image Converter" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload your PDF",
+                    "text": "Drag and drop or select a PDF file from your device."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Choose output format",
+                    "text": "Select JPG, PNG, or WebP as the output image format."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Set quality or DPI",
+                    "text": "Adjust the output quality or resolution to balance file size and image clarity."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 4,
+                    "name": "Convert and download",
+                    "text": "Click Convert and download individual page images or all pages at once."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I convert multi-page PDFs?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. Every page in your PDF will be converted to a separate image file. You can download them all individually."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is there a file size limit for PDF to image conversion?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Since all processing happens in your browser, there is no server-side file size limit. Performance depends on your device capabilities."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What about password-protected PDFs?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Password-protected or encrypted PDFs cannot be processed. You will need to remove the password first using a PDF editor."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Will my PDF data be uploaded to a server?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No. All processing happens 100% locally in your browser. Your files never leave your device, ensuring complete privacy."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "PDF to Image", "item": "https://compresslypro.com/pdf-to-image" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

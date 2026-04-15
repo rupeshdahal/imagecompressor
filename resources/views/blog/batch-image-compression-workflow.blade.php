@@ -2,6 +2,7 @@
 
 @section('title', 'How to Set Up a Batch Image Compression Workflow | CompresslyPro')
 @section('description', 'Learn how to efficiently compress multiple images at once with a batch workflow. Covers batch tools, quality settings, naming conventions, and automation tips for designers and developers.')
+@section('keywords', 'batch image compression workflow, compress multiple images at once, bulk image optimizer, batch photo processing, image compression workflow designers')
 @section('canonical', url('/blog/batch-image-compression-workflow'))
 @section('og_type', 'article')
 @section('og_title', 'Batch Image Compression: Streamline Your Workflow')
@@ -25,16 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "How to Set Up a Batch Image Compression Workflow",
     "description": "How to set up an efficient batch image compression workflow — process dozens of images consistently with our free browser-based batch tool.",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
     "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
     "datePublished": "2026-02-18",
-    "dateModified": "2026-03-02",
+    "dateModified": "2026-04-15",
     "url": "https://compresslypro.com/blog/batch-image-compression-workflow",
     "image": "https://compresslypro.com/og-image.png",
-    "mainEntityOfPage": "https://compresslypro.com/blog/batch-image-compression-workflow"
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/batch-image-compression-workflow" },
+    "wordCount": 1600,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "batch image compression, bulk image processing, workflow, designers, web developers"
 }
 </script>
 @endverbatim

@@ -2,6 +2,7 @@
 
 @section('title', 'How to Optimise Images for WordPress — Speed Up Your Website | CompresslyPro')
 @section('description', 'Complete guide to optimising images for WordPress. Reduce page load times, improve Core Web Vitals, and boost SEO with properly compressed and sized images.')
+@section('keywords', 'optimize images wordpress, wordpress image compression, wordpress image optimization, webp wordpress, wordpress page speed images')
 @section('canonical', url('/blog/optimize-images-for-wordpress'))
 @section('og_type', 'article')
 @section('og_title', 'How to Optimise Images for WordPress — Speed Up Your Website')
@@ -25,14 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": "How to Optimise Images for WordPress — Speed Up Your Website",
     "description": "Complete guide to optimising images for WordPress to reduce page load times and improve SEO.",
     "url": "https://compresslypro.com/blog/optimize-images-for-wordpress",
     "datePublished": "2025-03-20",
-    "dateModified": "2025-03-20",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
-    "publisher": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" }
+    "dateModified": "2026-04-15",
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
+    "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
+    "image": "https://compresslypro.com/og-image.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/optimize-images-for-wordpress" },
+    "wordCount": 1500,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "WordPress image optimization, WebP WordPress, page speed WordPress, compress images WordPress"
 }
 </script>
 @endverbatim

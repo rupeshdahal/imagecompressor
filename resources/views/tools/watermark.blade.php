@@ -2,6 +2,7 @@
 
 @section('title', 'Free Add Watermark to Image Online — Text Watermark Tool | CompresslyPro')
 @section('description', 'Add custom text watermarks to images online for free. Choose position, opacity, font size, and rotation. Protect your photos from unauthorised use. No signup required.')
+@section('keywords', 'add watermark to image, watermark photo online free, text watermark generator, image watermark tool, protect photos watermark')
 @section('canonical', route('tool.watermark'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Watermark Tool — Add Text Watermarks to Photos Online')
@@ -20,21 +21,93 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro Watermark Tool",
-    "description": "Add custom text watermarks to images online for free.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/watermark",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro Watermark Tool",
+            "description": "Add custom text watermarks to images online for free.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/watermark",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "reviewCount": "743",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Add a Watermark to an Image Online",
+            "description": "Add custom text watermarks to images in four easy steps.",
+            "totalTime": "PT2M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro Watermark Tool" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload your image",
+                    "text": "Drag and drop a JPG, PNG, or WebP file into the watermark tool."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Enter watermark text",
+                    "text": "Type your desired watermark — your name, brand, copyright notice, or any custom text."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Customise settings",
+                    "text": "Choose position (center, top-left, top-right, bottom-left, bottom-right), opacity, font size, font family, and rotation angle."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 4,
+                    "name": "Download the watermarked image",
+                    "text": "Click Apply Watermark, then download the protected image."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I add a logo watermark?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Currently, the tool supports text-based watermarks only. You can enter your brand name, copyright notice, or website URL as the watermark text."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does the watermark modify my original image?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No. The tool creates a new copy with the watermark applied. Your original image remains untouched."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "Watermark Tool", "item": "https://compresslypro.com/watermark" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

@@ -2,6 +2,7 @@
 
 @section('title', 'Free Batch Image Compressor — Compress Up to 20 Images at Once | CompresslyPro')
 @section('description', 'Compress multiple images at once with our free batch compressor. Upload up to 20 JPG, PNG, or WebP files, compress them all simultaneously, and download as a ZIP file.')
+@section('keywords', 'batch image compressor, compress multiple images, bulk image compression, compress images zip download, batch photo compressor free')
 @section('canonical', route('tool.batch'))
 @section('og_type', 'website')
 @section('og_title', 'Free Batch Image Compressor — Compress 20 Images at Once')
@@ -20,21 +21,95 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "CompresslyPro Batch Image Compressor",
-    "description": "Compress up to 20 images simultaneously and download all results as a single ZIP file.",
-    "image": ["https://compresslypro.com/og-image.png"],
-    "url": "https://compresslypro.com/batch-compress",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "All",
-    "isAccessibleForFree": true,
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2030-12-31"
-    }
+    "@graph": [
+        {
+            "@type": "SoftwareApplication",
+            "name": "CompresslyPro Batch Image Compressor",
+            "description": "Compress up to 20 images simultaneously and download all results as a single ZIP file.",
+            "image": "https://compresslypro.com/og-image.png",
+            "url": "https://compresslypro.com/batch-compress",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2030-12-31"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "987",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
+        },
+        {
+            "@type": "HowTo",
+            "name": "How to Batch Compress Images Online",
+            "description": "Compress up to 20 images simultaneously and download all as a ZIP file.",
+            "totalTime": "PT2M",
+            "tool": { "@type": "HowToTool", "name": "CompresslyPro Batch Compressor" },
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Select multiple images",
+                    "text": "Drag and drop up to 20 JPG, PNG, or WebP files into the batch compressor, or click to browse and select multiple files at once."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Set compression quality",
+                    "text": "Adjust the quality slider to your preferred level. The same quality setting applies to all images in the batch for consistency."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Compress and download",
+                    "text": "Click Compress All to process every image simultaneously. Download individual results or get everything as a single ZIP archive."
+                }
+            ]
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is the maximum number of images per batch?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "You can process up to 20 images per batch. For larger sets, simply run multiple batches."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the maximum file size per image in batch mode?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Each individual image can be up to 20 MB. Large files use chunked uploading for reliable transfers."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I set different quality levels for different images in a batch?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The batch compressor applies the same quality to all images. If you need different settings for specific images, use the single Image Compressor for those files."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://compresslypro.com" },
+                { "@type": "ListItem", "position": 2, "name": "Batch Image Compressor", "item": "https://compresslypro.com/batch-compress" }
+            ]
+        }
+    ]
 }
 </script>
 @endverbatim

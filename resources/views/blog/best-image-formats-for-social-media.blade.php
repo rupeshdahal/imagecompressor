@@ -1,11 +1,12 @@
 @extends('layouts.page')
 
-@section('title', 'Best Image Formats for Social Media in 2025 — Complete Size Guide | CompresslyPro')
-@section('description', 'Learn the best image formats and exact dimensions for Facebook, Instagram, Twitter/X, LinkedIn, and Pinterest in 2025. Optimise your social media images for maximum engagement.')
+@section('title', 'Best Image Formats for Social Media in 2026 — Complete Size Guide | CompresslyPro')
+@section('description', 'Learn the best image formats and exact dimensions for Facebook, Instagram, Twitter/X, LinkedIn, and Pinterest in 2026. Optimise your social media images for maximum engagement.')
+@section('keywords', 'social media image sizes, best image format social media, instagram image size, facebook image dimensions, twitter image size 2026')
 @section('canonical', url('/blog/best-image-formats-for-social-media'))
 @section('og_type', 'article')
-@section('og_title', 'Best Image Formats for Social Media in 2025 — Complete Size Guide')
-@section('og_description', 'Exact image dimensions and formats for every major social media platform. Updated for 2025.')
+@section('og_title', 'Best Image Formats for Social Media in 2026 — Complete Size Guide')
+@section('og_description', 'Exact image dimensions and formats for every major social media platform. Updated for 2026.')
 
 @section('breadcrumb')
     <li class="flex items-center gap-1.5">
@@ -25,14 +26,19 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Best Image Formats for Social Media in 2025 — Complete Size Guide",
+    "@type": "BlogPosting",
+    "headline": "Best Image Formats for Social Media in 2026 — Complete Size Guide",
     "description": "Learn the best image formats and exact dimensions for Facebook, Instagram, Twitter/X, LinkedIn, and Pinterest.",
     "url": "https://compresslypro.com/blog/best-image-formats-for-social-media",
     "datePublished": "2025-03-15",
-    "dateModified": "2025-03-15",
-    "author": { "@type": "Organization", "name": "CompresslyPro" },
-    "publisher": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" }
+    "dateModified": "2026-04-15",
+    "author": { "@type": "Organization", "name": "CompresslyPro", "url": "https://compresslypro.com" },
+    "publisher": { "@type": "Organization", "name": "CompresslyPro", "logo": { "@type": "ImageObject", "url": "https://compresslypro.com/logo.png" } },
+    "image": "https://compresslypro.com/og-image.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://compresslypro.com/blog/best-image-formats-for-social-media" },
+    "wordCount": 1200,
+    "isPartOf": { "@type": "Blog", "name": "CompresslyPro Blog", "url": "https://compresslypro.com/blog" },
+    "keywords": "social media image sizes, Instagram image dimensions, Facebook image format, Twitter image size"
 }
 </script>
 @endverbatim
