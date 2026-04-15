@@ -1,12 +1,12 @@
 @extends('layouts.page')
 
-@section('title', 'Free Image Converter Online — Convert JPG, PNG, WebP Instantly | CompresslyPro')
-@section('description', 'Convert images between JPG, PNG and WebP formats online for free. High-quality format conversion with no file size limits. No signup required. Instant results.')
-@section('keywords', 'image converter, jpg to png, png to webp, webp to jpg, convert image format online free, jpg to webp converter')
+@section('title', 'Image Converter Online Free — Convert JPG to PNG, PNG to WebP, WebP to JPG | CompresslyPro')
+@section('description', 'Free online image converter. Convert JPG to PNG, PNG to JPG, WebP to JPG, JPG to WebP instantly. No signup, no file size limits. High-quality image format conversion in seconds.')
+@section('keywords', 'image converter online free, jpg to png, png to jpg, webp to jpg, jpg to webp, png to webp, webp to png, convert image format online, convert jpg to png free, convert png to jpg online, image format converter, jpg converter, png converter, webp converter, convert photo online, change image format')
 @section('canonical', route('tool.convert'))
 @section('og_type', 'website')
-@section('og_title', 'Free Image Converter — Convert JPG to PNG, PNG to WebP & More')
-@section('og_description', 'Convert between JPG, PNG and WebP formats instantly. Free online image converter with no signup required.')
+@section('og_title', 'Image Converter — Convert JPG PNG WebP Online Free, No Signup')
+@section('og_description', 'Convert JPG to PNG, PNG to JPG, WebP to JPG and more online for free. No signup, instant results, high-quality image format conversion.')
 
 @section('breadcrumb')
     <li class="flex items-center gap-1.5">

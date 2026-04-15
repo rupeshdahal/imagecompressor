@@ -1,8 +1,8 @@
 @extends('layouts.page')
 
-@section('title', 'Free Image to PDF Converter Online — JPG PNG WebP to PDF | CompresslyPro')
-@section('description', 'Convert JPG, PNG, and WebP images to PDF documents online for free. Merge multiple images into a single PDF with custom page size and orientation. No signup required.')
-@section('keywords', 'image to pdf, jpg to pdf, png to pdf, convert image to pdf online free, merge images to pdf, photos to pdf')
+@section('title', 'Image to PDF Converter Free Online — JPG PNG WebP to PDF | CompresslyPro')
+@section('description', 'Free image to PDF converter online. Convert JPG, PNG, WebP to PDF instantly. Merge multiple images into one PDF with custom page size (A4, Letter) and orientation. No signup.')
+@section('keywords', 'image to pdf, jpg to pdf, png to pdf, convert image to pdf online free, jpg to pdf converter free, convert jpg to pdf, png to pdf online, merge images to pdf, photos to pdf, multiple images to pdf, image to pdf free online, jpg to pdf free, jpg to pdf without watermark, convert photos to pdf')
 @section('canonical', route('tool.img2pdf'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image to PDF Converter — Merge Multiple Images into One PDF')

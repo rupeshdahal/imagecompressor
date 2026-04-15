@@ -1,12 +1,12 @@
 @extends('layouts.page')
 
-@section('title', 'Free Image Resizer Online — Resize JPG, PNG, WebP by Pixels or Percentage | CompresslyPro')
-@section('description', 'Resize images online for free. Set exact pixel dimensions, resize by percentage, or define max width/height. Aspect ratio preserved automatically. Supports JPG, PNG, WebP.')
-@section('keywords', 'image resizer, resize image online, resize jpg, resize png, resize photo pixels, reduce image dimensions free')
+@section('title', 'Image Resizer Online Free — Resize JPG PNG WebP by Pixels or Percentage | CompresslyPro')
+@section('description', 'Free online image resizer. Resize JPG, PNG, WebP images by exact pixels, percentage, or max dimensions. Aspect ratio preserved. No signup, no watermarks — instant results.')
+@section('keywords', 'image resizer, resize image online free, resize image, resize jpg, resize png, resize photo, resize picture online, reduce image dimensions, change image size, resize image to specific size, resize image pixels, resize image for instagram, resize image for email, image resize tool, photo resizer online, bulk image resize')
 @section('canonical', route('tool.resize'))
 @section('og_type', 'website')
-@section('og_title', 'Free Image Resizer — Resize Images by Pixels, Percentage, or Max Dimensions')
-@section('og_description', 'Resize JPG, PNG, WebP images online. Exact pixels, percentage, max width/height. Free, no signup.')
+@section('og_title', 'Image Resizer — Resize JPG PNG WebP Online Free, Exact Pixels or Percentage')
+@section('og_description', 'Resize images online for free. Set exact pixel dimensions, resize by percentage, or define max width/height. Supports JPG, PNG, WebP. No signup required.')
 
 @section('breadcrumb')
     <li class="flex items-center gap-1.5">

@@ -1,8 +1,8 @@
 @extends('layouts.page')
 
-@section('title', 'Free PDF to Image Converter Online — PDF to JPG PNG WebP | CompresslyPro')
-@section('description', 'Convert PDF pages to JPG, PNG, or WebP images online for free. Extract every page from your PDF as high-quality images. No signup or software installation required.')
-@section('keywords', 'pdf to image, pdf to jpg, pdf to png, convert pdf pages to images online free, extract pages from pdf, pdf to webp')
+@section('title', 'PDF to Image Converter Free Online — PDF to JPG PNG WebP | CompresslyPro')
+@section('description', 'Free PDF to image converter online. Convert PDF pages to JPG, PNG, or WebP images in seconds. Extract PDF pages as high-quality images. No signup, no software required.')
+@section('keywords', 'pdf to jpg, pdf to image, convert pdf to jpg, pdf to png, pdf to image online free, convert pdf pages to images, extract images from pdf, pdf to jpeg, pdf to jpg converter free, pdf to jpg online free, pdf to image converter, convert pdf to image online')
 @section('canonical', route('tool.pdf2img'))
 @section('og_type', 'website')
 @section('og_title', 'Free PDF to Image Converter — Extract PDF Pages as JPG, PNG, WebP')

@@ -1,8 +1,8 @@
 @extends('layouts.page')
 
-@section('title', 'Free Add Watermark to Image Online — Text Watermark Tool | CompresslyPro')
-@section('description', 'Add custom text watermarks to images online for free. Choose position, opacity, font size, and rotation. Protect your photos from unauthorised use. No signup required.')
-@section('keywords', 'add watermark to image, watermark photo online free, text watermark generator, image watermark tool, protect photos watermark')
+@section('title', 'Add Watermark to Image Free Online — Text Watermark Generator | CompresslyPro')
+@section('description', 'Free online watermark tool. Add custom text watermarks to images — set position, opacity, font size, rotation, and color. Protect your photos. No signup, instant download.')
+@section('keywords', 'add watermark to image free, watermark image online, watermark photo online free, text watermark generator, add watermark to photo, image watermark tool, photo watermark maker, add watermark online free, protect images with watermark, watermark pictures free, batch watermark images, watermark creator online')
 @section('canonical', route('tool.watermark'))
 @section('og_type', 'website')
 @section('og_title', 'Free Image Watermark Tool — Add Text Watermarks to Photos Online')

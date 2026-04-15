@@ -1,12 +1,12 @@
 @extends('layouts.page')
 
-@section('title', 'Free Image Compressor Online — Compress JPG, PNG, WebP up to 90% | CompresslyPro')
-@section('description', 'Compress JPG, PNG, WebP and GIF images online for free. Reduce image file size up to 90% without visible quality loss. No signup, no watermarks. Before/after comparison slider included.')
-@section('keywords', 'image compressor, compress image online, reduce image size, jpg compressor, png compressor, webp compressor, compress photos free')
+@section('title', 'Image Compressor — Compress Image Online Free, Reduce JPG PNG WebP Size | CompresslyPro')
+@section('description', 'Free image compressor online. Compress JPG, PNG, WebP and GIF files up to 90% smaller — reduce image size without losing quality. No signup, no watermarks, instant download.')
+@section('keywords', 'image compressor, compress image online free, reduce image size, compress jpg online, compress png online, compress webp, reduce photo size, compress image without losing quality, image size reducer, online image optimizer, compress image to 100kb, compress image to 200kb, compress image for website, compress image for email, image file size reducer, photo compressor online')
 @section('canonical', route('tool.compress'))
 @section('og_type', 'website')
-@section('og_title', 'Free Image Compressor — Reduce Image Size up to 90% Online')
-@section('og_description', 'Compress JPG, PNG, WebP images up to 90% smaller. Adjustable quality, before/after comparison, no signup required.')
+@section('og_title', 'Image Compressor — Compress JPG PNG WebP Online Free, No Signup')
+@section('og_description', 'Compress JPG, PNG, WebP images up to 90% smaller online for free. Reduce image size without losing quality. Adjustable quality slider + before/after comparison.')
 
 @section('breadcrumb')
     <li class="flex items-center gap-1.5">

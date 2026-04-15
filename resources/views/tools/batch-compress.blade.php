@@ -1,8 +1,8 @@
 @extends('layouts.page')
 
-@section('title', 'Free Batch Image Compressor — Compress Up to 20 Images at Once | CompresslyPro')
-@section('description', 'Compress multiple images at once with our free batch compressor. Upload up to 20 JPG, PNG, or WebP files, compress them all simultaneously, and download as a ZIP file.')
-@section('keywords', 'batch image compressor, compress multiple images, bulk image compression, compress images zip download, batch photo compressor free')
+@section('title', 'Batch Image Compressor — Compress Multiple Images at Once, Download as ZIP | CompresslyPro')
+@section('description', 'Free batch image compressor. Compress up to 20 JPG, PNG, WebP images simultaneously and download all files as a single ZIP. Bulk image compression online — no signup required.')
+@section('keywords', 'batch image compressor, compress multiple images at once, bulk image compression, batch compress images, batch image optimizer, compress multiple photos free, bulk photo compressor, batch resize images, compress images bulk download zip, multiple image compressor online')
 @section('canonical', route('tool.batch'))
 @section('og_type', 'website')
 @section('og_title', 'Free Batch Image Compressor — Compress 20 Images at Once')
