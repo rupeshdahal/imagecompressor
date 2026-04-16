@@ -114,7 +114,7 @@
     {{-- Global WebSite + Organization JSON-LD (injected on every page) --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "Organization",
