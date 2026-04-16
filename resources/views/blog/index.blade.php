@@ -11,7 +11,7 @@
 @section('head')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
+    "@@context": "https://schema.org",
     "@type": "Blog",
     "name": "CompresslyPro Blog",
     "description": "Expert guides on image compression, web performance, and image SEO.",

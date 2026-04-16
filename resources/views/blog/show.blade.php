@@ -24,7 +24,7 @@
 @section('head')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
+    "@@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": {{ Js::from($post->title) }},
     "description": {{ Js::from($post->meta_description) }},

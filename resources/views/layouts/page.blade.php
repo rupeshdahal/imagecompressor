@@ -31,7 +31,7 @@
     @php($canonicalUrl = trim($__env->yieldContent('canonical', url()->current())))
     <title>@yield('title', 'CompresslyPro — Free Online Image Tools')</title>
     <meta name="description" content="@yield('description', 'Free online image tools: compress, convert, resize images. No signup required.')">
-    @hasSection('keywords')<meta name="keywords" content="@yield('keywords')">@endif
+    @if(View::hasSection('keywords'))<meta name="keywords" content="@yield('keywords')">@endif
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="CompresslyPro">
     <link rel="canonical" href="{{ $canonicalUrl }}">
@@ -114,7 +114,7 @@
     {{-- Global WebSite + Organization JSON-LD (injected on every page) --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "Organization",
@@ -184,7 +184,7 @@
     </nav>
 
     {{-- Breadcrumb --}}
-    @hasSection('breadcrumb')
+    @if(View::hasSection('breadcrumb'))
     <nav aria-label="Breadcrumb" class="max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 pb-2">
         <ol class="flex items-center gap-1.5 text-sm text-gray-400" itemscope itemtype="https://schema.org/BreadcrumbList">
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
