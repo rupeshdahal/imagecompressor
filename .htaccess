@@ -1,0 +1,10 @@
+# Redirect all requests to the /public folder
+RewriteEngine On
+
+# Handle Authorization header (needed for JWT / Bearer tokens)
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Redirect requests to /public, preserving the path and query string
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ /public/$1 [L]
